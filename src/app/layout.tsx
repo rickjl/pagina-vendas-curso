@@ -5,7 +5,7 @@ import Script from "next/script";
 import "./globals.css";
 // Import all available fonts for AI usage
 import "../lib/fonts";
-import { Navigation } from "@/components/custom/navigation";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -80,7 +80,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navigation />
         {children}
       </body>
     </html>
