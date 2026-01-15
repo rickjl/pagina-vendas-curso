@@ -1,7 +1,1 @@
-export default function Home() {
-  return (
-    <div>
-      Página funcionando 🚀
-    </div>
-  );
-}
+remove pages router conflict
