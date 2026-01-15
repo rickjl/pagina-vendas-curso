@@ -512,7 +512,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-300 mb-3 md:mb-4 leading-relaxed italic text-sm md:text-base">
-                  "{testimonial.text}"
+                  &quot;{testimonial.text}&quot;
                 </p>
                 <div className="border-t border-slate-700 pt-3 md:pt-4">
                   <p className="font-bold text-white text-sm md:text-base">{testimonial.name}</p>
