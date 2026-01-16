@@ -169,11 +169,11 @@ export default function Home() {
         {/* Botão WhatsApp */}
         <button
           onClick={handleWhatsAppOpen}
-          className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 animate-bounce relative group"
+          className="bg-green-500 hover:bg-green-600 text-white p-3 md:p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 animate-bounce relative group"
           aria-label="Chat WhatsApp"
         >
-          <MessageCircle className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+          <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center animate-pulse text-[10px]">
             1
           </span>
           <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-green-600 text-white px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -184,11 +184,11 @@ export default function Home() {
         {/* Botão Telegram */}
         <button
           onClick={handleTelegramOpen}
-          className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 relative group"
+          className="bg-blue-500 hover:bg-blue-600 text-white p-3 md:p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 relative group"
           aria-label="Chat Telegram"
         >
-          <Send className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+          <Send className="w-5 h-5 md:w-6 md:h-6" />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center animate-pulse text-[10px]">
             !
           </span>
           <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -197,27 +197,27 @@ export default function Home() {
         </button>
       </div>
 
-      {/* ChatBox Inteligente - SISTEMA COMPLETO DE FAQ */}
+      {/* ChatBox Inteligente - SISTEMA COMPLETO DE FAQ - CORRIGIDO PARA MOBILE */}
       {chatType && (
-        <div className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-md md:bottom-6 md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
-          <div className={`p-4 flex items-center justify-between ${
+        <div className="fixed inset-x-4 bottom-4 md:bottom-6 md:right-6 md:left-auto z-50 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+          <div className={`p-3 md:p-4 flex items-center justify-between ${
             chatType === 'whatsapp' 
               ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
               : 'bg-gradient-to-r from-blue-500 to-cyan-600'
           }`}>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+            <div className="flex items-center gap-2 md:gap-3 min-w-0">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center flex-shrink-0">
                 {chatType === 'whatsapp' ? (
-                  <MessageCircle className="w-6 h-6 text-green-500" />
+                  <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-green-500" />
                 ) : (
-                  <Send className="w-6 h-6 text-blue-500" />
+                  <Send className="w-5 h-5 md:w-6 md:h-6 text-blue-500" />
                 )}
               </div>
-              <div>
-                <h3 className="text-white font-black text-base">
+              <div className="min-w-0">
+                <h3 className="text-white font-black text-sm md:text-base truncate">
                   {chatType === 'whatsapp' ? 'WhatsApp Suporte' : 'Telegram Suporte'}
                 </h3>
-                <p className="text-white/90 text-xs font-bold">
+                <p className="text-white/90 text-[10px] md:text-xs font-bold truncate">
                   {chatType === 'whatsapp' 
                     ? '🟢 Online • +55 (19) 98116-8970' 
                     : '🟢 Online • Resposta Instantânea'}
@@ -226,30 +226,30 @@ export default function Home() {
             </div>
             <button
               onClick={handleCloseChat}
-              className="text-white hover:bg-white/20 p-1 rounded-full transition-colors"
+              className="text-white hover:bg-white/20 p-1.5 md:p-2 rounded-full transition-colors flex-shrink-0"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           </div>
 
           {/* Mensagens do Chat */}
-          <div id="chat-messages" className="p-4 bg-gradient-to-b from-gray-50 to-gray-100 h-96 overflow-y-auto space-y-3">
+          <div id="chat-messages" className="p-3 md:p-4 bg-gradient-to-b from-gray-50 to-gray-100 h-64 md:h-80 overflow-y-auto space-y-2 md:space-y-3">
             {chatMessages.map((msg, index) => (
-              <div key={index} className={`flex gap-3 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={index} className={`flex gap-2 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.type === 'bot' && (
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  <div className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     chatType === 'whatsapp' 
                       ? 'bg-gradient-to-br from-green-500 to-emerald-600' 
                       : 'bg-gradient-to-br from-blue-500 to-cyan-600'
                   }`}>
                     {chatType === 'whatsapp' ? (
-                      <MessageCircle className="w-4 h-4 text-white" />
+                      <MessageCircle className="w-3 h-3 md:w-4 md:h-4 text-white" />
                     ) : (
-                      <Send className="w-4 h-4 text-white" />
+                      <Send className="w-3 h-3 md:w-4 md:h-4 text-white" />
                     )}
                   </div>
                 )}
-                <div className={`max-w-[85%] p-3 rounded-2xl shadow-sm ${
+                <div className={`max-w-[75%] md:max-w-[85%] p-2 md:p-3 rounded-2xl shadow-sm ${
                   msg.type === 'bot' 
                     ? `bg-white text-gray-800 rounded-tl-none border ${
                         chatType === 'whatsapp' ? 'border-green-100' : 'border-blue-100'
@@ -260,11 +260,11 @@ export default function Home() {
                           : 'bg-gradient-to-r from-blue-500 to-cyan-600'
                       }`
                 }`}>
-                  <p className="text-sm font-medium leading-relaxed">{msg.text}</p>
+                  <p className="text-xs md:text-sm font-medium leading-relaxed">{msg.text}</p>
                 </div>
                 {msg.type === 'user' && (
-                  <div className="w-8 h-8 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-xs font-black">Você</span>
+                  <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-[9px] md:text-xs font-black">Você</span>
                   </div>
                 )}
               </div>
@@ -272,14 +272,14 @@ export default function Home() {
           </div>
 
           {/* Perguntas Rápidas */}
-          <div className="p-4 bg-white border-t border-gray-200 max-h-64 overflow-y-auto">
-            <p className="text-xs text-gray-500 text-center font-bold mb-3">💬 Escolha uma pergunta ou role para ver mais:</p>
-            <div className="space-y-2">
+          <div className="p-3 md:p-4 bg-white border-t border-gray-200 max-h-48 md:max-h-64 overflow-y-auto">
+            <p className="text-[10px] md:text-xs text-gray-500 text-center font-bold mb-2 md:mb-3">💬 Escolha uma pergunta ou role para ver mais:</p>
+            <div className="space-y-1.5 md:space-y-2">
               {faqDatabase.map((faq, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleQuestionClick(faq.question, faq.answer, faq.followUp)}
-                  className={`w-full p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-all border font-bold hover:scale-105 duration-200 ${
+                  className={`w-full p-2 md:p-3 rounded-xl text-left text-xs md:text-sm text-gray-700 shadow-sm transition-all border font-bold hover:scale-105 duration-200 ${
                     chatType === 'whatsapp'
                       ? 'bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 border-green-200 hover:border-green-400'
                       : 'bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-blue-200 hover:border-blue-400'
@@ -292,7 +292,7 @@ export default function Home() {
           </div>
 
           {/* CTA Final no Chat */}
-          <div className={`p-4 border-t-4 ${
+          <div className={`p-3 md:p-4 border-t-4 ${
             chatType === 'whatsapp'
               ? 'bg-gradient-to-r from-green-500 to-emerald-600 border-yellow-400'
               : 'bg-gradient-to-r from-blue-500 to-cyan-600 border-yellow-400'
@@ -302,13 +302,13 @@ export default function Home() {
                 handleFinalCTA();
                 setTimeout(() => handleCheckout(), 1500);
               }}
-              className="w-full bg-white hover:bg-gray-100 text-gray-900 font-black py-4 text-base shadow-2xl hover:scale-105 transition-all duration-300"
+              className="w-full bg-white hover:bg-gray-100 text-gray-900 font-black py-3 md:py-4 text-sm md:text-base shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              <Sparkles className="w-5 h-5 mr-2" />
+              <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               GARANTIR MINHA VAGA AGORA
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
             </Button>
-            <p className="text-white text-center text-xs mt-2 font-bold">
+            <p className="text-white text-center text-[10px] md:text-xs mt-2 font-bold">
               ⚡ Acesso imediato • 🛡️ Garantia de 7 dias
             </p>
           </div>
