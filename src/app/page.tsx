@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Shield, Clock, TrendingUp, Users, Star, ArrowRight, Lock, MessageCircle, ChevronDown, Zap, Target, Award, Rocket, X, Sparkles, DollarSign, Trophy, AlertCircle, Gift, Timer } from "lucide-react";
+import { Check, Shield, Clock, TrendingUp, Users, Star, ArrowRight, Lock, MessageCircle, ChevronDown, Zap, Target, Award, Rocket, X, Sparkles, DollarSign, Trophy, AlertCircle, Gift, Timer, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,10 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 47, seconds: 30 });
+  const [chatMessages, setChatMessages] = useState<Array<{type: 'bot' | 'user', text: string}>>([
+    { type: 'bot', text: 'Olá! 👋 Sou seu assistente virtual. Estou aqui para te ajudar a entender tudo sobre o curso e tirar suas dúvidas!' }
+  ]);
+  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
   
   // Contador regressivo
   useEffect(() => {
@@ -48,6 +52,103 @@ export default function Home() {
     window.open(`https://t.me/${TELEGRAM_USERNAME}`, '_blank');
   };
 
+  // SISTEMA DE FAQ INTELIGENTE - RESPOSTAS AUTOMÁTICAS
+  const faqDatabase = [
+    {
+      question: "💳 Como funciona o pagamento?",
+      answer: "O pagamento é super simples e seguro! Você pode pagar com cartão de crédito (em até 12x de R$ 4,70), PIX (com desconto) ou boleto bancário. Assim que o pagamento for confirmado, você recebe acesso imediato ao curso completo. O processo é 100% seguro pela Kiwify.",
+      followUp: "Quer garantir sua vaga agora?"
+    },
+    {
+      question: "📚 O que vou aprender no curso?",
+      answer: "Você vai aprender um método completo e validado para ganhar dinheiro online usando IA! São 4 módulos estratégicos com 9 aulas práticas que ensinam desde o básico até estratégias avançadas de monetização. Tudo explicado passo a passo, do zero, sem precisar de experiência prévia.",
+      followUp: "Quer ver o conteúdo completo dos módulos?"
+    },
+    {
+      question: "⏰ Por quanto tempo tenho acesso?",
+      answer: "Seu acesso é VITALÍCIO! Isso mesmo, você paga uma única vez e tem acesso para sempre. Pode assistir as aulas quando quiser, quantas vezes quiser, no seu ritmo. Além disso, todas as atualizações futuras do curso são GRATUITAS para você!",
+      followUp: "Incrível, né? Quer começar agora?"
+    },
+    {
+      question: "🛡️ Como funciona a garantia?",
+      answer: "Temos uma garantia INCONDICIONAL de 7 dias! Você pode acessar todo o conteúdo, aplicar o método, e se por qualquer motivo não gostar, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia. O risco é todo nosso!",
+      followUp: "Você não tem nada a perder, só a ganhar!"
+    },
+    {
+      question: "👤 Preciso aparecer ou mostrar meu rosto?",
+      answer: "NÃO! Esse é um dos grandes diferenciais do método. Você não precisa aparecer, não precisa gravar vídeos, não precisa criar conteúdo nas redes sociais. Tudo é feito de forma anônima e discreta. Perfeito para quem tem vergonha ou não quer se expor!",
+      followUp: "Ideal para você, certo?"
+    },
+    {
+      question: "🎓 Sou iniciante, consigo fazer?",
+      answer: "SIM! O curso foi criado ESPECIALMENTE para iniciantes. Tudo é explicado do zero, passo a passo, de forma simples e clara. Você não precisa de nenhuma experiência prévia. Nossos alunos que mais faturam são justamente os que começaram do absoluto zero!",
+      followUp: "Você está no lugar certo!"
+    },
+    {
+      question: "💰 Quanto posso ganhar?",
+      answer: "Nossos alunos ganham de R$ 1.000 a R$ 5.000 por mês, alguns até mais! Claro que os resultados variam de pessoa para pessoa, dependendo da dedicação e aplicação do método. Mas seguindo o passo a passo, você tem tudo para alcançar resultados incríveis!",
+      followUp: "Pronto para começar sua jornada?"
+    },
+    {
+      question: "⏱️ Quanto tempo preciso dedicar por dia?",
+      answer: "Com apenas 2 a 3 horas por dia você já consegue aplicar tudo que ensinamos! Muitos alunos fazem nas horas vagas, depois do trabalho ou nos finais de semana. Você adapta ao seu ritmo e disponibilidade. Flexibilidade total!",
+      followUp: "Cabe na sua rotina?"
+    },
+    {
+      question: "📱 Terei suporte se tiver dúvidas?",
+      answer: "SIM! Você terá acesso ao nosso grupo VIP exclusivo no Telegram, onde nossa equipe e outros alunos estão prontos para te ajudar. Além disso, pode entrar em contato direto pelo WhatsApp. Ninguém fica sem suporte!",
+      followUp: "Você nunca estará sozinho!"
+    },
+    {
+      question: "🎁 Quais são os bônus inclusos?",
+      answer: "Você recebe 3 BÔNUS INCRÍVEIS: 1) Mindset Milionário (R$ 97) - 3 aulas transformadoras, 2) Produtividade Máxima (R$ 67) - guia completo, 3) Gestão Financeira Pessoal (R$ 67) - planilhas prontas. Tudo isso GRÁTIS junto com o curso!",
+      followUp: "Valor total de R$ 231 em bônus!"
+    },
+    {
+      question: "🚀 Quando posso começar?",
+      answer: "AGORA MESMO! Assim que seu pagamento for confirmado (instantâneo no cartão), você recebe o acesso por email em até 2 minutos. Pode começar a assistir as aulas imediatamente e aplicar o método hoje mesmo!",
+      followUp: "Vamos começar?"
+    },
+    {
+      question: "💻 Preciso de computador ou celular serve?",
+      answer: "Você pode acessar o curso tanto no computador quanto no celular ou tablet! A plataforma é 100% responsiva e funciona perfeitamente em qualquer dispositivo. Estude de onde estiver, quando quiser!",
+      followUp: "Total flexibilidade para você!"
+    }
+  ];
+
+  const handleQuestionClick = (question: string, answer: string, followUp: string) => {
+    setChatMessages(prev => [
+      ...prev,
+      { type: 'user', text: question },
+      { type: 'bot', text: answer },
+      { type: 'bot', text: followUp }
+    ]);
+    setSelectedQuestion(question);
+    
+    // Scroll para o final do chat
+    setTimeout(() => {
+      const chatContainer = document.getElementById('chat-messages');
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }, 100);
+  };
+
+  const handleFinalCTA = () => {
+    setChatMessages(prev => [
+      ...prev,
+      { type: 'user', text: 'Quero garantir minha vaga!' },
+      { type: 'bot', text: '🎉 EXCELENTE DECISÃO! Você está a um clique de transformar sua vida. Clique no botão verde abaixo para garantir sua vaga com 95% de desconto!' }
+    ]);
+    
+    setTimeout(() => {
+      const chatContainer = document.getElementById('chat-messages');
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       
@@ -60,90 +161,96 @@ export default function Home() {
         <MessageCircle className="w-6 h-6" />
       </button>
 
-      {/* Botão Chat de Dúvidas Flutuante */}
+      {/* Botão Chat de Dúvidas Flutuante - NOVO SISTEMA */}
       <button
         onClick={() => setChatOpen(!chatOpen)}
-        className="fixed bottom-20 right-4 md:bottom-24 md:right-6 z-50 bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300"
+        className="fixed bottom-20 right-4 md:bottom-24 md:right-6 z-50 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 relative"
         aria-label="Chat de Dúvidas"
       >
         <MessageCircle className="w-6 h-6" />
+        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+          ?
+        </span>
       </button>
 
-      {/* ChatBox Flutuante - CORRIGIDO PARA MOBILE */}
+      {/* ChatBox Inteligente - SISTEMA COMPLETO DE FAQ */}
       {chatOpen && (
-        <div className="fixed bottom-36 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm md:bottom-44 md:right-6 md:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 flex items-center justify-between">
+        <div className="fixed bottom-36 right-4 z-50 w-[calc(100vw-2rem)] max-w-md md:bottom-44 md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+          <div className="bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <MessageCircle className="w-5 h-5 text-blue-500" />
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center animate-pulse">
+                <Sparkles className="w-6 h-6 text-purple-500" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-base">Atendimento Rápido</h3>
-                <p className="text-blue-100 text-xs">Resposta em minutos</p>
+                <h3 className="text-white font-black text-base">Assistente Virtual IA</h3>
+                <p className="text-purple-100 text-xs font-bold">🟢 Online • Resposta Instantânea</p>
               </div>
             </div>
             <button
               onClick={() => setChatOpen(false)}
-              className="text-white hover:bg-blue-600 p-1 rounded-full transition-colors"
+              className="text-white hover:bg-purple-600 p-1 rounded-full transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="p-4 bg-gray-50 max-h-80 overflow-y-auto">
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MessageCircle className="w-4 h-4 text-white" />
+          {/* Mensagens do Chat */}
+          <div id="chat-messages" className="p-4 bg-gradient-to-b from-gray-50 to-gray-100 h-96 overflow-y-auto space-y-3">
+            {chatMessages.map((msg, index) => (
+              <div key={index} className={`flex gap-3 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {msg.type === 'bot' && (
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                )}
+                <div className={`max-w-[85%] p-3 rounded-2xl shadow-sm ${
+                  msg.type === 'bot' 
+                    ? 'bg-white text-gray-800 rounded-tl-none border border-purple-100' 
+                    : 'bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-tr-none'
+                }`}>
+                  <p className="text-sm font-medium leading-relaxed">{msg.text}</p>
                 </div>
-                <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
-                  <p className="text-gray-800 text-sm font-medium">
-                    Olá! 👋 Estou aqui para te ajudar
-                  </p>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Escolha uma opção ou fale direto comigo
-                  </p>
-                </div>
+                {msg.type === 'user' && (
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-black">Você</span>
+                  </div>
+                )}
               </div>
+            ))}
+          </div>
 
-              <div className="space-y-2">
-                <p className="text-xs text-gray-500 text-center font-medium">Dúvidas mais comuns:</p>
+          {/* Perguntas Rápidas */}
+          <div className="p-4 bg-white border-t border-gray-200 max-h-64 overflow-y-auto">
+            <p className="text-xs text-gray-500 text-center font-bold mb-3">💬 Escolha uma pergunta ou role para ver mais:</p>
+            <div className="space-y-2">
+              {faqDatabase.map((faq, idx) => (
                 <button
-                  onClick={handleWhatsApp}
-                  className="w-full bg-white hover:bg-blue-50 p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-colors border border-gray-200 font-medium"
+                  key={idx}
+                  onClick={() => handleQuestionClick(faq.question, faq.answer, faq.followUp)}
+                  className="w-full bg-gradient-to-r from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-all border border-purple-200 hover:border-purple-400 font-bold hover:scale-105 duration-200"
                 >
-                  💳 Como funciona o pagamento?
+                  {faq.question}
                 </button>
-                <button
-                  onClick={handleWhatsApp}
-                  className="w-full bg-white hover:bg-blue-50 p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-colors border border-gray-200 font-medium"
-                >
-                  📚 O que vou aprender no curso?
-                </button>
-                <button
-                  onClick={handleWhatsApp}
-                  className="w-full bg-white hover:bg-blue-50 p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-colors border border-gray-200 font-medium"
-                >
-                  ⏰ Por quanto tempo tenho acesso?
-                </button>
-                <button
-                  onClick={handleWhatsApp}
-                  className="w-full bg-white hover:bg-blue-50 p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-colors border border-gray-200 font-medium"
-                >
-                  🛡️ Como funciona a garantia?
-                </button>
-              </div>
+              ))}
             </div>
           </div>
 
-          <div className="p-4 bg-white border-t border-gray-200">
+          {/* CTA Final no Chat */}
+          <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-600 border-t-4 border-yellow-400">
             <Button
-              onClick={handleWhatsApp}
-              className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 text-base"
+              onClick={() => {
+                handleFinalCTA();
+                setTimeout(() => handleCheckout(), 1500);
+              }}
+              className="w-full bg-white hover:bg-gray-100 text-green-600 font-black py-4 text-base shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Falar Agora no WhatsApp
+              <Sparkles className="w-5 h-5 mr-2" />
+              GARANTIR MINHA VAGA AGORA
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
+            <p className="text-white text-center text-xs mt-2 font-bold">
+              ⚡ Acesso imediato • 🛡️ Garantia de 7 dias
+            </p>
           </div>
         </div>
       )}
