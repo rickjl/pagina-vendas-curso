@@ -8,11 +8,9 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatType, setChatType] = useState<'whatsapp' | 'telegram' | null>(null);
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 47, seconds: 30 });
-  const [chatMessages, setChatMessages] = useState<Array<{type: 'bot' | 'user', text: string}>>([
-    { type: 'bot', text: 'Olá! 👋 Sou seu assistente virtual. Estou aqui para te ajudar a entender tudo sobre o curso e tirar suas dúvidas!' }
-  ]);
+  const [chatMessages, setChatMessages] = useState<Array<{type: 'bot' | 'user', text: string}>>([]);
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
   
   // Contador regressivo
@@ -32,10 +30,6 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
   
-  // NÚMEROS DE CONTATO
-  const WHATSAPP_NUMBER = "5519981168970";
-  const TELEGRAM_USERNAME = "seucanalaqui";
-  
   // LINK DE CHECKOUT DA KIWIFY
   const CHECKOUT_URL = "https://pay.kiwify.com.br/2VJCa4D";
   
@@ -43,13 +37,31 @@ export default function Home() {
     window.open(CHECKOUT_URL, '_blank');
   };
 
-  const handleWhatsApp = () => {
-    const message = encodeURIComponent("Oi, quero entrar no curso IA que Dá Dinheiro. Como funciona o acesso?");
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+  // ABRIR CHAT WHATSAPP FICTÍCIO
+  const handleWhatsAppOpen = () => {
+    setChatType('whatsapp');
+    setChatMessages([
+      { type: 'bot', text: '👋 Olá! Sou o assistente virtual do WhatsApp!' },
+      { type: 'bot', text: '📱 Número: +55 (19) 98116-8970' },
+      { type: 'bot', text: '🤖 Estou aqui para te ajudar com todas as suas dúvidas sobre o curso! Escolha uma pergunta abaixo:' }
+    ]);
   };
 
-  const handleTelegram = () => {
-    window.open(`https://t.me/${TELEGRAM_USERNAME}`, '_blank');
+  // ABRIR CHAT TELEGRAM FICTÍCIO
+  const handleTelegramOpen = () => {
+    setChatType('telegram');
+    setChatMessages([
+      { type: 'bot', text: '👋 Olá! Bem-vindo ao Telegram!' },
+      { type: 'bot', text: '🔒 Para acessar nosso grupo exclusivo no Telegram, você precisa fazer parte da área de membros adquirindo o curso.' },
+      { type: 'bot', text: '💬 Mas fique tranquilo! Posso te ajudar com dúvidas sobre o curso aqui mesmo. Escolha uma pergunta abaixo:' }
+    ]);
+  };
+
+  // FECHAR CHAT
+  const handleCloseChat = () => {
+    setChatType(null);
+    setChatMessages([]);
+    setSelectedQuestion(null);
   };
 
   // SISTEMA DE FAQ INTELIGENTE - RESPOSTAS AUTOMÁTICAS
@@ -152,43 +164,69 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       
-      {/* Botão WhatsApp Flutuante */}
-      <button
-        onClick={handleWhatsApp}
-        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 animate-bounce"
-        aria-label="Falar no WhatsApp"
-      >
-        <MessageCircle className="w-6 h-6" />
-      </button>
+      {/* Botões Flutuantes - WhatsApp e Telegram */}
+      <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col gap-3">
+        {/* Botão WhatsApp */}
+        <button
+          onClick={handleWhatsAppOpen}
+          className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 animate-bounce relative group"
+          aria-label="Chat WhatsApp"
+        >
+          <MessageCircle className="w-6 h-6" />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+            1
+          </span>
+          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-green-600 text-white px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Chat WhatsApp
+          </div>
+        </button>
 
-      {/* Botão Chat de Dúvidas Flutuante - NOVO SISTEMA */}
-      <button
-        onClick={() => setChatOpen(!chatOpen)}
-        className="fixed bottom-20 right-4 md:bottom-24 md:right-6 z-50 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 relative"
-        aria-label="Chat de Dúvidas"
-      >
-        <MessageCircle className="w-6 h-6" />
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
-          ?
-        </span>
-      </button>
+        {/* Botão Telegram */}
+        <button
+          onClick={handleTelegramOpen}
+          className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 relative group"
+          aria-label="Chat Telegram"
+        >
+          <Send className="w-6 h-6" />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+            !
+          </span>
+          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Chat Telegram
+          </div>
+        </button>
+      </div>
 
       {/* ChatBox Inteligente - SISTEMA COMPLETO DE FAQ */}
-      {chatOpen && (
-        <div className="fixed bottom-36 right-4 z-50 w-[calc(100vw-2rem)] max-w-md md:bottom-44 md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
-          <div className="bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 p-4 flex items-center justify-between">
+      {chatType && (
+        <div className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-md md:bottom-6 md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+          <div className={`p-4 flex items-center justify-between ${
+            chatType === 'whatsapp' 
+              ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
+              : 'bg-gradient-to-r from-blue-500 to-cyan-600'
+          }`}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center animate-pulse">
-                <Sparkles className="w-6 h-6 text-purple-500" />
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                {chatType === 'whatsapp' ? (
+                  <MessageCircle className="w-6 h-6 text-green-500" />
+                ) : (
+                  <Send className="w-6 h-6 text-blue-500" />
+                )}
               </div>
               <div>
-                <h3 className="text-white font-black text-base">Assistente Virtual IA</h3>
-                <p className="text-purple-100 text-xs font-bold">🟢 Online • Resposta Instantânea</p>
+                <h3 className="text-white font-black text-base">
+                  {chatType === 'whatsapp' ? 'WhatsApp Suporte' : 'Telegram Suporte'}
+                </h3>
+                <p className="text-white/90 text-xs font-bold">
+                  {chatType === 'whatsapp' 
+                    ? '🟢 Online • +55 (19) 98116-8970' 
+                    : '🟢 Online • Resposta Instantânea'}
+                </p>
               </div>
             </div>
             <button
-              onClick={() => setChatOpen(false)}
-              className="text-white hover:bg-purple-600 p-1 rounded-full transition-colors"
+              onClick={handleCloseChat}
+              className="text-white hover:bg-white/20 p-1 rounded-full transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -199,19 +237,33 @@ export default function Home() {
             {chatMessages.map((msg, index) => (
               <div key={index} className={`flex gap-3 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.type === 'bot' && (
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-white" />
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    chatType === 'whatsapp' 
+                      ? 'bg-gradient-to-br from-green-500 to-emerald-600' 
+                      : 'bg-gradient-to-br from-blue-500 to-cyan-600'
+                  }`}>
+                    {chatType === 'whatsapp' ? (
+                      <MessageCircle className="w-4 h-4 text-white" />
+                    ) : (
+                      <Send className="w-4 h-4 text-white" />
+                    )}
                   </div>
                 )}
                 <div className={`max-w-[85%] p-3 rounded-2xl shadow-sm ${
                   msg.type === 'bot' 
-                    ? 'bg-white text-gray-800 rounded-tl-none border border-purple-100' 
-                    : 'bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-tr-none'
+                    ? `bg-white text-gray-800 rounded-tl-none border ${
+                        chatType === 'whatsapp' ? 'border-green-100' : 'border-blue-100'
+                      }` 
+                    : `text-white rounded-tr-none ${
+                        chatType === 'whatsapp' 
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
+                          : 'bg-gradient-to-r from-blue-500 to-cyan-600'
+                      }`
                 }`}>
                   <p className="text-sm font-medium leading-relaxed">{msg.text}</p>
                 </div>
                 {msg.type === 'user' && (
-                  <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white text-xs font-black">Você</span>
                   </div>
                 )}
@@ -227,7 +279,11 @@ export default function Home() {
                 <button
                   key={idx}
                   onClick={() => handleQuestionClick(faq.question, faq.answer, faq.followUp)}
-                  className="w-full bg-gradient-to-r from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-all border border-purple-200 hover:border-purple-400 font-bold hover:scale-105 duration-200"
+                  className={`w-full p-3 rounded-xl text-left text-sm text-gray-700 shadow-sm transition-all border font-bold hover:scale-105 duration-200 ${
+                    chatType === 'whatsapp'
+                      ? 'bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 border-green-200 hover:border-green-400'
+                      : 'bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-blue-200 hover:border-blue-400'
+                  }`}
                 >
                   {faq.question}
                 </button>
@@ -236,13 +292,17 @@ export default function Home() {
           </div>
 
           {/* CTA Final no Chat */}
-          <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-600 border-t-4 border-yellow-400">
+          <div className={`p-4 border-t-4 ${
+            chatType === 'whatsapp'
+              ? 'bg-gradient-to-r from-green-500 to-emerald-600 border-yellow-400'
+              : 'bg-gradient-to-r from-blue-500 to-cyan-600 border-yellow-400'
+          }`}>
             <Button
               onClick={() => {
                 handleFinalCTA();
                 setTimeout(() => handleCheckout(), 1500);
               }}
-              className="w-full bg-white hover:bg-gray-100 text-green-600 font-black py-4 text-base shadow-2xl hover:scale-105 transition-all duration-300"
+              className="w-full bg-white hover:bg-gray-100 text-gray-900 font-black py-4 text-base shadow-2xl hover:scale-105 transition-all duration-300"
             >
               <Sparkles className="w-5 h-5 mr-2" />
               GARANTIR MINHA VAGA AGORA
@@ -959,53 +1019,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seção de Contato - OTIMIZADA */}
-      <section className="bg-gradient-to-b from-slate-900 to-slate-950 py-8 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-4xl font-black text-white mb-4">
-              Ainda Tem Dúvidas?<br />
-              <span className="text-green-400">Fale Conosco Agora!</span>
-            </h2>
-            <p className="text-base md:text-xl text-gray-300 mb-8 font-bold px-2">
-              Nossa equipe está pronta para te ajudar a dar o primeiro passo
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <Card className="p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 hover:border-green-500 transition-all duration-300 hover:scale-105">
-                <MessageCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-                <h3 className="text-xl md:text-2xl font-black text-white mb-3">WhatsApp</h3>
-                <p className="text-gray-300 mb-4 text-sm md:text-base font-medium">
-                  Tire suas dúvidas diretamente pelo WhatsApp
-                </p>
-                <Button 
-                  onClick={handleWhatsApp}
-                  className="bg-green-500 hover:bg-green-600 text-white w-full py-5 text-base font-black"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Falar no WhatsApp
-                </Button>
-              </Card>
-
-              <Card className="p-6 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-2 border-blue-500/30 hover:border-blue-500 transition-all duration-300 hover:scale-105">
-                <MessageCircle className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                <h3 className="text-xl md:text-2xl font-black text-white mb-3">Telegram</h3>
-                <p className="text-gray-300 mb-4 text-sm md:text-base font-medium">
-                  Entre no nosso canal oficial do Telegram
-                </p>
-                <Button 
-                  onClick={handleTelegram}
-                  className="bg-blue-500 hover:bg-blue-600 text-white w-full py-5 text-base font-black"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Entrar no Telegram
-                </Button>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-slate-950 text-gray-400 py-6 px-4 text-center border-t border-slate-800">
         <p className="text-sm mb-2 font-bold">© 2024 IA que Dá Dinheiro - Todos os direitos reservados</p>
@@ -1015,10 +1028,10 @@ export default function Home() {
           podem variar de pessoa para pessoa.
         </p>
         <div className="flex justify-center gap-6 text-sm">
-          <button onClick={handleWhatsApp} className="hover:text-green-400 transition-colors font-bold">
+          <button onClick={handleWhatsAppOpen} className="hover:text-green-400 transition-colors font-bold">
             WhatsApp
           </button>
-          <button onClick={handleTelegram} className="hover:text-blue-400 transition-colors font-bold">
+          <button onClick={handleTelegramOpen} className="hover:text-blue-400 transition-colors font-bold">
             Telegram
           </button>
         </div>
