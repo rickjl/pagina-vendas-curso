@@ -69,9 +69,9 @@ export default function Home() {
         <MessageCircle className="w-6 h-6" />
       </button>
 
-      {/* ChatBox Flutuante */}
+      {/* ChatBox Flutuante - CORRIGIDO PARA MOBILE */}
       {chatOpen && (
-        <div className="fixed bottom-36 right-4 left-4 md:bottom-44 md:right-6 md:left-auto z-50 md:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+        <div className="fixed bottom-36 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm md:bottom-44 md:right-6 md:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
           <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
