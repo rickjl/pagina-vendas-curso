@@ -162,7 +162,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-[#0B0B0B] to-black">
+    <div className="min-h-screen bg-black">
       
       {/* Botões Flutuantes - WhatsApp e Telegram */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
@@ -197,7 +197,7 @@ export default function Home() {
         </button>
       </div>
 
-      {/* ChatBox Inteligente - CORRIGIDO PARA DESKTOP E MOBILE */}
+      {/* ChatBox Inteligente */}
       {chatType && (
         <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-[calc(100vw-2rem)] md:w-[420px] max-w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300 max-h-[85vh] md:max-h-[600px] flex flex-col">
           <div className={`p-3 md:p-4 flex items-center justify-between flex-shrink-0 ${
@@ -345,215 +345,113 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16 md:py-24 text-center relative">
+      <section className="container mx-auto px-4 py-20 md:py-32 text-center relative">
         <div className="absolute inset-0 bg-gradient-to-b from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
         
-        <div className="relative z-10 max-w-6xl mx-auto">
-          <Badge className="mb-6 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black hover:from-[#FF6B35] hover:to-[#D4AF37] px-6 py-3 text-sm md:text-base font-black shadow-2xl border-2 border-[#D4AF37] animate-pulse">
+        <div className="relative z-10 max-w-6xl mx-auto space-y-10">
+          <Badge className="bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black hover:from-[#FF6B35] hover:to-[#D4AF37] px-8 py-3 text-base md:text-lg font-black shadow-2xl border-2 border-[#D4AF37] animate-pulse">
             ⚡ +3.847 PESSOAS JÁ MUDARAM DE VIDA
           </Badge>
           
-          <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+          <h1 className="text-4xl md:text-7xl font-black text-white leading-tight tracking-tight">
             Imagine Ganhar de<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FF6B35] to-[#D4AF37] drop-shadow-2xl">
               R$ 1.000 a R$ 5.000
             </span>
             <br />
-            <span className="text-3xl md:text-5xl text-gray-300">
+            <span className="text-3xl md:text-5xl text-gray-400">
               Todo Mês, Trabalhando de Casa
             </span>
           </h1>
           
-          <p className="text-lg md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium">
             <span className="text-[#D4AF37] font-black">Você não precisa de experiência.</span> Não precisa aparecer. Não precisa criar conteúdo.<br />
             <span className="text-white font-bold">Apenas seguir um método simples e validado</span> que já transformou a vida de milhares de pessoas comuns como você.
           </p>
 
-          <div className="mb-10 space-y-6">
+          <div className="space-y-8">
             <Button 
               onClick={handleCheckout}
               size="lg" 
-              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-8 py-8 text-xl md:text-3xl font-black rounded-2xl shadow-2xl hover:shadow-[#D4AF37]/50 transition-all duration-300 hover:scale-105 w-full md:w-auto group relative overflow-hidden"
+              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-xl md:text-3xl font-black rounded-2xl shadow-2xl hover:shadow-[#D4AF37]/50 transition-all duration-300 hover:scale-105 w-full md:w-auto group relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 animate-shimmer"></div>
-              <Sparkles className="w-6 h-6 md:w-8 md:h-8 mr-3 group-hover:rotate-12 transition-transform" />
+              <Sparkles className="w-7 h-7 md:w-9 md:h-9 mr-3 group-hover:rotate-12 transition-transform" />
               <span>QUERO MUDAR MINHA VIDA AGORA</span>
-              <ArrowRight className="ml-3 w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-3 w-7 h-7 md:w-9 md:h-9 group-hover:translate-x-1 transition-transform" />
             </Button>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm md:text-base">
-              <div className="flex items-center gap-2 bg-green-500/10 px-4 py-2 rounded-full border border-green-500/30">
+              <div className="flex items-center gap-2 bg-green-500/10 px-5 py-3 rounded-full border border-green-500/30">
                 <Shield className="w-5 h-5 text-green-400" />
                 <span className="text-green-300 font-bold">Acesso Imediato</span>
               </div>
-              <div className="flex items-center gap-2 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/30">
+              <div className="flex items-center gap-2 bg-blue-500/10 px-5 py-3 rounded-full border border-blue-500/30">
                 <Check className="w-5 h-5 text-blue-400" />
                 <span className="text-blue-300 font-bold">Garantia de 7 Dias</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#D4AF37]/10 px-4 py-2 rounded-full border border-[#D4AF37]/30">
+              <div className="flex items-center gap-2 bg-[#D4AF37]/10 px-5 py-3 rounded-full border border-[#D4AF37]/30">
                 <Award className="w-5 h-5 text-[#D4AF37]" />
                 <span className="text-[#D4AF37] font-bold">Certificado Incluso</span>
               </div>
             </div>
           </div>
 
-          <div className="inline-block bg-[#1A1A1A] backdrop-blur-sm border-2 border-[#FF6B35]/30 rounded-2xl p-6 md:p-8">
-            <p className="text-[#FF6B35] font-black text-lg md:text-xl mb-2">⚠️ ATENÇÃO: APENAS 47 VAGAS NESTE PREÇO</p>
-            <p className="text-gray-300 text-sm md:text-base">Após atingir o limite, o valor volta para R$ 297</p>
+          <div className="inline-block bg-[#1A1A1A] backdrop-blur-sm border-2 border-[#FF6B35]/30 rounded-2xl p-8 md:p-10">
+            <p className="text-[#FF6B35] font-black text-xl md:text-2xl mb-2">⚠️ ATENÇÃO: APENAS 47 VAGAS NESTE PREÇO</p>
+            <p className="text-gray-300 text-base md:text-lg">Após atingir o limite, o valor volta para R$ 297</p>
           </div>
         </div>
       </section>
 
-      {/* SEÇÃO DE VÍDEO COM AVATAR (VSL - Video Sales Letter) */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-              <Badge className="mb-4 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black px-6 py-3 text-base font-black shadow-2xl animate-pulse">
-                🎥 ASSISTA AGORA
-              </Badge>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
-                Veja Como Funciona o Método
-              </h2>
-              <p className="text-gray-300 text-lg md:text-xl">
-                Descubra em 3 minutos como você pode começar a ganhar dinheiro com IA
-              </p>
-            </div>
-
-            {/* Player de Vídeo Premium */}
-            <Card className="p-2 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-4 border-[#D4AF37] shadow-2xl shadow-[#D4AF37]/30 overflow-hidden group">
-              <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-black rounded-xl overflow-hidden">
-                {/* Placeholder para Vídeo - Substitua o src pelo link do seu vídeo */}
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-black">
-                  <div className="text-center space-y-6">
-                    <div className="relative inline-block">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full blur-2xl opacity-50 animate-pulse"></div>
-                      <div className="relative w-24 h-24 md:w-32 md:h-32 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-2xl">
-                        <Play className="w-12 h-12 md:w-16 md:h-16 text-black ml-2" />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-white text-xl md:text-2xl font-black mb-2">
-                        🎬 Adicione Seu Vídeo Aqui
-                      </p>
-                      <p className="text-gray-400 text-sm md:text-base max-w-md mx-auto">
-                        Crie um vídeo com avatar usando HeyGen, Synthesia ou D-ID e substitua este placeholder pelo link do seu vídeo
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quando você tiver o vídeo, descomente e use este código:
-                <iframe
-                  src="SEU_LINK_DO_VIDEO_AQUI"
-                  className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-                */}
-              </div>
-            </Card>
-
-            {/* Instruções para Adicionar Vídeo */}
-            <div className="mt-8 p-6 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] rounded-2xl">
-              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
-                <Video className="w-6 h-6 text-[#D4AF37]" />
-                Como Adicionar Seu Vídeo com Avatar
-              </h3>
-              <div className="space-y-3 text-gray-300 text-sm md:text-base">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0 font-black text-black">
-                    1
-                  </div>
-                  <p>
-                    <strong className="text-white">Crie seu vídeo:</strong> Use plataformas como <span className="text-[#D4AF37]">HeyGen</span>, <span className="text-[#D4AF37]">Synthesia</span>, <span className="text-[#D4AF37]">D-ID</span> ou <span className="text-[#D4AF37]">Elai.io</span> para criar um vídeo com avatar IA
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0 font-black text-black">
-                    2
-                  </div>
-                  <p>
-                    <strong className="text-white">Faça upload:</strong> Publique no YouTube, Vimeo ou Wistia (pode ser vídeo não listado)
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0 font-black text-black">
-                    3
-                  </div>
-                  <p>
-                    <strong className="text-white">Me envie o link:</strong> Compartilhe o link do vídeo comigo e eu integro automaticamente na página
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA após Vídeo */}
-            <div className="text-center mt-10">
-              <Button 
-                onClick={handleCheckout}
-                size="lg" 
-                className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-8 py-6 text-xl md:text-2xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
-              >
-                <Sparkles className="w-6 h-6 mr-2" />
-                QUERO COMEÇAR AGORA
-                <ArrowRight className="ml-2 w-6 h-6" />
-              </Button>
-              <p className="text-gray-400 text-sm mt-4">
-                ⚡ Acesso imediato após o pagamento • 🛡️ Garantia de 7 dias
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SEÇÃO DE AUTORIDADE - PEDRO */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
+      {/* SEÇÃO DE AUTORIDADE - JÚLIA */}
+      <section className="py-24 md:py-40 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-              <Badge className="mb-4 bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-6 py-2 text-sm font-black">
-                👨‍💼 QUEM ESTÁ POR TRÁS DESTE MÉTODO
+            <div className="text-center mb-16">
+              <Badge className="bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-8 py-3 text-sm md:text-base font-black">
+                👩‍💼 QUEM ESTÁ POR TRÁS DESTE MÉTODO
               </Badge>
             </div>
 
-            <Card className="p-8 md:p-12 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 shadow-2xl">
-              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <Card className="p-10 md:p-16 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 shadow-2xl">
+              <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
                 {/* Foto/Avatar IA */}
                 <div className="flex-shrink-0">
-                  <div className="w-40 h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] p-1 shadow-2xl">
+                  <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] p-1.5 shadow-2xl">
                     <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" 
-                      alt="Pedro - Especialista em IA"
+                      src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" 
+                      alt="Júlia - Especialista em IA"
                       className="w-full h-full rounded-full object-cover"
                     />
                   </div>
                 </div>
 
                 {/* Conteúdo */}
-                <div className="flex-1 text-center md:text-left">
-                  <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-                    Olá, Meu Nome é <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FF6B35]">Pedro</span>
+                <div className="flex-1 text-center md:text-left space-y-6">
+                  <h2 className="text-3xl md:text-5xl font-black text-white">
+                    Olá, Meu Nome é <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FF6B35]">Júlia</span>
                   </h2>
-                  <div className="space-y-3 text-gray-300 text-base md:text-lg leading-relaxed">
+                  <div className="space-y-4 text-gray-300 text-base md:text-xl leading-relaxed">
                     <p className="flex items-start gap-3">
-                      <Check className="w-6 h-6 text-[#D4AF37] flex-shrink-0 mt-1" />
-                      <span><strong className="text-white">Especialista em Inteligência Artificial</strong> aplicada ao dia a dia</span>
+                      <Sparkles className="w-6 h-6 text-[#D4AF37] flex-shrink-0 mt-1" />
+                      <span>Quando descobri a <strong className="text-white">Inteligência Artificial</strong>, estava em um momento de necessidade</span>
                     </p>
                     <p className="flex items-start gap-3">
-                      <Check className="w-6 h-6 text-[#D4AF37] flex-shrink-0 mt-1" />
-                      <span>Experiência prática criando <strong className="text-white">páginas, automações e conteúdos</strong> usando IA</span>
+                      <Lightbulb className="w-6 h-6 text-[#FF6B35] flex-shrink-0 mt-1" />
+                      <span>Percebi que era <strong className="text-white">muito mais fácil do que imaginava</strong> e que qualquer pessoa poderia aprender</span>
                     </p>
                     <p className="flex items-start gap-3">
-                      <Check className="w-6 h-6 text-[#D4AF37] flex-shrink-0 mt-1" />
-                      <span>Criei este curso após <strong className="text-white">aplicar IA em projetos reais</strong></span>
+                      <Target className="w-6 h-6 text-[#D4AF37] flex-shrink-0 mt-1" />
+                      <span>Decidi <strong className="text-white">compartilhar esse conhecimento</strong> para ajudar outras pessoas a transformarem suas vidas</span>
                     </p>
-                    <p className="flex items-start gap-3">
-                      <Target className="w-6 h-6 text-[#FF6B35] flex-shrink-0 mt-1" />
-                      <span className="text-[#D4AF37] font-bold text-xl">Missão: Ajudar iniciantes a ganhar dinheiro com IA</span>
-                    </p>
+                    <div className="pt-4 border-t-2 border-[#D4AF37]/30">
+                      <p className="flex items-start gap-3">
+                        <Award className="w-7 h-7 text-[#FF6B35] flex-shrink-0 mt-1" />
+                        <span className="text-[#D4AF37] font-black text-xl md:text-2xl">Missão: Mostrar que você também pode ganhar dinheiro com IA, mesmo sem experiência</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -563,21 +461,21 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE BENEFÍCIOS DO CURSO */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black">
+      <section className="py-24 md:py-40 bg-gradient-to-b from-black to-[#0B0B0B]">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-6 py-2 text-sm font-black">
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-8 py-3 text-base md:text-lg font-black">
               🎯 O QUE VOCÊ VAI CONQUISTAR
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
               Transforme Sua Vida Com IA
             </h2>
-            <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto">
+            <p className="text-gray-300 text-xl md:text-2xl max-w-3xl mx-auto">
               Benefícios reais que você vai experimentar
             </p>
           </div>
 
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { icon: DollarSign, title: "Renda Extra Garantida", desc: "De R$ 1.000 a R$ 5.000/mês trabalhando de casa", color: "from-green-500 to-emerald-600" },
               { icon: Clock, title: "Flexibilidade Total", desc: "Trabalhe 2-3h por dia no seu próprio horário", color: "from-blue-500 to-cyan-600" },
@@ -586,12 +484,12 @@ export default function Home() {
               { icon: Shield, title: "Sem Aparecer", desc: "Método 100% anônimo, sem mostrar rosto ou criar conteúdo", color: "from-[#D4AF37] to-yellow-600" },
               { icon: Users, title: "Suporte Completo", desc: "Grupo VIP + WhatsApp para tirar todas as dúvidas", color: "from-indigo-500 to-blue-600" }
             ].map((benefit, index) => (
-              <Card key={index} className="p-6 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 group hover:scale-105">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                  <benefit.icon className="w-8 h-8 text-white" />
+              <Card key={index} className="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 group hover:scale-105">
+                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-xl`}>
+                  <benefit.icon className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-black text-white mb-2">{benefit.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{benefit.desc}</p>
+                <h3 className="text-2xl font-black text-white mb-3">{benefit.title}</h3>
+                <p className="text-gray-400 text-base leading-relaxed">{benefit.desc}</p>
               </Card>
             ))}
           </div>
@@ -599,18 +497,18 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE PROVA SOCIAL TÉCNICA */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B]">
+      <section className="py-24 md:py-40 bg-gradient-to-b from-[#0B0B0B] to-black">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-6 py-2 text-sm font-black">
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-8 py-3 text-base md:text-lg font-black">
               💬 EXPERIÊNCIAS REAIS COM IA
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
               Veja O Que Nossos Alunos Dizem
             </h2>
           </div>
 
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
             {[
               {
                 text: "Depois de aplicar IA no meu dia a dia, tudo ficou mais fácil.",
@@ -626,14 +524,14 @@ export default function Home() {
               },
               {
                 text: "Esse método me mostrou que qualquer pessoa pode aprender IA sem experiência.",
-                name: "Juliana Costa",
+                name: "Mariana Costa",
                 role: "Designer Freelancer",
                 image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop"
               }
             ].map((testimonial, index) => (
-              <Card key={index} className="p-6 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#FF6B35] transition-all duration-300 group">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] p-0.5">
+              <Card key={index} className="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#FF6B35] transition-all duration-300 group">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] p-1">
                     <img 
                       src={testimonial.image} 
                       alt={testimonial.name}
@@ -641,16 +539,16 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <p className="font-black text-white text-base">{testimonial.name}</p>
-                    <p className="text-xs text-gray-400">{testimonial.role}</p>
+                    <p className="font-black text-white text-lg">{testimonial.name}</p>
+                    <p className="text-sm text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
-                <div className="flex gap-1 mb-3">
+                <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
+                    <Star key={i} className="w-5 h-5 fill-[#D4AF37] text-[#D4AF37]" />
                   ))}
                 </div>
-                <p className="text-gray-300 italic leading-relaxed text-sm">
+                <p className="text-gray-300 italic leading-relaxed text-base">
                   &quot;{testimonial.text}&quot;
                 </p>
               </Card>
@@ -660,22 +558,22 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE BÔNUS PREMIUM */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
+      <section className="py-24 md:py-40 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black px-6 py-3 text-base font-black shadow-2xl animate-pulse">
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black px-8 py-4 text-lg md:text-xl font-black shadow-2xl animate-pulse">
               🎁 BÔNUS EXCLUSIVOS
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
               Receba Gratuitamente
             </h2>
-            <p className="text-[#FF6B35] text-xl md:text-2xl font-black">
+            <p className="text-[#FF6B35] text-2xl md:text-3xl font-black">
               Bônus inclusos por tempo limitado
             </p>
           </div>
 
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {[
               { title: "Lista de Prompts Prontos", icon: FileText, desc: "Templates validados para usar imediatamente" },
               { title: "Ferramentas Recomendadas", icon: Zap, desc: "As melhores IAs para cada tipo de tarefa" },
@@ -683,13 +581,13 @@ export default function Home() {
               { title: "Scripts de Vídeos", icon: Video, desc: "Roteiros prontos para criar conteúdo" },
               { title: "Modelos de Post para Redes", icon: Sparkles, desc: "Templates para Instagram, Facebook e mais" }
             ].map((bonus, index) => (
-              <Card key={index} className="p-6 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 group hover:scale-105">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <bonus.icon className="w-8 h-8 text-black" />
+              <Card key={index} className="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 group hover:scale-105">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-xl">
+                  <bonus.icon className="w-10 h-10 text-black" />
                 </div>
-                <h3 className="text-xl font-black text-white mb-2">{bonus.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{bonus.desc}</p>
-                <Badge className="mt-4 bg-green-500/20 text-green-400 border border-green-500/30 px-3 py-1 text-xs font-black">
+                <h3 className="text-2xl font-black text-white mb-3">{bonus.title}</h3>
+                <p className="text-gray-400 text-base leading-relaxed mb-4">{bonus.desc}</p>
+                <Badge className="bg-green-500/20 text-green-400 border border-green-500/30 px-4 py-2 text-sm font-black">
                   ✓ INCLUSO GRÁTIS
                 </Badge>
               </Card>
@@ -700,31 +598,31 @@ export default function Home() {
             <Button 
               onClick={handleCheckout}
               size="lg" 
-              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-8 py-6 text-xl md:text-2xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-2xl md:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
             >
               🎁 QUERO TODOS OS BÔNUS AGORA
-              <ArrowRight className="ml-2 w-6 h-6" />
+              <ArrowRight className="ml-3 w-7 h-7" />
             </Button>
           </div>
         </div>
       </section>
 
       {/* SEÇÃO DE DETALHAMENTO DOS MÓDULOS */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B]">
+      <section className="py-24 md:py-40 bg-gradient-to-b from-[#0B0B0B] to-black">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-6 py-2 text-sm font-black">
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-8 py-3 text-base md:text-lg font-black">
               📚 CONTEÚDO COMPLETO
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
               4 Módulos Estratégicos
             </h2>
-            <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto">
+            <p className="text-gray-300 text-xl md:text-2xl max-w-3xl mx-auto">
               Método validado do zero ao avançado
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto space-y-6">
+          <div className="max-w-5xl mx-auto space-y-8">
             {[
               {
                 module: "MÓDULO 1",
@@ -759,28 +657,28 @@ export default function Home() {
                 color: "from-[#D4AF37] to-yellow-500"
               }
             ].map((course, index) => (
-              <Card key={index} className="p-6 md:p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 group">
-                <div className="flex flex-col md:flex-row items-start gap-6">
-                  <div className="text-6xl md:text-7xl group-hover:scale-110 transition-transform">
+              <Card key={index} className="p-8 md:p-12 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#D4AF37] transition-all duration-300 group">
+                <div className="flex flex-col md:flex-row items-start gap-8">
+                  <div className="text-7xl md:text-8xl group-hover:scale-110 transition-transform">
                     {course.icon}
                   </div>
-                  <div className="flex-1">
-                    <Badge className={`mb-3 bg-gradient-to-r ${course.color} text-white border-0 text-xs font-black px-4 py-1`}>
+                  <div className="flex-1 space-y-6">
+                    <Badge className={`bg-gradient-to-r ${course.color} text-white border-0 text-sm font-black px-6 py-2`}>
                       {course.module}
                     </Badge>
-                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4 group-hover:text-[#D4AF37] transition-colors">
+                    <h3 className="text-3xl md:text-4xl font-black text-white group-hover:text-[#D4AF37] transition-colors">
                       {course.title}
                     </h3>
-                    <div className="grid md:grid-cols-3 gap-3 mb-4">
+                    <div className="grid md:grid-cols-3 gap-4">
                       {course.highlights.map((highlight, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm text-gray-300 bg-[#0B0B0B]/50 p-3 rounded-lg border border-[#2A2A2A]">
-                          <Zap className="w-4 h-4 text-[#D4AF37] flex-shrink-0" />
+                        <div key={idx} className="flex items-center gap-3 text-base text-gray-300 bg-[#0B0B0B]/50 p-4 rounded-xl border border-[#2A2A2A]">
+                          <Zap className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
                           <span className="font-bold">{highlight}</span>
                         </div>
                       ))}
                     </div>
-                    <div className="flex items-center gap-2 text-green-400 font-black text-sm">
-                      <Check className="w-5 h-5" />
+                    <div className="flex items-center gap-2 text-green-400 font-black text-base">
+                      <Check className="w-6 h-6" />
                       <span>{course.lessons}</span>
                     </div>
                   </div>
@@ -789,43 +687,43 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Button 
               onClick={handleCheckout}
               size="lg" 
-              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-8 py-6 text-xl md:text-2xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-2xl md:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
             >
               📚 QUERO ACESSO COMPLETO
-              <ArrowRight className="ml-2 w-6 h-6" />
+              <ArrowRight className="ml-3 w-7 h-7" />
             </Button>
           </div>
         </div>
       </section>
 
       {/* SEÇÃO DE GARANTIA */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
+      <section className="py-24 md:py-40 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="inline-block p-8 bg-[#D4AF37]/20 rounded-full mb-6 backdrop-blur-sm animate-pulse">
-                <Shield className="w-20 h-20 md:w-24 md:h-24 text-[#D4AF37]" />
+            <div className="text-center mb-16">
+              <div className="inline-block p-10 bg-[#D4AF37]/20 rounded-full mb-8 backdrop-blur-sm animate-pulse">
+                <Shield className="w-28 h-28 md:w-32 md:h-32 text-[#D4AF37]" />
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+              <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
                 Garantia Incondicional de 7 Dias
               </h2>
-              <p className="text-2xl md:text-3xl text-[#D4AF37] font-black">
+              <p className="text-3xl md:text-4xl text-[#D4AF37] font-black">
                 Você não corre NENHUM risco!
               </p>
             </div>
 
-            <Card className="p-8 md:p-12 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-4 border-[#D4AF37] shadow-2xl shadow-[#D4AF37]/30">
-              <div className="space-y-6">
-                <div className="flex items-start gap-4 bg-green-500/10 p-6 rounded-2xl border-2 border-green-500/30">
-                  <Check className="w-8 h-8 text-green-400 flex-shrink-0 mt-1" />
+            <Card className="p-10 md:p-16 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-4 border-[#D4AF37] shadow-2xl shadow-[#D4AF37]/30">
+              <div className="space-y-8">
+                <div className="flex items-start gap-5 bg-green-500/10 p-8 rounded-2xl border-2 border-green-500/30">
+                  <Check className="w-10 h-10 text-green-400 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="text-xl md:text-2xl font-black text-white mb-3">100% Sem Riscos</h3>
-                    <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4">100% Sem Riscos</h3>
+                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                       Tenho tanta certeza de que este curso vai transformar sua vida que ofereço uma 
                       <span className="text-green-400 font-black"> garantia incondicional de 7 dias</span>. 
                       Teste tudo, aplique o método, veja os resultados. Se não gostar, devolvo seu dinheiro.
@@ -833,11 +731,11 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 bg-green-500/10 p-6 rounded-2xl border-2 border-green-500/30">
-                  <Check className="w-8 h-8 text-green-400 flex-shrink-0 mt-1" />
+                <div className="flex items-start gap-5 bg-green-500/10 p-8 rounded-2xl border-2 border-green-500/30">
+                  <Check className="w-10 h-10 text-green-400 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="text-xl md:text-2xl font-black text-white mb-3">Devolução Total e Imediata</h3>
-                    <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4">Devolução Total e Imediata</h3>
+                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                       Se por qualquer motivo você não ficar satisfeito, basta enviar um único email e 
                       devolvo <span className="text-green-400 font-black">100% do seu dinheiro</span>, 
                       sem perguntas, sem burocracia, sem enrolação.
@@ -845,11 +743,11 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 bg-green-500/10 p-6 rounded-2xl border-2 border-green-500/30">
-                  <Check className="w-8 h-8 text-green-400 flex-shrink-0 mt-1" />
+                <div className="flex items-start gap-5 bg-green-500/10 p-8 rounded-2xl border-2 border-green-500/30">
+                  <Check className="w-10 h-10 text-green-400 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="text-xl md:text-2xl font-black text-white mb-3">O Risco É Todo Meu!</h3>
-                    <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4">O Risco É Todo Meu!</h3>
+                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                       Acesse o curso completo, assista todas as aulas, aplique o método, entre no grupo VIP. 
                       Se não gostar, recebe seu dinheiro de volta. 
                       <span className="text-green-400 font-black"> Você só tem a ganhar!</span>
@@ -858,21 +756,21 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-8 p-6 bg-gradient-to-r from-[#D4AF37]/20 to-[#FF6B35]/20 rounded-2xl border-4 border-[#D4AF37]">
-                <p className="text-center text-xl md:text-2xl text-white font-black">
+              <div className="mt-10 p-8 bg-gradient-to-r from-[#D4AF37]/20 to-[#FF6B35]/20 rounded-2xl border-4 border-[#D4AF37]">
+                <p className="text-center text-2xl md:text-3xl text-white font-black">
                   ⚡ Literalmente ZERO riscos para você!
                 </p>
               </div>
             </Card>
 
-            <div className="text-center mt-10">
+            <div className="text-center mt-12">
               <Button 
                 onClick={handleCheckout}
                 size="lg" 
-                className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-8 py-6 text-xl md:text-2xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+                className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-2xl md:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
               >
                 🛡️ COMEÇAR SEM RISCOS AGORA
-                <ArrowRight className="ml-2 w-6 h-6" />
+                <ArrowRight className="ml-3 w-7 h-7" />
               </Button>
             </div>
           </div>
@@ -880,15 +778,15 @@ export default function Home() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="py-20 md:py-32 bg-gradient-to-r from-[#FF6B35] via-[#D4AF37] to-[#FF6B35] relative overflow-hidden">
+      <section className="py-24 md:py-40 bg-gradient-to-r from-[#FF6B35] via-[#D4AF37] to-[#FF6B35] relative overflow-hidden">
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <Badge className="mb-8 bg-black text-[#D4AF37] px-8 py-4 text-lg md:text-xl font-black animate-pulse shadow-2xl border-2 border-[#D4AF37]">
+        <div className="container mx-auto px-4 text-center relative z-10 space-y-12">
+          <Badge className="bg-black text-[#D4AF37] px-10 py-5 text-xl md:text-2xl font-black animate-pulse shadow-2xl border-2 border-[#D4AF37]">
             ⏰ ÚLTIMAS VAGAS NESTE PREÇO
           </Badge>
           
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">
+          <h2 className="text-5xl md:text-7xl font-black text-white leading-tight">
             Sua Decisão Agora Define<br />
             <span className="text-black">Seu Futuro Financeiro</span>
           </h2>
@@ -896,17 +794,17 @@ export default function Home() {
           <Button 
             onClick={handleCheckout}
             size="lg" 
-            className="bg-black text-[#D4AF37] hover:bg-[#1A1A1A] px-12 py-8 text-2xl md:text-4xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 mb-8 group border-4 border-black"
+            className="bg-black text-[#D4AF37] hover:bg-[#1A1A1A] px-12 py-10 text-3xl md:text-5xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 group border-4 border-black"
           >
             🚀 GARANTIR ACESSO AGORA — VAGAS LIMITADAS
-            <ArrowRight className="ml-3 w-8 h-8 md:w-10 md:h-10 group-hover:translate-x-2 transition-transform" />
+            <ArrowRight className="ml-4 w-10 h-10 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
           </Button>
 
-          <div className="space-y-4">
-            <p className="text-white text-xl md:text-2xl font-black">
+          <div className="space-y-5">
+            <p className="text-white text-2xl md:text-3xl font-black">
               ⚡ Acesso Imediato — Comece em 2 Minutos
             </p>
-            <p className="text-white/90 text-lg md:text-xl font-bold">
+            <p className="text-white/90 text-xl md:text-2xl font-bold">
               🔒 Pagamento 100% Seguro | 🛡️ Garantia Incondicional de 7 Dias
             </p>
           </div>
@@ -914,14 +812,14 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-gray-400 py-8 px-4 text-center border-t border-[#2A2A2A]">
-        <p className="text-sm mb-3 font-bold">© 2024 IA que Dá Dinheiro - Todos os direitos reservados</p>
-        <p className="text-xs max-w-3xl mx-auto mb-4 leading-relaxed">
+      <footer className="bg-black text-gray-400 py-10 px-4 text-center border-t border-[#2A2A2A]">
+        <p className="text-base mb-4 font-bold">© 2024 IA que Dá Dinheiro - Todos os direitos reservados</p>
+        <p className="text-sm max-w-3xl mx-auto mb-6 leading-relaxed">
           Este produto não garante a obtenção de resultados. Qualquer referência ao desempenho 
           de uma estratégia não deve ser interpretada como garantia de resultados. Os resultados 
           podem variar de pessoa para pessoa.
         </p>
-        <div className="flex justify-center gap-6 text-sm">
+        <div className="flex justify-center gap-8 text-base">
           <button onClick={handleWhatsAppOpen} className="hover:text-green-400 transition-colors font-bold">
             WhatsApp
           </button>
