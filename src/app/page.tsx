@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Shield, Clock, TrendingUp, Users, Star, ArrowRight, Lock, MessageCircle, ChevronDown, Zap, Target, Award, Rocket, X, Sparkles, DollarSign, Trophy, AlertCircle, Gift, Timer, Send, Brain, Lightbulb, BookOpen, Video, FileText, CheckCircle } from "lucide-react";
+import { Check, Shield, Clock, TrendingUp, Users, Star, ArrowRight, Lock, MessageCircle, ChevronDown, Zap, Target, Award, Rocket, X, Sparkles, DollarSign, Trophy, AlertCircle, Gift, Timer, Send, Brain, Lightbulb, BookOpen, Video, FileText, CheckCircle, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -404,8 +404,112 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE AUTORIDADE - PEDRO */}
+      {/* SEÇÃO DE VÍDEO COM AVATAR (VSL - Video Sales Letter) */}
       <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge className="mb-4 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black px-6 py-3 text-base font-black shadow-2xl animate-pulse">
+                🎥 ASSISTA AGORA
+              </Badge>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+                Veja Como Funciona o Método
+              </h2>
+              <p className="text-gray-300 text-lg md:text-xl">
+                Descubra em 3 minutos como você pode começar a ganhar dinheiro com IA
+              </p>
+            </div>
+
+            {/* Player de Vídeo Premium */}
+            <Card className="p-2 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-4 border-[#D4AF37] shadow-2xl shadow-[#D4AF37]/30 overflow-hidden group">
+              <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-black rounded-xl overflow-hidden">
+                {/* Placeholder para Vídeo - Substitua o src pelo link do seu vídeo */}
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-black">
+                  <div className="text-center space-y-6">
+                    <div className="relative inline-block">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full blur-2xl opacity-50 animate-pulse"></div>
+                      <div className="relative w-24 h-24 md:w-32 md:h-32 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-2xl">
+                        <Play className="w-12 h-12 md:w-16 md:h-16 text-black ml-2" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-white text-xl md:text-2xl font-black mb-2">
+                        🎬 Adicione Seu Vídeo Aqui
+                      </p>
+                      <p className="text-gray-400 text-sm md:text-base max-w-md mx-auto">
+                        Crie um vídeo com avatar usando HeyGen, Synthesia ou D-ID e substitua este placeholder pelo link do seu vídeo
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quando você tiver o vídeo, descomente e use este código:
+                <iframe
+                  src="SEU_LINK_DO_VIDEO_AQUI"
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+                */}
+              </div>
+            </Card>
+
+            {/* Instruções para Adicionar Vídeo */}
+            <div className="mt-8 p-6 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] rounded-2xl">
+              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
+                <Video className="w-6 h-6 text-[#D4AF37]" />
+                Como Adicionar Seu Vídeo com Avatar
+              </h3>
+              <div className="space-y-3 text-gray-300 text-sm md:text-base">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0 font-black text-black">
+                    1
+                  </div>
+                  <p>
+                    <strong className="text-white">Crie seu vídeo:</strong> Use plataformas como <span className="text-[#D4AF37]">HeyGen</span>, <span className="text-[#D4AF37]">Synthesia</span>, <span className="text-[#D4AF37]">D-ID</span> ou <span className="text-[#D4AF37]">Elai.io</span> para criar um vídeo com avatar IA
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0 font-black text-black">
+                    2
+                  </div>
+                  <p>
+                    <strong className="text-white">Faça upload:</strong> Publique no YouTube, Vimeo ou Wistia (pode ser vídeo não listado)
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0 font-black text-black">
+                    3
+                  </div>
+                  <p>
+                    <strong className="text-white">Me envie o link:</strong> Compartilhe o link do vídeo comigo e eu integro automaticamente na página
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA após Vídeo */}
+            <div className="text-center mt-10">
+              <Button 
+                onClick={handleCheckout}
+                size="lg" 
+                className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-8 py-6 text-xl md:text-2xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+              >
+                <Sparkles className="w-6 h-6 mr-2" />
+                QUERO COMEÇAR AGORA
+                <ArrowRight className="ml-2 w-6 h-6" />
+              </Button>
+              <p className="text-gray-400 text-sm mt-4">
+                ⚡ Acesso imediato após o pagamento • 🛡️ Garantia de 7 dias
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SEÇÃO DE AUTORIDADE - PEDRO */}
+      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
@@ -459,7 +563,7 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE BENEFÍCIOS DO CURSO */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B]">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-6 py-2 text-sm font-black">
@@ -495,7 +599,7 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE PROVA SOCIAL TÉCNICA */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-6 py-2 text-sm font-black">
@@ -556,7 +660,7 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE BÔNUS PREMIUM */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
@@ -606,7 +710,7 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE DETALHAMENTO DOS MÓDULOS */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-6 py-2 text-sm font-black">
@@ -699,7 +803,7 @@ export default function Home() {
       </section>
 
       {/* SEÇÃO DE GARANTIA */}
-      <section className="py-20 md:py-32 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
