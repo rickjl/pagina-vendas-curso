@@ -346,7 +346,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32 text-center relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FF6B35]/10 to-transparent pointer-events-none"></div>
         
         <div className="relative z-10 max-w-6xl mx-auto space-y-10">
           <Badge className="bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black hover:from-[#FF6B35] hover:to-[#D4AF37] px-8 py-3 text-base md:text-lg font-black shadow-2xl border-2 border-[#D4AF37] animate-pulse">
@@ -382,22 +382,22 @@ export default function Home() {
             </Button>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm md:text-base">
-              <div className="flex items-center gap-2 bg-green-500/10 px-5 py-3 rounded-full border border-green-500/30">
+              <div className="flex items-center gap-2 bg-green-500/20 px-5 py-3 rounded-full border-2 border-green-500/50">
                 <Shield className="w-5 h-5 text-green-400" />
                 <span className="text-green-300 font-bold">Acesso Imediato</span>
               </div>
-              <div className="flex items-center gap-2 bg-blue-500/10 px-5 py-3 rounded-full border border-blue-500/30">
+              <div className="flex items-center gap-2 bg-blue-500/20 px-5 py-3 rounded-full border-2 border-blue-500/50">
                 <Check className="w-5 h-5 text-blue-400" />
                 <span className="text-blue-300 font-bold">Garantia de 7 Dias</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#D4AF37]/10 px-5 py-3 rounded-full border border-[#D4AF37]/30">
+              <div className="flex items-center gap-2 bg-[#D4AF37]/20 px-5 py-3 rounded-full border-2 border-[#D4AF37]/50">
                 <Award className="w-5 h-5 text-[#D4AF37]" />
                 <span className="text-[#D4AF37] font-bold">Certificado Incluso</span>
               </div>
             </div>
           </div>
 
-          <div className="inline-block bg-[#1A1A1A] backdrop-blur-sm border-2 border-[#FF6B35]/30 rounded-2xl p-8 md:p-10">
+          <div className="inline-block bg-[#1A1A1A] backdrop-blur-sm border-2 border-[#FF6B35]/50 rounded-2xl p-8 md:p-10">
             <p className="text-[#FF6B35] font-black text-xl md:text-2xl mb-2">⚠️ ATENÇÃO: APENAS 47 VAGAS NESTE PREÇO</p>
             <p className="text-gray-300 text-base md:text-lg">Após atingir o limite, o valor volta para R$ 297</p>
           </div>
@@ -406,11 +406,11 @@ export default function Home() {
 
       {/* SEÇÃO DE AUTORIDADE - JÚLIA */}
       <section className="py-24 md:py-40 bg-gradient-to-b from-[#0B0B0B] to-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/5 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <Badge className="bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-8 py-3 text-sm md:text-base font-black">
+              <Badge className="bg-[#D4AF37]/20 text-[#D4AF37] border-2 border-[#D4AF37]/50 px-8 py-3 text-sm md:text-base font-black">
                 👩‍💼 QUEM ESTÁ POR TRÁS DESTE MÉTODO
               </Badge>
             </div>
@@ -421,7 +421,7 @@ export default function Home() {
                 <div className="flex-shrink-0">
                   <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#FF6B35] p-1.5 shadow-2xl">
                     <img 
-                      src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" 
+                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop" 
                       alt="Júlia - Especialista em IA"
                       className="w-full h-full rounded-full object-cover"
                     />
@@ -464,7 +464,7 @@ export default function Home() {
       <section className="py-24 md:py-40 bg-gradient-to-b from-black to-[#0B0B0B]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <Badge className="mb-6 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-8 py-3 text-base md:text-lg font-black">
+            <Badge className="mb-6 bg-[#FF6B35]/20 text-[#FF6B35] border-2 border-[#FF6B35]/50 px-8 py-3 text-base md:text-lg font-black">
               🎯 O QUE VOCÊ VAI CONQUISTAR
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
@@ -500,7 +500,7 @@ export default function Home() {
       <section className="py-24 md:py-40 bg-gradient-to-b from-[#0B0B0B] to-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <Badge className="mb-6 bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 px-8 py-3 text-base md:text-lg font-black">
+            <Badge className="mb-6 bg-[#D4AF37]/20 text-[#D4AF37] border-2 border-[#D4AF37]/50 px-8 py-3 text-base md:text-lg font-black">
               💬 EXPERIÊNCIAS REAIS COM IA
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
@@ -526,7 +526,7 @@ export default function Home() {
                 text: "Esse método me mostrou que qualquer pessoa pode aprender IA sem experiência.",
                 name: "Mariana Costa",
                 role: "Designer Freelancer",
-                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop"
+                image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop"
               }
             ].map((testimonial, index) => (
               <Card key={index} className="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0B0B0B] border-2 border-[#2A2A2A] hover:border-[#FF6B35] transition-all duration-300 group">
@@ -559,7 +559,7 @@ export default function Home() {
 
       {/* SEÇÃO DE BÔNUS PREMIUM */}
       <section className="py-24 md:py-40 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/5 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/10 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-20">
             <Badge className="mb-6 bg-gradient-to-r from-[#D4AF37] to-[#FF6B35] text-black px-8 py-4 text-lg md:text-xl font-black shadow-2xl animate-pulse">
@@ -587,7 +587,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-black text-white mb-3">{bonus.title}</h3>
                 <p className="text-gray-400 text-base leading-relaxed mb-4">{bonus.desc}</p>
-                <Badge className="bg-green-500/20 text-green-400 border border-green-500/30 px-4 py-2 text-sm font-black">
+                <Badge className="bg-green-500/20 text-green-400 border-2 border-green-500/50 px-4 py-2 text-sm font-black">
                   ✓ INCLUSO GRÁTIS
                 </Badge>
               </Card>
@@ -611,7 +611,7 @@ export default function Home() {
       <section className="py-24 md:py-40 bg-gradient-to-b from-[#0B0B0B] to-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <Badge className="mb-6 bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30 px-8 py-3 text-base md:text-lg font-black">
+            <Badge className="mb-6 bg-[#FF6B35]/20 text-[#FF6B35] border-2 border-[#FF6B35]/50 px-8 py-3 text-base md:text-lg font-black">
               📚 CONTEÚDO COMPLETO
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
@@ -702,7 +702,7 @@ export default function Home() {
 
       {/* SEÇÃO DE GARANTIA */}
       <section className="py-24 md:py-40 bg-gradient-to-b from-black to-[#0B0B0B] relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
