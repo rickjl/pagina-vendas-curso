@@ -373,12 +373,12 @@ export default function Home() {
             <Button 
               onClick={handleCheckout}
               size="lg" 
-              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-xl md:text-3xl font-black rounded-2xl shadow-2xl hover:shadow-[#D4AF37]/50 transition-all duration-300 hover:scale-105 w-full md:w-auto group relative overflow-hidden"
+              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-6 md:px-10 py-6 md:py-8 text-base md:text-2xl lg:text-3xl font-black rounded-2xl shadow-2xl hover:shadow-[#D4AF37]/50 transition-all duration-300 hover:scale-105 w-full md:w-auto group relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 animate-shimmer"></div>
-              <Sparkles className="w-7 h-7 md:w-9 md:h-9 mr-3 group-hover:rotate-12 transition-transform" />
-              <span>QUERO MUDAR MINHA VIDA AGORA</span>
-              <ArrowRight className="ml-3 w-7 h-7 md:w-9 md:h-9 group-hover:translate-x-1 transition-transform" />
+              <Sparkles className="w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 mr-2 md:mr-3 group-hover:rotate-12 transition-transform" />
+              <span className="leading-tight">QUERO MUDAR MINHA VIDA AGORA</span>
+              <ArrowRight className="ml-2 md:ml-3 w-5 h-5 md:w-7 md:h-7 lg:w-9 lg:h-9 group-hover:translate-x-1 transition-transform" />
             </Button>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm md:text-base">
@@ -598,10 +598,10 @@ export default function Home() {
             <Button 
               onClick={handleCheckout}
               size="lg" 
-              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-2xl md:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-6 md:px-10 py-6 md:py-8 text-lg md:text-2xl lg:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 w-full md:w-auto"
             >
               🎁 QUERO TODOS OS BÔNUS AGORA
-              <ArrowRight className="ml-3 w-7 h-7" />
+              <ArrowRight className="ml-2 md:ml-3 w-6 h-6 md:w-7 md:h-7" />
             </Button>
           </div>
         </div>
@@ -691,10 +691,10 @@ export default function Home() {
             <Button 
               onClick={handleCheckout}
               size="lg" 
-              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-2xl md:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-6 md:px-10 py-6 md:py-8 text-lg md:text-2xl lg:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 w-full md:w-auto"
             >
               📚 QUERO ACESSO COMPLETO
-              <ArrowRight className="ml-3 w-7 h-7" />
+              <ArrowRight className="ml-2 md:ml-3 w-6 h-6 md:w-7 md:h-7" />
             </Button>
           </div>
         </div>
@@ -767,10 +767,10 @@ export default function Home() {
               <Button 
                 onClick={handleCheckout}
                 size="lg" 
-                className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-10 py-8 text-2xl md:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300"
+                className="bg-gradient-to-r from-[#FF6B35] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#FF6B35] text-black px-6 md:px-10 py-6 md:py-8 text-lg md:text-2xl lg:text-3xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 w-full md:w-auto"
               >
                 🛡️ COMEÇAR SEM RISCOS AGORA
-                <ArrowRight className="ml-3 w-7 h-7" />
+                <ArrowRight className="ml-2 md:ml-3 w-6 h-6 md:w-7 md:h-7" />
               </Button>
             </div>
           </div>
@@ -794,10 +794,10 @@ export default function Home() {
           <Button 
             onClick={handleCheckout}
             size="lg" 
-            className="bg-black text-[#D4AF37] hover:bg-[#1A1A1A] px-12 py-10 text-3xl md:text-5xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 group border-4 border-black"
+            className="bg-black text-[#D4AF37] hover:bg-[#1A1A1A] px-6 md:px-12 py-6 md:py-10 text-xl md:text-4xl lg:text-5xl font-black rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 group border-4 border-black w-full md:w-auto"
           >
-            🚀 GARANTIR ACESSO AGORA — VAGAS LIMITADAS
-            <ArrowRight className="ml-4 w-10 h-10 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
+            <span className="leading-tight">🚀 GARANTIR ACESSO AGORA — VAGAS LIMITADAS</span>
+            <ArrowRight className="ml-2 md:ml-4 w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 group-hover:translate-x-2 transition-transform" />
           </Button>
 
           <div className="space-y-5">
