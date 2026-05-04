@@ -1,849 +1,731 @@
 "use client";
 
-import { Check, Shield, Clock, TrendingUp, Users, Star, ArrowRight, Lock, MessageCircle, ChevronDown, Zap, Target, Award, Rocket, X, Sparkles, DollarSign, Trophy, AlertCircle, Gift, Timer, Send, Brain, Lightbulb, BookOpen, Video, FileText, CheckCircle, Play, Phone, Wifi, Battery } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  Check, Shield, Clock, Users, Star, ArrowRight, Lock,
+  MessageCircle, Zap, Target, Award, Rocket, X, Sparkles,
+  DollarSign, AlertCircle, Gift, Send, Brain, BookOpen,
+  Video, FileText, CheckCircle, Play, Wifi, Battery,
+  TrendingUp, ChevronRight
+} from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [chatType, setChatType] = useState<'whatsapp' | 'telegram' | null>(null);
-  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 47, seconds: 30 });
-  const [chatMessages, setChatMessages] = useState<Array<{type: 'bot' | 'user', text: string}>>([]);
-  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState({ hours: 1, minutes: 52, seconds: 17 });
+  const [chatMessages, setChatMessages] = useState<Array<{ type: 'bot' | 'user'; text: string }>>([]);
+  const [pulse, setPulse] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
-          return { hours: prev.hours, minutes: prev.minutes - 1, seconds: 59 };
-        } else if (prev.hours > 0) {
-          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        }
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
         return prev;
       });
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => setPulse(p => !p), 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   const CHECKOUT_URL = "https://pay.kiwify.com.br/2VJCa4D";
-
-  const handleCheckout = () => {
-    window.open(CHECKOUT_URL, '_blank');
-  };
-
-  const handleWhatsAppOpen = () => {
-    setChatType('whatsapp');
-    setChatMessages([
-      { type: 'bot', text: '👋 Olá! Sou o assistente virtual do WhatsApp!' },
-      { type: 'bot', text: '📱 Número: +55 (19) 98116-8970' },
-      { type: 'bot', text: '🤖 Estou aqui para te ajudar com todas as suas dúvidas sobre o curso! Escolha uma pergunta abaixo:' }
-    ]);
-  };
-
-  const handleTelegramOpen = () => {
-    setChatType('telegram');
-    setChatMessages([
-      { type: 'bot', text: '👋 Olá! Bem-vindo ao Telegram!' },
-      { type: 'bot', text: '🔒 Para acessar nosso grupo exclusivo no Telegram, você precisa fazer parte da área de membros adquirindo o curso.' },
-      { type: 'bot', text: '💬 Mas fique tranquilo! Posso te ajudar com dúvidas sobre o curso aqui mesmo. Escolha uma pergunta abaixo:' }
-    ]);
-  };
-
-  const handleCloseChat = () => {
-    setChatType(null);
-    setChatMessages([]);
-    setSelectedQuestion(null);
-  };
+  const handleCheckout = () => window.open(CHECKOUT_URL, '_blank');
 
   const faqDatabase = [
-    {
-      question: "💳 Como funciona o pagamento?",
-      answer: "O pagamento é super simples e seguro! Você pode pagar com cartão de crédito (em até 12x de R$ 4,70), PIX (com desconto) ou boleto bancário. Assim que o pagamento for confirmado, você recebe acesso imediato ao curso completo. O processo é 100% seguro pela Kiwify.",
-      followUp: "Quer garantir sua vaga agora?"
-    },
-    {
-      question: "📚 O que vou aprender no curso?",
-      answer: "Você vai aprender um método completo e validado para ganhar dinheiro online usando IA! São 4 módulos estratégicos com 9 aulas práticas que ensinam desde o básico até estratégias avançadas de monetização. Tudo explicado passo a passo, do zero, sem precisar de experiência prévia.",
-      followUp: "Quer ver o conteúdo completo dos módulos?"
-    },
-    {
-      question: "⏰ Por quanto tempo tenho acesso?",
-      answer: "Seu acesso é VITALÍCIO! Isso mesmo, você paga uma única vez e tem acesso para sempre. Pode assistir as aulas quando quiser, quantas vezes quiser, no seu ritmo. Além disso, todas as atualizações futuras do curso são GRATUITAS para você!",
-      followUp: "Incrível, né? Quer começar agora?"
-    },
-    {
-      question: "🛡️ Como funciona a garantia?",
-      answer: "Temos uma garantia INCONDICIONAL de 7 dias! Você pode acessar todo o conteúdo, aplicar o método, e se por qualquer motivo não gostar, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia. O risco é todo nosso!",
-      followUp: "Você não tem nada a perder, só a ganhar!"
-    },
-    {
-      question: "👤 Preciso aparecer ou mostrar meu rosto?",
-      answer: "NÃO! Esse é um dos grandes diferenciais do método. Você não precisa aparecer, não precisa gravar vídeos, não precisa criar conteúdo nas redes sociais. Tudo é feito de forma anônima e discreta. Perfeito para quem tem vergonha ou não quer se expor!",
-      followUp: "Ideal para você, certo?"
-    },
-    {
-      question: "🎓 Sou iniciante, consigo fazer?",
-      answer: "SIM! O curso foi criado ESPECIALMENTE para iniciantes. Tudo é explicado do zero, passo a passo, de forma simples e clara. Você não precisa de nenhuma experiência prévia. Nossos alunos que mais faturam são justamente os que começaram do absoluto zero!",
-      followUp: "Você está no lugar certo!"
-    },
-    {
-      question: "💰 Quanto posso ganhar?",
-      answer: "Nossos alunos ganham de R$ 1.000 a R$ 5.000 por mês, alguns até mais! Claro que os resultados variam de pessoa para pessoa, dependendo da dedicação e aplicação do método. Mas seguindo o passo a passo, você tem tudo para alcançar resultados incríveis!",
-      followUp: "Pronto para começar sua jornada?"
-    },
-    {
-      question: "⏱️ Quanto tempo preciso dedicar por dia?",
-      answer: "Com apenas 2 a 3 horas por dia você já consegue aplicar tudo que ensinamos! Muitos alunos fazem nas horas vagas, depois do trabalho ou nos finais de semana. Você adapta ao seu ritmo e disponibilidade. Flexibilidade total!",
-      followUp: "Cabe na sua rotina?"
-    },
-    {
-      question: "📱 Terei suporte se tiver dúvidas?",
-      answer: "SIM! Você terá acesso ao nosso grupo VIP exclusivo no Telegram, onde nossa equipe e outros alunos estão prontos para te ajudar. Além disso, pode entrar em contato direto pelo WhatsApp. Ninguém fica sem suporte!",
-      followUp: "Você nunca estará sozinho!"
-    },
-    {
-      question: "🎁 Quais são os bônus inclusos?",
-      answer: "Você recebe 5 BÔNUS INCRÍVEIS de forma totalmente gratuita: Lista de Prompts Prontos, Ferramentas Recomendadas, Checklist Primeira Venda, Scripts de Vídeos e Modelos de Post para Redes Sociais. Tudo isso para acelerar seus resultados!",
-      followUp: "Bônus exclusivos por tempo limitado!"
-    },
-    {
-      question: "🚀 Quando posso começar?",
-      answer: "AGORA MESMO! Assim que seu pagamento for confirmado (instantâneo no cartão), você recebe o acesso por email em até 2 minutos. Pode começar a assistir as aulas imediatamente e aplicar o método hoje mesmo!",
-      followUp: "Vamos começar?"
-    },
-    {
-      question: "💻 Preciso de computador ou celular serve?",
-      answer: "Você pode acessar o curso tanto no computador quanto no celular ou tablet! A plataforma é 100% responsiva e funciona perfeitamente em qualquer dispositivo. Estude de onde estiver, quando quiser!",
-      followUp: "Total flexibilidade para você!"
-    }
+    { question: "💳 Como funciona o pagamento?", answer: "Cartão em até 12x de R$ 4,70, PIX com desconto ou boleto. Acesso imediato após confirmação, 100% seguro via Kiwify.", followUp: "Quer garantir sua vaga agora?" },
+    { question: "📚 O que vou aprender?", answer: "4 módulos com 9 aulas práticas — do zero ao avançado. Método completo e validado para ganhar dinheiro com IA.", followUp: "Quer ver os módulos completos?" },
+    { question: "⏰ Por quanto tempo tenho acesso?", answer: "Acesso VITALÍCIO! Paga uma vez, acessa para sempre. Atualizações futuras também são gratuitas para você.", followUp: "Incrível, né? Quer começar agora?" },
+    { question: "🛡️ Como funciona a garantia?", answer: "Garantia INCONDICIONAL de 7 dias. Acesse tudo, aplique o método — se não gostar, 100% do dinheiro de volta. Sem perguntas.", followUp: "Você não tem nada a perder!" },
+    { question: "👤 Preciso aparecer?", answer: "NÃO! Método 100% anônimo. Sem gravar vídeos, sem criar conteúdo, sem mostrar rosto. Funciona nos bastidores.", followUp: "Perfeito para quem não quer se expor!" },
+    { question: "🎓 Sou iniciante, funciona?", answer: "SIM! Criado especialmente para iniciantes. Explicado do zero, passo a passo. Quem mais fatura são os que começaram do zero!", followUp: "Você está no lugar certo!" },
+    { question: "💰 Quanto posso ganhar?", answer: "Alunos ganham de R$ 1.000 a R$ 5.000/mês. Depende da dedicação, mas seguindo o método você tem tudo para ter resultados incríveis.", followUp: "Pronto para começar?" },
+    { question: "⏱️ Quanto tempo por dia?", answer: "Apenas 2 a 3 horas por dia já é suficiente! Muitos fazem nas horas vagas, após o trabalho ou nos finais de semana.", followUp: "Cabe na sua rotina!" },
+    { question: "📱 Terei suporte?", answer: "SIM! Grupo VIP no Telegram + WhatsApp direto. Nossa equipe e alunos prontos para te ajudar. Você nunca ficará sozinho!", followUp: "Suporte completo incluído!" },
+    { question: "🎁 Quais são os bônus?", answer: "5 bônus grátis: Prompts Prontos, Ferramentas Recomendadas, Checklist Primeira Venda, Scripts de Vídeos e Modelos de Post.", followUp: "Bônus exclusivos por tempo limitado!" },
+    { question: "🚀 Quando começo?", answer: "AGORA MESMO! Pagamento confirmado, acesso por email em 2 minutos. Pode começar a assistir as aulas imediatamente!", followUp: "Vamos começar?" },
+    { question: "💻 Celular serve?", answer: "Sim! Funciona em computador, celular e tablet. Plataforma 100% responsiva. Estude de onde quiser, quando quiser!", followUp: "Total flexibilidade para você!" }
   ];
 
-  const handleQuestionClick = (question: string, answer: string, followUp: string) => {
-    setChatMessages(prev => [
-      ...prev,
-      { type: 'user', text: question },
-      { type: 'bot', text: answer },
-      { type: 'bot', text: followUp }
-    ]);
-    setSelectedQuestion(question);
-
+  const handleQuestionClick = (q: string, a: string, f: string) => {
+    setChatMessages(prev => [...prev, { type: 'user', text: q }, { type: 'bot', text: a }, { type: 'bot', text: f }]);
     setTimeout(() => {
-      const chatContainer = document.getElementById('chat-messages');
-      if (chatContainer) {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }
+      const el = document.getElementById('chat-messages');
+      if (el) el.scrollTop = el.scrollHeight;
     }, 100);
   };
 
-  const handleFinalCTA = () => {
-    setChatMessages(prev => [
-      ...prev,
-      { type: 'user', text: 'Quero garantir minha vaga!' },
-      { type: 'bot', text: '🎉 EXCELENTE DECISÃO! Você está a um clique de transformar sua vida. Clique no botão verde abaixo para garantir sua vaga com 95% de desconto!' }
-    ]);
-
-    setTimeout(() => {
-      const chatContainer = document.getElementById('chat-messages');
-      if (chatContainer) {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }
-    }, 100);
+  const openChat = (type: 'whatsapp' | 'telegram') => {
+    setChatType(type);
+    setChatMessages(type === 'whatsapp'
+      ? [
+          { type: 'bot', text: '👋 Olá! Sou assistente do suporte!' },
+          { type: 'bot', text: '📱 WhatsApp: +55 (19) 98116-8970' },
+          { type: 'bot', text: 'Escolha uma pergunta abaixo e te respondo agora:' }
+        ]
+      : [
+          { type: 'bot', text: '👋 Olá! Bem-vindo ao suporte Telegram!' },
+          { type: 'bot', text: '🔒 O grupo VIP é exclusivo para alunos. Mas posso tirar suas dúvidas agora:' }
+        ]);
   };
+
+  const pad = (n: number) => String(n).padStart(2, '0');
 
   return (
-    <div className="min-h-screen bg-[#050505]">
+    <div className="min-h-screen" style={{ background: '#060d06', color: '#ffffff' }}>
 
-      {/* Botões Flutuantes */}
-      <div className="fixed bottom-6 right-4 md:right-6 z-50 flex flex-col gap-3">
-        <button
-          onClick={handleWhatsAppOpen}
-          className="bg-[#25D366] hover:bg-[#20BA5A] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 animate-bounce relative group"
-          aria-label="Chat WhatsApp"
-        >
-          <MessageCircle className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 bg-[#FF4444] text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse text-[10px]">
-            1
-          </span>
-          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#25D366] text-white px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Chat WhatsApp
-          </div>
+      {/* ── Floating Buttons ── */}
+      <div className="fixed bottom-5 right-4 z-50 flex flex-col gap-3">
+        <button onClick={() => openChat('whatsapp')}
+          className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
+          style={{ background: '#25D366', boxShadow: '0 0 20px rgba(37,211,102,0.5)' }}>
+          <MessageCircle className="w-6 h-6 text-white" />
+          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center animate-pulse"
+            style={{ background: '#ff4444', color: '#fff' }}>1</span>
         </button>
-
-        <button
-          onClick={handleTelegramOpen}
-          className="bg-[#229ED9] hover:bg-[#1A85C0] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 relative group"
-          aria-label="Chat Telegram"
-        >
-          <Send className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 bg-[#FF4444] text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center animate-pulse text-[10px]">
-            !
-          </span>
-          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#229ED9] text-white px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Chat Telegram
-          </div>
+        <button onClick={() => openChat('telegram')}
+          className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
+          style={{ background: '#229ED9', boxShadow: '0 0 20px rgba(34,158,217,0.4)' }}>
+          <Send className="w-6 h-6 text-white" />
         </button>
       </div>
 
-      {/* ChatBox */}
+      {/* ── Chat ── */}
       {chatType && (
-        <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-[calc(100vw-2rem)] md:w-[420px] max-w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-300 max-h-[85vh] md:max-h-[600px] flex flex-col">
-          <div className={`p-3 md:p-4 flex items-center justify-between flex-shrink-0 ${
-            chatType === 'whatsapp'
-              ? 'bg-[#075E54]'
-              : 'bg-[#229ED9]'
-          }`}>
-            <div className="flex items-center gap-2 md:gap-3 min-w-0">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                {chatType === 'whatsapp' ? (
-                  <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                ) : (
-                  <Send className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                )}
+        <div className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-[400px] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+          style={{ maxHeight: '85vh', background: '#fff' }}>
+          <div className="flex items-center justify-between p-4 flex-shrink-0"
+            style={{ background: chatType === 'whatsapp' ? '#075E54' : '#229ED9' }}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center"
+                style={{ background: 'rgba(255,255,255,0.2)' }}>
+                {chatType === 'whatsapp' ? <MessageCircle className="w-5 h-5 text-white" /> : <Send className="w-5 h-5 text-white" />}
               </div>
-              <div className="min-w-0">
-                <h3 className="text-white font-black text-sm md:text-base truncate">
-                  {chatType === 'whatsapp' ? 'WhatsApp Suporte' : 'Telegram Suporte'}
-                </h3>
-                <p className="text-white/90 text-[10px] md:text-xs font-bold truncate">
-                  {chatType === 'whatsapp'
-                    ? '🟢 Online agora'
-                    : '🟢 Resposta Instantânea'}
-                </p>
+              <div>
+                <p className="text-white font-black text-sm">{chatType === 'whatsapp' ? 'WhatsApp Suporte' : 'Telegram Suporte'}</p>
+                <p className="text-green-300 text-xs font-bold">🟢 Online agora</p>
               </div>
             </div>
-            <button
-              onClick={handleCloseChat}
-              className="text-white hover:bg-white/20 p-1.5 md:p-2 rounded-full transition-colors flex-shrink-0"
-            >
-              <X className="w-5 h-5 md:w-6 md:h-6" />
+            <button onClick={() => { setChatType(null); setChatMessages([]); }} className="text-white p-2 hover:bg-white/20 rounded-full">
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div id="chat-messages" className="p-3 md:p-4 bg-[#ECE5DD] flex-1 overflow-y-auto space-y-2 md:space-y-3 min-h-0">
-            {chatMessages.map((msg, index) => (
-              <div key={index} className={`flex gap-2 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                {msg.type === 'bot' && (
-                  <div className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    chatType === 'whatsapp' ? 'bg-[#075E54]' : 'bg-[#229ED9]'
-                  }`}>
-                    {chatType === 'whatsapp' ? (
-                      <MessageCircle className="w-3 h-3 md:w-4 md:h-4 text-white" />
-                    ) : (
-                      <Send className="w-3 h-3 md:w-4 md:h-4 text-white" />
-                    )}
-                  </div>
-                )}
-                <div className={`max-w-[75%] md:max-w-[85%] p-2 md:p-3 rounded-2xl shadow-sm ${
-                  msg.type === 'bot'
+          <div id="chat-messages" className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0"
+            style={{ background: '#ECE5DD' }}>
+            {chatMessages.map((m, i) => (
+              <div key={i} className={`flex gap-2 ${m.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] p-3 rounded-2xl text-sm font-medium leading-relaxed shadow-sm ${
+                  m.type === 'bot'
                     ? 'bg-white text-gray-800 rounded-tl-none'
-                    : `text-white rounded-tr-none ${chatType === 'whatsapp' ? 'bg-[#DCF8C6]' : 'bg-[#229ED9]'}`
-                }`}>
-                  <p className={`text-xs md:text-sm font-medium leading-relaxed ${msg.type === 'user' && chatType === 'whatsapp' ? 'text-gray-800' : ''}`}>{msg.text}</p>
+                    : 'text-gray-800 rounded-tr-none'
+                }`} style={m.type === 'user' ? { background: '#DCF8C6' } : {}}>
+                  {m.text}
                 </div>
-                {msg.type === 'user' && (
-                  <div className="w-7 h-7 md:w-8 md:h-8 bg-gray-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-[9px] md:text-xs font-black">Vc</span>
-                  </div>
-                )}
               </div>
             ))}
           </div>
 
-          <div className="p-3 md:p-4 bg-white border-t border-gray-200 max-h-48 md:max-h-56 overflow-y-auto flex-shrink-0">
-            <p className="text-[10px] md:text-xs text-gray-500 text-center font-bold mb-2 md:mb-3">💬 Escolha uma pergunta:</p>
-            <div className="space-y-1.5 md:space-y-2">
-              {faqDatabase.map((faq, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleQuestionClick(faq.question, faq.answer, faq.followUp)}
-                  className={`w-full p-2 md:p-3 rounded-xl text-left text-xs md:text-sm text-gray-700 shadow-sm transition-all border font-bold hover:scale-[1.02] duration-200 ${
-                    chatType === 'whatsapp'
-                      ? 'bg-[#F0FFF4] hover:bg-[#DCF8C6] border-[#25D366]/30 hover:border-[#25D366]'
-                      : 'bg-[#EBF8FF] hover:bg-[#BEE3F8] border-[#229ED9]/30 hover:border-[#229ED9]'
-                  }`}
-                >
-                  {faq.question}
+          <div className="p-3 bg-white border-t overflow-y-auto flex-shrink-0" style={{ maxHeight: '180px' }}>
+            <p className="text-xs text-gray-400 text-center font-bold mb-2">Escolha uma dúvida:</p>
+            <div className="space-y-1.5">
+              {faqDatabase.map((f, i) => (
+                <button key={i} onClick={() => handleQuestionClick(f.question, f.answer, f.followUp)}
+                  className="w-full text-left text-xs p-2.5 rounded-xl font-bold transition-all hover:scale-[1.01] border"
+                  style={{ background: '#f0fdf4', borderColor: '#bbf7d0', color: '#166534' }}>
+                  {f.question}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className={`p-3 md:p-4 border-t-4 border-[#D4AF37] flex-shrink-0 ${
-            chatType === 'whatsapp' ? 'bg-[#075E54]' : 'bg-[#229ED9]'
-          }`}>
-            <Button
-              onClick={() => {
-                handleFinalCTA();
-                setTimeout(() => handleCheckout(), 1500);
-              }}
-              className="w-full bg-[#D4AF37] hover:bg-[#C9A227] text-black font-black py-3 md:py-4 text-sm md:text-base shadow-2xl hover:scale-105 transition-all duration-300"
-            >
-              <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+          <div className="p-4 flex-shrink-0" style={{ background: '#075E54', borderTop: '3px solid #00C853' }}>
+            <button onClick={() => { handleCheckout(); }}
+              className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+              style={{ background: '#00C853', color: '#000', boxShadow: '0 0 20px rgba(0,200,83,0.5)' }}>
+              <Sparkles className="w-4 h-4" />
               GARANTIR MINHA VAGA AGORA
-              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
-            </Button>
-            <p className="text-white text-center text-[10px] md:text-xs mt-2 font-bold">
-              ⚡ Acesso imediato • 🛡️ Garantia de 7 dias
-            </p>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <p className="text-center text-[10px] text-white/80 mt-2 font-bold">⚡ Acesso imediato · 🛡️ Garantia 7 dias</p>
           </div>
         </div>
       )}
 
-      {/* Header Urgência */}
-      <div className="bg-[#FF4444] text-white py-3 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
-          <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 animate-pulse flex-shrink-0" />
-            <p className="text-xs sm:text-sm font-black whitespace-nowrap">
-              OFERTA EXPIRA EM:
-            </p>
-          </div>
-          <div className="flex items-center gap-1.5 bg-black/30 px-4 py-1.5 rounded-lg">
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-black tabular-nums">{String(timeLeft.hours).padStart(2, '0')}</div>
-              <div className="text-[8px] tracking-wider">HRS</div>
-            </div>
-            <div className="text-xl sm:text-2xl font-black">:</div>
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-black tabular-nums">{String(timeLeft.minutes).padStart(2, '0')}</div>
-              <div className="text-[8px] tracking-wider">MIN</div>
-            </div>
-            <div className="text-xl sm:text-2xl font-black">:</div>
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-black tabular-nums">{String(timeLeft.seconds).padStart(2, '0')}</div>
-              <div className="text-[8px] tracking-wider">SEG</div>
-            </div>
-          </div>
-        </div>
+      {/* ══════════════════════════════════
+          BARRA DE URGÊNCIA
+      ══════════════════════════════════ */}
+      <div className="py-2.5 px-4 text-center text-sm font-black flex flex-wrap items-center justify-center gap-2 sm:gap-4"
+        style={{ background: 'linear-gradient(90deg, #004d20, #00C853, #004d20)', color: '#000' }}>
+        <span className="flex items-center gap-1.5">
+          <AlertCircle className="w-4 h-4" />
+          OFERTA ENCERRA EM:
+        </span>
+        <span className="bg-black text-white px-4 py-1 rounded-lg font-black tabular-nums tracking-widest text-base">
+          {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
+        </span>
+        <span className="hidden sm:inline">· Apenas 47 vagas neste preço</span>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-12 md:py-20 px-4">
-        {/* Background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* ══════════════════════════════════
+          HERO
+      ══════════════════════════════════ */}
+      <section className="relative px-4 pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+        {/* Glow de fundo */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(0,200,83,0.12) 0%, transparent 70%)' }} />
 
         <div className="relative z-10 max-w-6xl mx-auto">
 
-          {/* Badge topo */}
-          <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] px-5 py-2.5 rounded-full text-sm font-black">
-              <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span>
-              +3.847 PESSOAS JÁ MUDARAM DE VIDA
+          {/* Social proof topo */}
+          <div className="flex justify-center mb-8">
+            <div className="flex items-center gap-3 px-5 py-2.5 rounded-full border text-sm font-bold"
+              style={{ background: 'rgba(0,200,83,0.1)', borderColor: 'rgba(0,200,83,0.3)', color: '#00C853' }}>
+              <div className="flex -space-x-2">
+                {['photo-1494790108377-be9c29b29330', 'photo-1507003211169-0a1dd7228f2d', 'photo-1487412720507-e7ab37603c6f'].map((p, i) => (
+                  <img key={i} src={`https://images.unsplash.com/${p}?w=60&h=60&fit=crop`}
+                    className="w-7 h-7 rounded-full border-2 object-cover" style={{ borderColor: '#060d06' }} />
+                ))}
+              </div>
+              <span>+3.847 alunos já transformaram a renda</span>
             </div>
           </div>
 
-          {/* Headline + Mockup lado a lado no desktop */}
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+          {/* Layout hero */}
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
 
-            {/* Texto Hero */}
-            <div className="flex-1 text-center lg:text-left max-w-2xl">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-white leading-[1.1] mb-6">
-                Ganhe de{" "}
-                <span className="text-[#D4AF37]">R$ 1.000</span>
-                {" "}a{" "}
-                <span className="text-[#D4AF37]">R$ 5.000</span>
-                <br />
-                <span className="text-2xl sm:text-3xl md:text-4xl text-gray-300 font-bold">
-                  todo mês usando IA — sem aparecer
+            {/* ── Texto ── */}
+            <div className="flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
+
+              {/* Tag acima do título */}
+              <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full"
+                style={{ background: 'rgba(0,200,83,0.15)', color: '#00C853', border: '1px solid rgba(0,200,83,0.3)' }}>
+                <TrendingUp className="w-3.5 h-3.5" />
+                Método validado por +3.847 pessoas
+              </div>
+
+              <h1 className="font-black leading-[1.08] mb-6" style={{ fontSize: 'clamp(2.2rem, 6vw, 4rem)' }}>
+                Descubra Como Ganhar{' '}
+                <span style={{
+                  background: 'linear-gradient(90deg, #00C853, #69F0AE)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  R$ 1.000 a R$ 5.000
+                </span>
+                {' '}por Mês<br />
+                <span className="text-gray-300" style={{ fontSize: '70%', fontWeight: 800 }}>
+                  Usando IA — Sem Aparecer, Sem Experiência
                 </span>
               </h1>
 
-              <p className="text-gray-400 text-base sm:text-lg md:text-xl leading-relaxed mb-8">
-                Método validado, passo a passo, para quem está começando do zero.
-                <span className="text-white font-bold"> Sem experiência. Sem aparecer. Sem criar conteúdo.</span>
+              <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+                Um método simples e validado que pessoas comuns estão usando para criar uma
+                <strong className="text-white"> renda extra de casa</strong>, trabalhando apenas 2-3h por dia,
+                sem precisar aparecer ou criar conteúdo.
               </p>
 
-              {/* Micro provas */}
-              <div className="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
+              {/* Trust signals */}
+              <div className="flex flex-wrap gap-3 mb-8 justify-center lg:justify-start">
                 {[
-                  { icon: Check, text: "Acesso Vitalício", color: "text-[#25D366]" },
-                  { icon: Shield, text: "Garantia 7 Dias", color: "text-[#229ED9]" },
-                  { icon: Zap, text: "Resultado em 30 dias", color: "text-[#D4AF37]" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm font-bold text-gray-300">
-                    <item.icon className={`w-4 h-4 ${item.color} flex-shrink-0`} />
-                    <span>{item.text}</span>
+                  { icon: CheckCircle, text: 'Acesso Vitalício', color: '#00C853' },
+                  { icon: Shield, text: 'Garantia 7 Dias', color: '#00C853' },
+                  { icon: Zap, text: '1ª venda em 30 dias', color: '#FFB300' },
+                ].map((t, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm font-bold" style={{ color: '#aaa' }}>
+                    <t.icon className="w-4 h-4 flex-shrink-0" style={{ color: t.color }} />
+                    {t.text}
                   </div>
                 ))}
               </div>
 
-              {/* CTA Principal */}
+              {/* CTA */}
               <div className="space-y-3">
-                <button
-                  onClick={handleCheckout}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#C9A227] text-black font-black text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-5 rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(212,175,55,0.6)] transition-all duration-300 hover:scale-[1.03] relative overflow-hidden group"
-                >
-                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
-                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
-                  <span className="relative z-10">QUERO MUDAR MINHA VIDA AGORA</span>
-                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
+                <button onClick={handleCheckout}
+                  className="w-full sm:w-auto flex items-center justify-center gap-3 font-black text-lg sm:text-xl px-10 py-5 rounded-2xl transition-all duration-300 hover:scale-[1.03] relative overflow-hidden group"
+                  style={{
+                    background: 'linear-gradient(135deg, #00C853, #00E676)',
+                    color: '#000',
+                    boxShadow: '0 0 40px rgba(0,200,83,0.5), 0 4px 24px rgba(0,0,0,0.4)'
+                  }}>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ background: 'linear-gradient(135deg, #00E676, #69F0AE)' }} />
+                  <DollarSign className="w-6 h-6 relative z-10" />
+                  <span className="relative z-10">QUERO MINHA RENDA EXTRA AGORA</span>
+                  <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
                 </button>
-
-                <p className="text-center sm:text-left text-xs text-gray-500">
-                  🔒 Pagamento 100% seguro via Kiwify · Cartão, PIX ou Boleto
+                <p className="text-xs text-center sm:text-left" style={{ color: '#555' }}>
+                  🔒 Kiwify · Cartão, PIX ou Boleto · 100% Seguro
                 </p>
               </div>
             </div>
 
-            {/* Mockup de Celular — CORRIGIDO */}
+            {/* ── Mockup Celular ── */}
             <div className="flex-shrink-0 flex justify-center">
               <div className="relative">
-                {/* Glow atrás do celular */}
-                <div className="absolute inset-0 bg-[#D4AF37]/20 blur-3xl rounded-full scale-75"></div>
+                {/* Glow */}
+                <div className="absolute inset-0 rounded-full blur-3xl scale-90 pointer-events-none"
+                  style={{ background: 'radial-gradient(circle, rgba(0,200,83,0.25) 0%, transparent 70%)' }} />
 
-                {/* Corpo do celular */}
-                <div className="relative w-[200px] sm:w-[240px] h-[400px] sm:h-[480px] bg-[#1A1A1A] rounded-[36px] border-[6px] border-[#333] shadow-[0_30px_80px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] mx-auto">
+                {/* Frame */}
+                <div className="relative mx-auto rounded-[40px] border-[6px] overflow-hidden"
+                  style={{
+                    width: '220px', height: '460px',
+                    borderColor: '#1a2a1a',
+                    background: '#0a0f0a',
+                    boxShadow: '0 40px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.07)'
+                  }}>
 
-                  {/* Borda interna brilhante */}
-                  <div className="absolute inset-0 rounded-[30px] border border-white/5 pointer-events-none"></div>
-
-                  {/* Câmera/Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#0A0A0A] rounded-b-2xl flex items-center justify-center gap-1.5 z-10">
-                    <div className="w-2 h-2 rounded-full bg-[#1A1A1A] border border-[#333]"></div>
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#2A3A4A]"></div>
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 rounded-b-2xl z-10 flex items-center justify-center"
+                    style={{ background: '#050d05' }}>
+                    <div className="w-2 h-2 rounded-full mr-1" style={{ background: '#1a2a1a' }} />
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#1e3a2f' }} />
                   </div>
 
-                  {/* Botões laterais */}
-                  <div className="absolute -left-[8px] top-24 w-[4px] h-8 bg-[#2A2A2A] rounded-l-sm"></div>
-                  <div className="absolute -left-[8px] top-36 w-[4px] h-12 bg-[#2A2A2A] rounded-l-sm"></div>
-                  <div className="absolute -left-[8px] top-52 w-[4px] h-12 bg-[#2A2A2A] rounded-l-sm"></div>
-                  <div className="absolute -right-[8px] top-32 w-[4px] h-16 bg-[#2A2A2A] rounded-r-sm"></div>
+                  {/* Botão lateral */}
+                  <div className="absolute -right-2 top-28 w-1 h-16 rounded-r-sm" style={{ background: '#1a2a1a' }} />
 
-                  {/* Tela do celular */}
-                  <div className="absolute inset-[3px] rounded-[28px] bg-[#0A0A0A] overflow-hidden">
-
+                  {/* Screen */}
+                  <div className="h-full overflow-hidden" style={{ background: '#060d06' }}>
                     {/* Status bar */}
-                    <div className="flex items-center justify-between px-4 pt-8 pb-1.5">
-                      <span className="text-white text-[9px] font-bold">9:41</span>
+                    <div className="flex items-center justify-between px-4 pt-8 pb-2">
+                      <span className="text-[10px] font-bold" style={{ color: '#aaa' }}>9:41</span>
                       <div className="flex items-center gap-1">
-                        <Wifi className="w-2.5 h-2.5 text-white" />
-                        <Battery className="w-3 h-3 text-white" />
+                        <Wifi className="w-3 h-3" style={{ color: '#aaa' }} />
+                        <Battery className="w-3.5 h-3.5" style={{ color: '#aaa' }} />
                       </div>
                     </div>
 
-                    {/* App content */}
-                    <div className="px-3 py-2 space-y-2.5">
-
-                      {/* Header app */}
-                      <div className="bg-[#D4AF37] rounded-xl p-3 text-center">
-                        <p className="text-black font-black text-[11px] leading-tight">IA QUE DÁ DINHEIRO</p>
-                        <p className="text-black/70 text-[8px] font-bold mt-0.5">Curso Completo</p>
+                    <div className="px-3 space-y-2.5">
+                      {/* Header */}
+                      <div className="rounded-xl p-3 text-center"
+                        style={{ background: 'linear-gradient(135deg, #00C853, #004d20)' }}>
+                        <p className="text-white font-black text-[11px]">IA QUE DÁ DINHEIRO</p>
+                        <p className="text-white/70 text-[8px] mt-0.5">Painel do Aluno</p>
                       </div>
 
-                      {/* Notificação de venda */}
-                      <div className="bg-[#1A2A1A] border border-[#25D366]/40 rounded-lg p-2.5 flex items-center gap-2">
-                        <div className="w-6 h-6 bg-[#25D366] rounded-full flex items-center justify-center flex-shrink-0">
-                          <DollarSign className="w-3 h-3 text-white" />
+                      {/* Notif venda */}
+                      <div className="rounded-xl p-2.5 flex items-center gap-2 border"
+                        style={{ background: 'rgba(0,200,83,0.08)', borderColor: 'rgba(0,200,83,0.25)' }}>
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                          style={{ background: '#00C853' }}>
+                          <DollarSign className="w-3.5 h-3.5 text-black" />
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-[#25D366] text-[9px] font-black">VENDA REALIZADA!</p>
-                          <p className="text-gray-400 text-[8px]">+ R$ 247,00</p>
+                        <div>
+                          <p className="font-black text-[9px]" style={{ color: '#00C853' }}>VENDA REALIZADA!</p>
+                          <p className="text-[8px]" style={{ color: '#666' }}>Pix recebido · + R$ 247,00</p>
                         </div>
                       </div>
 
                       {/* Stats */}
                       <div className="grid grid-cols-2 gap-1.5">
-                        <div className="bg-[#111] rounded-lg p-2.5 text-center">
-                          <p className="text-[#D4AF37] font-black text-sm">R$ 3.2k</p>
-                          <p className="text-gray-500 text-[8px]">Este mês</p>
+                        <div className="rounded-xl p-2.5 text-center" style={{ background: '#0f1a0f' }}>
+                          <p className="font-black text-sm" style={{ color: '#00C853' }}>R$3.2k</p>
+                          <p className="text-[8px]" style={{ color: '#555' }}>Este mês</p>
                         </div>
-                        <div className="bg-[#111] rounded-lg p-2.5 text-center">
-                          <p className="text-[#25D366] font-black text-sm">47</p>
-                          <p className="text-gray-500 text-[8px]">Vendas</p>
+                        <div className="rounded-xl p-2.5 text-center" style={{ background: '#0f1a0f' }}>
+                          <p className="font-black text-sm" style={{ color: '#69F0AE' }}>47</p>
+                          <p className="text-[8px]" style={{ color: '#555' }}>Vendas</p>
                         </div>
                       </div>
 
-                      {/* Progresso */}
-                      <div className="bg-[#111] rounded-lg p-2.5">
-                        <div className="flex justify-between mb-1.5">
-                          <p className="text-white text-[9px] font-bold">Meta do mês</p>
-                          <p className="text-[#D4AF37] text-[9px] font-bold">64%</p>
+                      {/* Barra progresso */}
+                      <div className="rounded-xl p-2.5" style={{ background: '#0f1a0f' }}>
+                        <div className="flex justify-between mb-2">
+                          <p className="text-[9px] font-bold text-white">Meta mensal</p>
+                          <p className="text-[9px] font-black" style={{ color: '#00C853' }}>64%</p>
                         </div>
-                        <div className="h-1.5 bg-[#222] rounded-full overflow-hidden">
-                          <div className="h-full w-[64%] bg-[#D4AF37] rounded-full"></div>
+                        <div className="h-2 rounded-full" style={{ background: '#1a2a1a' }}>
+                          <div className="h-full w-[64%] rounded-full" style={{ background: 'linear-gradient(90deg, #00C853, #69F0AE)' }} />
                         </div>
                       </div>
 
                       {/* Módulos */}
-                      <div className="space-y-1">
-                        {["Fundamentos IA", "Monetização", "Primeira Venda"].map((mod, i) => (
-                          <div key={i} className="flex items-center gap-2 bg-[#111] rounded-lg px-2.5 py-1.5">
-                            <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${i < 2 ? 'bg-[#25D366]' : 'bg-[#333]'}`}>
-                              {i < 2 ? <Check className="w-2.5 h-2.5 text-white" /> : <Play className="w-2 h-2 text-white" />}
-                            </div>
-                            <p className="text-gray-300 text-[9px] font-medium">{mod}</p>
+                      {['Fundamentos IA', 'Monetização', 'Primeira Venda'].map((m, i) => (
+                        <div key={i} className="flex items-center gap-2 px-2.5 py-2 rounded-lg" style={{ background: '#0f1a0f' }}>
+                          <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+                            style={{ background: i < 2 ? '#00C853' : '#1a2a1a' }}>
+                            {i < 2 ? <Check className="w-2.5 h-2.5 text-black" /> : <Play className="w-2 h-2 text-white" />}
                           </div>
-                        ))}
-                      </div>
+                          <p className="text-[9px] font-medium" style={{ color: '#aaa' }}>{m}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Badge flutuante */}
-                <div className="absolute -top-3 -right-3 bg-[#FF4444] text-white text-[10px] font-black px-2 py-1 rounded-full shadow-lg animate-bounce whitespace-nowrap">
+                {/* Badges flutuantes */}
+                <div className="absolute -top-3 -right-4 text-[10px] font-black px-2.5 py-1 rounded-full animate-bounce whitespace-nowrap"
+                  style={{ background: '#ff4444', color: '#fff', boxShadow: '0 4px 12px rgba(255,68,68,0.5)' }}>
                   47 VAGAS
                 </div>
-                <div className="absolute -bottom-3 -left-3 bg-[#25D366] text-white text-[10px] font-black px-2 py-1 rounded-full shadow-lg whitespace-nowrap">
-                  + R$3.2k/mês
+                <div className="absolute -bottom-3 -left-4 text-[10px] font-black px-2.5 py-1.5 rounded-full whitespace-nowrap"
+                  style={{ background: '#00C853', color: '#000', boxShadow: '0 4px 12px rgba(0,200,83,0.5)' }}>
+                  +R$ 3.200/mês
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Scarcity bar */}
-          <div className="mt-12 flex justify-center">
-            <div className="bg-[#1A1A1A] border border-[#FF4444]/30 rounded-xl px-6 py-4 text-center max-w-md w-full">
-              <p className="text-[#FF4444] font-black text-sm mb-2">⚠️ APENAS 47 VAGAS NESTE PREÇO</p>
-              <div className="h-2 bg-[#2A2A2A] rounded-full overflow-hidden">
-                <div className="h-full w-[85%] bg-[#FF4444] rounded-full animate-pulse"></div>
+          {/* Barra de escassez */}
+          <div className="mt-14 max-w-md mx-auto rounded-2xl p-5 border text-center"
+            style={{ background: 'rgba(255,68,68,0.05)', borderColor: 'rgba(255,68,68,0.2)' }}>
+            <p className="font-black text-sm mb-2" style={{ color: '#ff6666' }}>
+              ⚠️ APENAS 47 VAGAS NESTE PREÇO
+            </p>
+            <div className="h-2.5 rounded-full mb-2" style={{ background: '#111' }}>
+              <div className="h-full w-[85%] rounded-full" style={{ background: 'linear-gradient(90deg, #ff4444, #ff8800)' }} />
+            </div>
+            <p className="text-xs" style={{ color: '#555' }}>
+              85% preenchidas · Preço sobe para R$ 297 ao atingir o limite
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          SEÇÃO DE PREÇO
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#040a04' }}>
+        <div className="max-w-lg mx-auto">
+
+          <div className="text-center mb-8">
+            <p className="font-black text-sm uppercase tracking-widest mb-2" style={{ color: '#00C853' }}>
+              Investimento único · acesso vitalício
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white">Comece Hoje Por Apenas</h2>
+          </div>
+
+          <div className="relative rounded-2xl p-8 border-2"
+            style={{
+              background: 'linear-gradient(145deg, #0a1a0a, #060d06)',
+              borderColor: '#00C853',
+              boxShadow: '0 0 60px rgba(0,200,83,0.15)'
+            }}>
+
+            {/* Badge 95% OFF */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-1.5 rounded-full font-black text-xs whitespace-nowrap"
+              style={{ background: 'linear-gradient(90deg, #00C853, #00E676)', color: '#000' }}>
+              95% DE DESCONTO — OFERTA LIMITADA
+            </div>
+
+            {/* Preço */}
+            <div className="text-center mb-6 pt-2">
+              <p className="text-sm line-through mb-1" style={{ color: '#555' }}>De R$ 297,00</p>
+              <div className="flex items-baseline justify-center gap-2">
+                <span className="text-2xl font-black" style={{ color: '#00C853' }}>R$</span>
+                <span className="font-black leading-none" style={{ fontSize: '5rem', color: '#00C853', lineHeight: 1 }}>47</span>
               </div>
-              <p className="text-gray-400 text-xs mt-2">85% das vagas já foram preenchidas · Após atingir o limite: R$ 297</p>
+              <p className="text-sm mt-1" style={{ color: '#666' }}>ou 12x de R$ 4,70 · PIX com desconto extra</p>
+            </div>
+
+            {/* Itens inclusos */}
+            <div className="space-y-3 mb-8">
+              {[
+                '4 módulos + 9 aulas práticas completas',
+                'Acesso vitalício + atualizações grátis',
+                '5 bônus exclusivos (valor R$ 197)',
+                'Grupo VIP no Telegram',
+                'Suporte via WhatsApp',
+                'Certificado de conclusão incluso',
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: '#00C853' }}>
+                    <Check className="w-3 h-3 text-black" />
+                  </div>
+                  <span className="text-sm sm:text-base" style={{ color: '#ddd' }}>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA preço */}
+            <button onClick={handleCheckout}
+              className="w-full flex items-center justify-center gap-3 font-black text-lg py-5 rounded-xl transition-all duration-300 hover:scale-[1.02] relative overflow-hidden group"
+              style={{
+                background: 'linear-gradient(135deg, #00C853, #00E676)',
+                color: '#000',
+                boxShadow: '0 0 40px rgba(0,200,83,0.5)'
+              }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'linear-gradient(135deg, #00E676, #69F0AE)' }} />
+              <Lock className="w-5 h-5 relative z-10" />
+              <span className="relative z-10">GARANTIR ACESSO AGORA</span>
+              <ArrowRight className="w-5 h-5 relative z-10" />
+            </button>
+
+            <div className="flex items-center justify-center gap-5 mt-4">
+              {[
+                { icon: Shield, text: 'Garantia 7 dias', c: '#00C853' },
+                { icon: Lock, text: '100% seguro', c: '#69F0AE' },
+                { icon: Zap, text: 'Acesso imediato', c: '#FFB300' },
+              ].map((x, i) => (
+                <div key={i} className="flex items-center gap-1.5 text-xs font-bold" style={{ color: '#555' }}>
+                  <x.icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: x.c }} />
+                  {x.text}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Seção de Preço — NOVO */}
-      <section className="py-16 px-4 bg-[#080808]">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-gray-400 text-base mb-2">Investimento único, resultado para sempre</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-              Acesso Completo Por
-            </h2>
+      {/* ══════════════════════════════════
+          BENEFÍCIOS
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#060d06' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: '#00C853' }}>
+              O QUE VOCÊ VAI CONQUISTAR
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">Sua Nova Realidade em 30 Dias</h2>
           </div>
 
-          <div className="relative max-w-lg mx-auto">
-            {/* Badge mais popular */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-black text-xs font-black px-6 py-1.5 rounded-full z-10 whitespace-nowrap">
-              OFERTA ESPECIAL — 95% OFF
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: DollarSign, title: 'Renda Extra Real', desc: 'De R$ 1.000 a R$ 5.000/mês trabalhando de casa', accent: '#00C853' },
+              { icon: Clock, title: 'Apenas 2-3h por Dia', desc: 'Trabalhe no seu ritmo, sem abrir mão da sua rotina', accent: '#69F0AE' },
+              { icon: Rocket, title: 'Resultado em 30 Dias', desc: 'Primeira venda garantida seguindo o método passo a passo', accent: '#FFB300' },
+              { icon: Brain, title: 'Método Simples', desc: 'IA aplicada de forma prática, sem termos técnicos', accent: '#00BFA5' },
+              { icon: Shield, title: '100% Anônimo', desc: 'Sem mostrar rosto, sem gravar vídeos, sem aparecer', accent: '#00C853' },
+              { icon: Users, title: 'Suporte Completo', desc: 'Grupo VIP no Telegram + WhatsApp sem resposta perdida', accent: '#69F0AE' },
+            ].map((b, i) => (
+              <div key={i} className="rounded-xl p-6 border transition-all duration-300 hover:translate-y-[-3px] group"
+                style={{ background: '#0a1a0a', borderColor: '#0f2a0f' }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
+                  style={{ background: `${b.accent}15` }}>
+                  <b.icon className="w-6 h-6" style={{ color: b.accent }} />
+                </div>
+                <h3 className="font-black text-lg text-white mb-2">{b.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#666' }}>{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          AUTORIDADE
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#040a04' }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="rounded-2xl p-6 sm:p-10 border flex flex-col sm:flex-row items-center sm:items-start gap-8"
+            style={{ background: '#0a1a0a', borderColor: '#0f2a0f' }}>
+
+            <div className="flex-shrink-0">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2"
+                style={{ borderColor: '#00C853' }}>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop"
+                  alt="Júlia" className="w-full h-full object-cover" />
+              </div>
+              <div className="text-center mt-3">
+                <p className="font-black text-white text-sm">Júlia</p>
+                <p className="text-xs" style={{ color: '#00C853' }}>Especialista em IA</p>
+              </div>
             </div>
 
-            <div className="bg-[#111] border-2 border-[#D4AF37] rounded-2xl p-8 text-center shadow-[0_0_60px_rgba(212,175,55,0.15)]">
-
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div>
-                  <p className="text-gray-500 text-sm line-through">De R$ 297</p>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-[#D4AF37] text-2xl font-black">R$</span>
-                    <span className="text-[#D4AF37] text-6xl sm:text-7xl font-black leading-none">47</span>
-                  </div>
-                  <p className="text-gray-400 text-sm">ou 12x de R$ 4,70</p>
-                </div>
+            <div className="flex-1 text-center sm:text-left">
+              <p className="font-black text-xl sm:text-2xl text-white mb-4">
+                De onde surgiu o <span style={{ color: '#00C853' }}>método</span>
+              </p>
+              <div className="space-y-3 text-sm sm:text-base leading-relaxed" style={{ color: '#aaa' }}>
+                <p>Quando descobri a IA, estava precisando de uma renda extra e sem ideia por onde começar.</p>
+                <p>Em poucos meses percebi que era <strong className="text-white">muito mais simples do que parecia</strong> e que qualquer pessoa conseguia aplicar — sem experiência técnica, sem aparecer.</p>
+                <p style={{ color: '#00C853', fontWeight: 700 }}>Hoje minha missão é provar que você também consegue, partindo do zero.</p>
               </div>
 
-              {/* O que está incluso */}
-              <div className="space-y-3 mb-8 text-left">
-                {[
-                  "Curso completo com 4 módulos e 9 aulas",
-                  "Acesso vitalício + atualizações grátis",
-                  "5 bônus exclusivos no valor de R$ 197",
-                  "Grupo VIP no Telegram",
-                  "Suporte via WhatsApp",
-                  "Certificado de conclusão"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="w-5 h-5 bg-[#25D366] rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-200 text-sm sm:text-base">{item}</span>
+              <div className="flex flex-wrap gap-4 mt-6 justify-center sm:justify-start">
+                {['+3.847 alunos', '97% aprovação', 'Desde 2022'].map((s, i) => (
+                  <div key={i} className="text-center px-4 py-2 rounded-xl border"
+                    style={{ background: 'rgba(0,200,83,0.08)', borderColor: 'rgba(0,200,83,0.2)' }}>
+                    <p className="font-black text-sm" style={{ color: '#00C853' }}>{s}</p>
                   </div>
                 ))}
               </div>
-
-              <button
-                onClick={handleCheckout}
-                className="w-full inline-flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#C9A227] text-black font-black text-lg sm:text-xl px-8 py-4 sm:py-5 rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(212,175,55,0.6)] transition-all duration-300 hover:scale-[1.02] relative overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
-                <Lock className="w-5 h-5 relative z-10" />
-                <span className="relative z-10">GARANTIR ACESSO AGORA</span>
-                <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-              </button>
-
-              <div className="flex items-center justify-center gap-4 mt-4">
-                <div className="flex items-center gap-1.5 text-gray-400 text-xs">
-                  <Shield className="w-3.5 h-3.5 text-[#25D366]" />
-                  <span>Garantia 7 dias</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-gray-400 text-xs">
-                  <Lock className="w-3.5 h-3.5 text-[#229ED9]" />
-                  <span>100% seguro</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-gray-400 text-xs">
-                  <Zap className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span>Acesso imediato</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Seção Autoridade */}
-      <section className="py-16 md:py-24 px-4 bg-[#050505]">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] px-4 py-2 rounded-full text-sm font-black mb-4">
-              QUEM ESTÁ POR TRÁS DESTE MÉTODO
-            </div>
-          </div>
-
-          <div className="bg-[#0F0F0F] border border-[#2A2A2A] rounded-2xl p-6 sm:p-10 flex flex-col sm:flex-row items-center sm:items-start gap-8">
-            <div className="flex-shrink-0">
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-[#D4AF37]/10 border-2 border-[#D4AF37]/30 p-1 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop"
-                  alt="Júlia - Especialista em IA"
-                  className="w-full h-full rounded-xl object-cover"
-                />
-              </div>
-            </div>
-
-            <div className="flex-1 text-center sm:text-left space-y-4">
-              <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-1">
-                  Olá, me chamo <span className="text-[#D4AF37]">Júlia</span>
-                </h2>
-                <p className="text-gray-500 text-sm">Especialista em IA para Monetização</p>
-              </div>
-
-              <div className="space-y-3 text-gray-300 text-sm sm:text-base leading-relaxed">
-                <p>Quando descobri a Inteligência Artificial, estava precisando de uma renda extra e não sabia por onde começar.</p>
-                <p>Em poucos meses, aprendi que era <strong className="text-white">muito mais simples do que parecia</strong> — e que qualquer pessoa podia fazer isso de casa, sem aparecer, sem experiência.</p>
-                <p className="text-[#D4AF37] font-bold">Hoje minha missão é mostrar que você também pode, mesmo partindo do zero.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefícios */}
-      <section className="py-16 md:py-24 px-4 bg-[#080808]">
+      {/* ══════════════════════════════════
+          DEPOIMENTOS
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#060d06' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] px-4 py-2 rounded-full text-sm font-black mb-4">
-              O QUE VOCÊ VAI CONQUISTAR
-            </div>
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: '#00C853' }}>
+              RESULTADOS REAIS
+            </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-              Transforme Sua Vida Com IA
+              Quem Aplicou, <span style={{ color: '#00C853' }}>Transformou</span>
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {[
-              { icon: DollarSign, title: "Renda Extra Real", desc: "De R$ 1.000 a R$ 5.000/mês trabalhando de casa", accent: "#25D366" },
-              { icon: Clock, title: "Flexibilidade Total", desc: "Apenas 2-3h por dia no seu próprio horário", accent: "#229ED9" },
-              { icon: Rocket, title: "Resultado Rápido", desc: "Primeira venda em até 30 dias seguindo o método", accent: "#FF6B35" },
-              { icon: Brain, title: "Método Prático", desc: "Aprenda IA aplicada ao ponto, sem enrolação", accent: "#A855F7" },
-              { icon: Shield, title: "100% Anônimo", desc: "Sem mostrar rosto, sem gravar vídeos, sem aparecer", accent: "#D4AF37" },
-              { icon: Users, title: "Suporte VIP", desc: "Grupo Telegram + WhatsApp sempre disponível", accent: "#EC4899" }
-            ].map((benefit, index) => (
-              <div key={index} className="bg-[#0F0F0F] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-6 transition-all duration-300 group hover:translate-y-[-2px]">
-                <div className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style={{ backgroundColor: `${benefit.accent}20` }}>
-                  <benefit.icon className="w-6 h-6" style={{ color: benefit.accent }} />
-                </div>
-                <h3 className="text-white font-black text-lg mb-2">{benefit.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{benefit.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Depoimentos — MELHORADOS */}
-      <section className="py-16 md:py-24 px-4 bg-[#050505]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] px-4 py-2 rounded-full text-sm font-black mb-4">
-              RESULTADOS REAIS DE ALUNOS
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-              Quem Aplicou, Transformou
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-4 sm:gap-6 mb-10">
+          <div className="grid sm:grid-cols-3 gap-4 mb-12">
             {[
               {
-                text: "Em 3 semanas já fiz minha primeira venda de R$ 247. O método é simples demais! Nunca imaginei que seria tão fácil trabalhar de casa com IA.",
-                name: "Ana Paula S.",
-                role: "Ex-atendente, agora empreendedora digital",
-                image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-                earnings: "R$ 2.800/mês"
+                text: 'Em 3 semanas fiz minha primeira venda de R$ 247. O método é simples demais! Nunca imaginei trabalhar de casa ganhando assim.',
+                name: 'Ana Paula S.',
+                role: 'Ex-atendente de loja',
+                img: 'photo-1494790108377-be9c29b29330',
+                earn: 'R$ 2.800/mês'
               },
               {
-                text: "Comecei do absoluto zero, sem saber nada de tecnologia. Hoje estou faturando mais do que no meu emprego. Melhor investimento que já fiz.",
-                name: "Carlos S.",
-                role: "Antes motorista de app, hoje empreendedor",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-                earnings: "R$ 4.100/mês"
+                text: 'Comecei sem saber nada de tecnologia. Hoje estou faturando mais do que no meu emprego. Melhor R$ 47 que já investi na vida.',
+                name: 'Carlos S.',
+                role: 'Antes motorista de app',
+                img: 'photo-1507003211169-0a1dd7228f2d',
+                earn: 'R$ 4.100/mês'
               },
               {
-                text: "Achei que era golpe, mas resolvi tentar pela garantia de 7 dias. Hoje já passei meu salário anterior. A Júlia explica tudo de forma simples!",
-                name: "Mariana C.",
-                role: "Designer que triplicou a renda",
-                image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop",
-                earnings: "R$ 3.500/mês"
+                text: 'Achei que era golpe e resolvi tentar pela garantia de 7 dias. Erro meu foi ter esperado tanto tempo. A Júlia explica tudo!',
+                name: 'Mariana C.',
+                role: 'Designer freelancer',
+                img: 'photo-1487412720507-e7ab37603c6f',
+                earn: 'R$ 3.500/mês'
               }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-[#0F0F0F] border border-[#1A1A1A] rounded-xl p-6 flex flex-col">
-                {/* Stars */}
+            ].map((t, i) => (
+              <div key={i} className="rounded-xl p-6 border flex flex-col"
+                style={{ background: '#0a1a0a', borderColor: '#0f2a0f' }}>
                 <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
-                  ))}
+                  {Array(5).fill(0).map((_, j) => <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
                 </div>
-
-                <p className="text-gray-300 text-sm leading-relaxed mb-5 flex-1 italic">
-                  &quot;{testimonial.text}&quot;
+                <p className="text-sm leading-relaxed flex-1 italic mb-5" style={{ color: '#bbb' }}>
+                  &quot;{t.text}&quot;
                 </p>
-
-                <div className="flex items-center gap-3 pt-4 border-t border-[#1A1A1A]">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-[#D4AF37]/30"
-                  />
+                <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: '#0f2a0f' }}>
+                  <img src={`https://images.unsplash.com/${t.img}?w=80&h=80&fit=crop`}
+                    className="w-10 h-10 rounded-full object-cover border-2" style={{ borderColor: '#00C853' }} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-bold text-sm">{testimonial.name}</p>
-                    <p className="text-gray-500 text-xs truncate">{testimonial.role}</p>
+                    <p className="text-white font-bold text-sm">{t.name}</p>
+                    <p className="text-xs truncate" style={{ color: '#555' }}>{t.role}</p>
                   </div>
-                  <div className="bg-[#25D366]/10 border border-[#25D366]/30 rounded-lg px-2 py-1 text-right flex-shrink-0">
-                    <p className="text-[#25D366] font-black text-xs">{testimonial.earnings}</p>
+                  <div className="px-2.5 py-1.5 rounded-lg border flex-shrink-0 text-center"
+                    style={{ background: 'rgba(0,200,83,0.1)', borderColor: 'rgba(0,200,83,0.25)' }}>
+                    <p className="font-black text-xs" style={{ color: '#00C853' }}>{t.earn}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Número social proof */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
+          {/* Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { number: "3.847+", label: "Alunos ativos" },
-              { number: "97%", label: "Recomendam o curso" },
-              { number: "30 dias", label: "Para 1ª venda" },
-              { number: "R$5k", label: "Máximo mensal" }
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-[#D4AF37] font-black text-2xl sm:text-3xl">{stat.number}</p>
-                <p className="text-gray-500 text-xs sm:text-sm">{stat.label}</p>
+              { n: '3.847+', l: 'Alunos ativos' },
+              { n: '97%', l: 'Satisfação' },
+              { n: '30 dias', l: '1ª venda média' },
+              { n: 'R$ 5k', l: 'Máx. mensal' },
+            ].map((s, i) => (
+              <div key={i} className="text-center py-4 rounded-xl border"
+                style={{ background: '#0a1a0a', borderColor: '#0f2a0f' }}>
+                <p className="font-black text-2xl sm:text-3xl" style={{ color: '#00C853' }}>{s.n}</p>
+                <p className="text-xs mt-1" style={{ color: '#555' }}>{s.l}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Bônus */}
-      <section className="py-16 md:py-24 px-4 bg-[#080808]">
+      {/* ══════════════════════════════════
+          BÔNUS
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#040a04' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] px-4 py-2 rounded-full text-sm font-black mb-4 animate-pulse">
-              BÔNUS EXCLUSIVOS — GRÁTIS
-            </div>
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: '#FFB300' }}>
+              BÔNUS EXCLUSIVOS
+            </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2">
-              5 Bônus no Valor de R$ 197
+              +5 Bônus <span style={{ color: '#00C853' }}>Completamente Grátis</span>
             </h2>
-            <p className="text-gray-500 text-base">Inclusos sem custo adicional, por tempo limitado</p>
+            <p style={{ color: '#555', fontSize: '1rem' }}>Valor total: R$ 197 · Inclusos sem custo adicional</p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {[
-              { title: "Lista de Prompts Prontos", icon: FileText, desc: "Templates validados para usar hoje mesmo", value: "R$ 47" },
-              { title: "Ferramentas Recomendadas", icon: Zap, desc: "As melhores IAs para cada tipo de tarefa", value: "R$ 37" },
-              { title: "Checklist Primeira Venda", icon: CheckCircle, desc: "Passo a passo para sua primeira venda", value: "R$ 47" },
-              { title: "Scripts de Vídeos", icon: Video, desc: "Roteiros prontos para criar conteúdo", value: "R$ 37" },
-              { title: "Modelos de Post", icon: Sparkles, desc: "Templates para Instagram, Facebook e mais", value: "R$ 29" }
-            ].map((bonus, index) => (
-              <div key={index} className="bg-[#0F0F0F] border border-[#D4AF37]/20 hover:border-[#D4AF37]/50 rounded-xl p-5 transition-all duration-300 flex flex-col">
+              { title: 'Lista de Prompts Prontos', icon: FileText, desc: 'Templates validados para usar hoje mesmo', val: 'R$ 47' },
+              { title: 'Ferramentas Recomendadas', icon: Zap, desc: 'As melhores IAs para cada tarefa', val: 'R$ 37' },
+              { title: 'Checklist Primeira Venda', icon: CheckCircle, desc: 'Passo a passo para sua 1ª venda', val: 'R$ 47' },
+              { title: 'Scripts de Vídeos', icon: Video, desc: 'Roteiros prontos para criar conteúdo', val: 'R$ 37' },
+              { title: 'Modelos de Post', icon: Sparkles, desc: 'Templates para Instagram e Facebook', val: 'R$ 29' },
+            ].map((b, i) => (
+              <div key={i} className="rounded-xl p-5 border transition-all duration-300 hover:border-[#00C853]/40"
+                style={{ background: '#0a1a0a', borderColor: '#0f2a0f' }}>
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center">
-                    <bonus.icon className="w-5 h-5 text-[#D4AF37]" />
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{ background: 'rgba(0,200,83,0.1)' }}>
+                    <b.icon className="w-5 h-5" style={{ color: '#00C853' }} />
                   </div>
-                  <span className="text-[#25D366] text-xs font-black bg-[#25D366]/10 border border-[#25D366]/30 px-2 py-0.5 rounded-full">GRÁTIS</span>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full"
+                    style={{ background: 'rgba(0,200,83,0.12)', color: '#00C853', border: '1px solid rgba(0,200,83,0.3)' }}>
+                    GRÁTIS
+                  </span>
                 </div>
-                <h3 className="text-white font-black text-base mb-1">{bonus.title}</h3>
-                <p className="text-gray-500 text-sm flex-1">{bonus.desc}</p>
-                <p className="text-gray-600 text-xs mt-3 line-through">Valor: {bonus.value}</p>
+                <h3 className="font-black text-white text-base mb-1">{b.title}</h3>
+                <p className="text-sm mb-3" style={{ color: '#555' }}>{b.desc}</p>
+                <p className="text-xs line-through" style={{ color: '#333' }}>Valor: {b.val}</p>
               </div>
             ))}
           </div>
 
           <div className="text-center">
-            <button
-              onClick={handleCheckout}
-              className="inline-flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#C9A227] text-black font-black text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-5 rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(212,175,55,0.6)] transition-all duration-300 hover:scale-[1.02] w-full sm:w-auto"
-            >
-              <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
-              QUERO TODOS OS BÔNUS GRÁTIS
-              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            <button onClick={handleCheckout}
+              className="w-full sm:w-auto flex items-center justify-center gap-3 font-black text-lg sm:text-xl px-10 py-5 rounded-2xl mx-auto transition-all duration-300 hover:scale-[1.02]"
+              style={{
+                background: 'linear-gradient(135deg, #00C853, #00E676)',
+                color: '#000',
+                boxShadow: '0 0 40px rgba(0,200,83,0.4)'
+              }}>
+              <Gift className="w-6 h-6" />
+              QUERO OS BÔNUS GRÁTIS AGORA
+              <ArrowRight className="w-6 h-6" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* Módulos */}
-      <section className="py-16 md:py-24 px-4 bg-[#050505]">
+      {/* ══════════════════════════════════
+          MÓDULOS
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#060d06' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] px-4 py-2 rounded-full text-sm font-black mb-4">
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: '#00C853' }}>
               CONTEÚDO COMPLETO
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-              4 Módulos Estratégicos
-            </h2>
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">4 Módulos Estratégicos</h2>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[
-              {
-                module: "01",
-                title: "Fundamentos e Primeiros Passos",
-                lessons: "2 aulas práticas",
-                highlights: ["Setup inicial completo", "Primeiros passos com IA", "Ferramentas essenciais"],
-                color: "#229ED9"
-              },
-              {
-                module: "02",
-                title: "Métodos Práticos de Monetização",
-                lessons: "3 aulas práticas",
-                highlights: ["Templates prontos", "Casos de sucesso reais", "Atalhos que funcionam"],
-                color: "#25D366"
-              },
-              {
-                module: "03",
-                title: "Sua Primeira Venda Garantida",
-                lessons: "2 aulas práticas",
-                highlights: ["Scripts de venda prontos", "Onde encontrar clientes", "Como fechar vendas"],
-                color: "#FF6B35"
-              },
-              {
-                module: "04",
-                title: "Escala e Multiplicação de Resultados",
-                lessons: "2 aulas práticas",
-                highlights: ["Automação inteligente", "Escala de 10x", "Gestão de tempo"],
-                color: "#D4AF37"
-              }
-            ].map((course, index) => (
-              <div key={index} className="bg-[#0F0F0F] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 sm:p-6 transition-all duration-300 flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg" style={{ backgroundColor: `${course.color}20`, color: course.color }}>
-                  {course.module}
+              { n: '01', title: 'Fundamentos e Primeiros Passos', lessons: '2 aulas', tags: ['Setup completo', 'Primeiros passos', 'Ferramentas essenciais'], c: '#00C853' },
+              { n: '02', title: 'Métodos Práticos de Monetização', lessons: '3 aulas', tags: ['Templates prontos', 'Casos reais', 'Atalhos validados'], c: '#69F0AE' },
+              { n: '03', title: 'Sua Primeira Venda Garantida', lessons: '2 aulas', tags: ['Scripts de venda', 'Onde buscar clientes', 'Como fechar'], c: '#FFB300' },
+              { n: '04', title: 'Escala e Multiplicação de Renda', lessons: '2 aulas', tags: ['Automação', 'Escala 10x', 'Gestão de tempo'], c: '#00BFA5' },
+            ].map((m, i) => (
+              <div key={i} className="rounded-xl p-5 sm:p-6 border flex flex-col sm:flex-row items-start gap-4 sm:gap-6 transition-all duration-300 hover:translate-x-1"
+                style={{ background: '#0a1a0a', borderColor: '#0f2a0f' }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg flex-shrink-0"
+                  style={{ background: `${m.c}15`, color: m.c }}>
+                  {m.n}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                    <h3 className="text-white font-black text-lg sm:text-xl">{course.title}</h3>
-                    <span className="text-xs font-bold text-gray-500 flex-shrink-0">{course.lessons}</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+                    <h3 className="font-black text-white text-lg">{m.title}</h3>
+                    <span className="text-xs font-bold flex-shrink-0" style={{ color: '#444' }}>{m.lessons}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {course.highlights.map((highlight, idx) => (
-                      <div key={idx} className="flex items-center gap-1.5 text-xs text-gray-400 bg-[#111] px-3 py-1.5 rounded-lg border border-[#1A1A1A]">
-                        <Zap className="w-3 h-3 flex-shrink-0" style={{ color: course.color }} />
-                        {highlight}
+                    {m.tags.map((tag, j) => (
+                      <div key={j} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border"
+                        style={{ background: '#060d06', borderColor: '#1a2a1a', color: '#666' }}>
+                        <ChevronRight className="w-3 h-3 flex-shrink-0" style={{ color: m.c }} />
+                        {tag}
                       </div>
                     ))}
                   </div>
@@ -853,124 +735,141 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-10">
-            <button
-              onClick={handleCheckout}
-              className="inline-flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#C9A227] text-black font-black text-base sm:text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:scale-[1.02] w-full sm:w-auto"
-            >
+            <button onClick={handleCheckout}
+              className="w-full sm:w-auto flex items-center justify-center gap-3 font-black text-base sm:text-lg px-8 py-4 rounded-xl mx-auto transition-all duration-300 hover:scale-[1.02]"
+              style={{ background: 'rgba(0,200,83,0.1)', color: '#00C853', border: '1px solid rgba(0,200,83,0.3)' }}>
               <BookOpen className="w-5 h-5" />
-              QUERO ACESSO COMPLETO
+              QUERO ACESSO AOS 4 MÓDULOS
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* Garantia */}
-      <section className="py-16 md:py-24 px-4 bg-[#080808]">
+      {/* ══════════════════════════════════
+          GARANTIA
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: '#040a04' }}>
         <div className="max-w-3xl mx-auto text-center">
-          <div className="bg-[#0F0F0F] border-2 border-[#25D366]/30 rounded-2xl p-8 sm:p-12 shadow-[0_0_60px_rgba(37,211,102,0.05)]">
-            <div className="w-20 h-20 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-10 h-10 text-[#25D366]" />
+          <div className="rounded-2xl p-8 sm:p-12 border-2"
+            style={{ background: '#0a1a0a', borderColor: 'rgba(0,200,83,0.3)', boxShadow: '0 0 60px rgba(0,200,83,0.06)' }}>
+
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+              style={{ background: 'rgba(0,200,83,0.1)', border: '2px solid rgba(0,200,83,0.3)' }}>
+              <Shield className="w-10 h-10" style={{ color: '#00C853' }} />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3">
               Garantia de 7 Dias
             </h2>
-            <p className="text-[#25D366] font-black text-xl sm:text-2xl mb-6">
-              Você não corre NENHUM risco
+            <p className="font-black text-xl sm:text-2xl mb-6" style={{ color: '#00C853' }}>
+              Risco zero. 100% do dinheiro de volta.
+            </p>
+            <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: '#aaa' }}>
+              Acesse o curso completo, aplique o método e se por qualquer motivo não gostar em até 7 dias,
+              <strong className="text-white"> devolvemos 100% do seu dinheiro</strong>. Sem perguntas.
+              Sem burocracia. Só precisa de um email. O risco é nosso — você só tem a ganhar.
             </p>
 
-            <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-8">
-              Acesse o curso completo, aplique o método, veja os resultados. Se por qualquer motivo não gostar em até 7 dias,
-              <strong className="text-white"> devolvemos 100% do seu dinheiro</strong>, sem perguntas, sem burocracia.
-              O risco é todo nosso — você só tem a ganhar.
-            </p>
-
-            <div className="grid sm:grid-cols-3 gap-4 mb-8">
+            <div className="grid sm:grid-cols-3 gap-3 mb-8">
               {[
-                { title: "100% do dinheiro de volta", desc: "Devolução total sem questionamentos" },
-                { title: "Em até 7 dias", desc: "Testou e não gostou, recebe de volta" },
-                { title: "Sem burocracia", desc: "Um email é suficiente para cancelar" }
-              ].map((item, i) => (
-                <div key={i} className="bg-[#25D366]/5 border border-[#25D366]/20 rounded-xl p-4">
-                  <p className="text-white font-black text-sm mb-1">{item.title}</p>
-                  <p className="text-gray-500 text-xs">{item.desc}</p>
+                { t: '100% do valor', d: 'Devolução integral' },
+                { t: 'Até 7 dias', d: 'Sem precisar justificar' },
+                { t: 'Sem burocracia', d: 'Um email e pronto' },
+              ].map((x, i) => (
+                <div key={i} className="py-4 px-3 rounded-xl border"
+                  style={{ background: 'rgba(0,200,83,0.05)', borderColor: 'rgba(0,200,83,0.15)' }}>
+                  <p className="font-black text-sm text-white mb-0.5">{x.t}</p>
+                  <p className="text-xs" style={{ color: '#555' }}>{x.d}</p>
                 </div>
               ))}
             </div>
 
-            <button
-              onClick={handleCheckout}
-              className="w-full inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20BA5A] text-white font-black text-lg sm:text-xl px-8 py-4 sm:py-5 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-[0_0_30px_rgba(37,211,102,0.3)]"
-            >
-              <Shield className="w-5 h-5 sm:w-6 sm:h-6" />
-              COMEÇAR SEM RISCOS AGORA
-              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            <button onClick={handleCheckout}
+              className="w-full flex items-center justify-center gap-3 font-black text-xl py-5 rounded-xl transition-all duration-300 hover:scale-[1.02]"
+              style={{
+                background: 'linear-gradient(135deg, #00C853, #00E676)',
+                color: '#000',
+                boxShadow: '0 0 30px rgba(0,200,83,0.4)'
+              }}>
+              <Shield className="w-6 h-6" />
+              COMEÇAR SEM RISCO AGORA
+              <ArrowRight className="w-6 h-6" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* CTA Final */}
-      <section className="py-16 md:py-24 px-4 bg-[#050505] relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#D4AF37]/5 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* ══════════════════════════════════
+          CTA FINAL
+      ══════════════════════════════════ */}
+      <section className="py-20 px-4 relative overflow-hidden" style={{ background: '#060d06' }}>
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at center, rgba(0,200,83,0.08) 0%, transparent 70%)' }} />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 bg-[#FF4444]/10 border border-[#FF4444]/30 text-[#FF4444] px-5 py-2.5 rounded-full text-sm font-black animate-pulse">
-            ⏰ ÚLTIMAS VAGAS NESTE PREÇO
+          <div className="inline-flex items-center gap-2 text-sm font-black px-5 py-2.5 rounded-full animate-pulse"
+            style={{ background: 'rgba(255,68,68,0.1)', color: '#ff6666', border: '1px solid rgba(255,68,68,0.3)' }}>
+            <AlertCircle className="w-4 h-4" />
+            ÚLTIMAS VAGAS NESTE PREÇO
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight">
-            Sua Decisão Hoje<br />
-            <span className="text-[#D4AF37]">Define Seu Futuro</span>
+          <h2 className="font-black leading-tight" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+            A Decisão de Hoje<br />
+            <span style={{
+              background: 'linear-gradient(90deg, #00C853, #69F0AE)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              Muda o Seu Amanhã
+            </span>
           </h2>
 
-          <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto">
-            Enquanto você hesita, outras pessoas estão fazendo sua primeira venda. Não deixe para amanhã o que pode mudar sua vida hoje.
+          <p className="text-base sm:text-lg" style={{ color: '#555' }}>
+            Enquanto você hesita, outras pessoas estão aplicando o método e fazendo suas primeiras vendas.
+            Não deixe o medo de tentar te impedir de transformar sua vida.
           </p>
 
-          <button
-            onClick={handleCheckout}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#C9A227] text-black font-black text-xl sm:text-2xl px-10 sm:px-16 py-5 sm:py-6 rounded-xl shadow-[0_0_60px_rgba(212,175,55,0.4)] hover:shadow-[0_0_80px_rgba(212,175,55,0.6)] transition-all duration-300 hover:scale-[1.03] relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
-            <Rocket className="w-6 h-6 sm:w-7 sm:h-7 relative z-10" />
-            <span className="relative z-10 leading-tight">GARANTIR ACESSO AGORA</span>
-            <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 relative z-10 group-hover:translate-x-1 transition-transform" />
+          <button onClick={handleCheckout}
+            className="w-full sm:w-auto flex items-center justify-center gap-3 font-black text-xl sm:text-2xl px-12 py-6 rounded-2xl mx-auto transition-all duration-300 hover:scale-[1.03] relative overflow-hidden group"
+            style={{
+              background: 'linear-gradient(135deg, #00C853, #00E676)',
+              color: '#000',
+              boxShadow: '0 0 60px rgba(0,200,83,0.5), 0 8px 32px rgba(0,0,0,0.4)'
+            }}>
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ background: 'linear-gradient(135deg, #00E676, #69F0AE)' }} />
+            <Rocket className="w-7 h-7 relative z-10" />
+            <span className="relative z-10">GARANTIR ACESSO AGORA</span>
+            <ArrowRight className="w-7 h-7 relative z-10 group-hover:translate-x-1 transition-transform" />
           </button>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <Lock className="w-4 h-4 text-[#229ED9]" />
-              <span>Pagamento 100% seguro</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <Zap className="w-4 h-4 text-[#D4AF37]" />
-              <span>Acesso em 2 minutos</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <Shield className="w-4 h-4 text-[#25D366]" />
-              <span>Garantia 7 dias</span>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-5">
+            {[
+              { icon: Lock, text: 'Pagamento 100% seguro', c: '#69F0AE' },
+              { icon: Zap, text: 'Acesso em 2 minutos', c: '#FFB300' },
+              { icon: Shield, text: 'Garantia de 7 dias', c: '#00C853' },
+            ].map((x, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#444' }}>
+                <x.icon className="w-4 h-4 flex-shrink-0" style={{ color: x.c }} />
+                {x.text}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#030303] text-gray-600 py-10 px-4 text-center border-t border-[#111]">
-        <p className="text-sm mb-3 font-bold text-gray-500">© 2024 IA que Dá Dinheiro - Todos os direitos reservados</p>
-        <p className="text-xs max-w-2xl mx-auto mb-6 leading-relaxed">
-          Este produto não garante a obtenção de resultados. Qualquer referência ao desempenho
-          de uma estratégia não deve ser interpretada como garantia de resultados. Os resultados
-          podem variar de pessoa para pessoa.
+      {/* ── Footer ── */}
+      <footer className="py-10 px-4 text-center border-t" style={{ background: '#020702', borderColor: '#0a150a' }}>
+        <p className="text-sm font-bold mb-3" style={{ color: '#333' }}>
+          © 2024 IA que Dá Dinheiro · Todos os direitos reservados
         </p>
-        <div className="flex justify-center gap-8 text-sm">
-          <button onClick={handleWhatsAppOpen} className="hover:text-[#25D366] transition-colors font-bold">
-            WhatsApp
-          </button>
-          <button onClick={handleTelegramOpen} className="hover:text-[#229ED9] transition-colors font-bold">
-            Telegram
-          </button>
+        <p className="text-xs max-w-2xl mx-auto mb-6 leading-relaxed" style={{ color: '#2a2a2a' }}>
+          Este produto não garante a obtenção de resultados. Qualquer referência ao desempenho de uma estratégia não deve ser interpretada como garantia de resultados. Os resultados podem variar de pessoa para pessoa.
+        </p>
+        <div className="flex justify-center gap-8">
+          <button onClick={() => openChat('whatsapp')} className="text-sm font-bold transition-colors hover:text-green-400" style={{ color: '#333' }}>WhatsApp</button>
+          <button onClick={() => openChat('telegram')} className="text-sm font-bold transition-colors hover:text-blue-400" style={{ color: '#333' }}>Telegram</button>
         </div>
       </footer>
     </div>
