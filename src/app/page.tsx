@@ -67,7 +67,21 @@ export default function Home() {
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 0, seconds: 0 });
   const [chatMessages, setChatMessages] = useState<Array<{ type: "bot" | "user"; text: string }>>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [onlineCount, setOnlineCount] = useState(247);
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Simula variação de pessoas online para criar senso de presença
+    const base = 230 + Math.floor(Math.random() * 40);
+    setOnlineCount(base);
+    const t = setInterval(() => {
+      setOnlineCount((p) => {
+        const delta = Math.floor(Math.random() * 7) - 3;
+        return Math.max(190, Math.min(320, p + delta));
+      });
+    }, 8000);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => {
     const STORAGE_KEY = "offer_deadline_v2";
@@ -240,14 +254,23 @@ export default function Home() {
         </div>
       )}
 
+      {/* ═══ BARRA DE ONLINE ═══ */}
+      <div className="py-2 px-4 flex items-center justify-center gap-2 text-xs font-bold"
+        style={{ background: "#0a1a0a", borderBottom: "1px solid #1a2a1a" }}>
+        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+        <span style={{ color: "#888" }}>
+          <span className="font-black" style={{ color: G.primary }}>{onlineCount} pessoas</span> estão visualizando esta página agora
+        </span>
+      </div>
+
       {/* ═══ BARRA DE URGÊNCIA ═══ */}
-      <div className="py-2.5 px-4 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-sm font-black"
-        style={{ background: "linear-gradient(90deg, #004d20, #00C853, #004d20)", color: "#000" }}>
-        <span className="flex items-center gap-1.5"><AlertCircle className="w-4 h-4" /> OFERTA ENCERRA EM:</span>
-        <span className="bg-black text-white px-4 py-1 rounded-lg tabular-nums tracking-widest text-base font-black">
+      <div className="py-3 px-4 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-sm font-black"
+        style={{ background: "#cc0000", color: "#fff" }}>
+        <span className="flex items-center gap-1.5"><AlertCircle className="w-4 h-4" /> OFERTA ESPECIAL EXPIRA EM:</span>
+        <span className="bg-black text-white px-4 py-1 rounded-lg tabular-nums tracking-widest text-base font-black border border-white/20">
           {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
         </span>
-        <span className="hidden sm:inline">· Apenas 47 vagas neste preço</span>
+        <span className="hidden sm:inline">· Após o timer: R$ 297,00</span>
       </div>
 
       {/* ═══════════════════════════════════════
@@ -260,16 +283,19 @@ export default function Home() {
         <div className="relative z-10 max-w-6xl mx-auto">
 
           {/* Social proof topo */}
-          <div className="flex justify-center mb-8">
-            <div className="flex items-center gap-3 px-5 py-2.5 rounded-full border text-sm font-bold"
-              style={{ background: "rgba(0,200,83,0.08)", borderColor: "rgba(0,200,83,0.25)", color: G.primary }}>
-              <div className="flex -space-x-2">
-                {["photo-1494790108377-be9c29b29330", "photo-1507003211169-0a1dd7228f2d", "photo-1487412720507-e7ab37603c6f"].map((p, i) => (
-                  <img key={i} src={`https://images.unsplash.com/${p}?w=60&h=60&fit=crop`}
-                    className="w-7 h-7 rounded-full border-2 object-cover" style={{ borderColor: G.bg }} />
-                ))}
+          <div className="flex justify-center mb-6">
+            <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-3 rounded-2xl border text-sm font-bold"
+              style={{ background: "rgba(0,200,83,0.08)", borderColor: "rgba(0,200,83,0.25)" }}>
+              <div className="flex items-center gap-2">
+                <div className="flex">
+                  {["🟢","🟢","🟢","🟢","🟢"].map((s, i) => <span key={i} className="text-xs">{s}</span>)}
+                </div>
+                <span style={{ color: G.primary }} className="font-black">+3.847 pessoas</span>
+                <span style={{ color: "#999" }}>já estão ganhando com o método</span>
               </div>
-              <span>+3.847 alunos já transformaram sua renda</span>
+              <div className="flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black" style={{ background: "rgba(0,200,83,0.15)", color: G.primary }}>
+                <Star className="w-3 h-3 fill-current" /> 4.9/5 de avaliação
+              </div>
             </div>
           </div>
 
@@ -280,25 +306,32 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest mb-5 px-3 py-1.5 rounded-full"
                 style={{ background: "rgba(0,200,83,0.12)", color: G.primary, border: "1px solid rgba(0,200,83,0.3)" }}>
                 <TrendingUp className="w-3.5 h-3.5" />
-                Método validado · resultado em 30 dias
+                Método validado · +3.847 alunos · desde 2022
               </div>
 
               {/* HEADLINE CIRÚRGICA */}
-              <h1 className="font-black leading-[1.08] mb-5" style={{ fontSize: "clamp(2.1rem, 5.5vw, 3.8rem)" }}>
-                Você Está Cansado de{" "}
-                <span style={{ color: G.red }}>Não Ter Dinheiro</span>
-                {" "}no Final do Mês?
+              <h1 className="font-black leading-[1.05] mb-4" style={{ fontSize: "clamp(2rem, 5.5vw, 3.6rem)" }}>
+                Como Pessoas Comuns Estão{" "}
+                <span style={{ color: G.primary }}>Ganhando R$ 1.000 a R$ 5.000/mês</span>
+                {" "}Usando IA — Sem Aparecer, Sem Experiência
               </h1>
-              <h2 className="font-black mb-6" style={{ fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: G.primaryLight }}>
-                Descubra como ganhar R$ 1.000 a R$ 5.000/mês com IA —<br className="hidden sm:block" />
-                sem aparecer, sem experiência, em apenas 2h por dia
+              <h2 className="font-bold mb-6 leading-relaxed" style={{ fontSize: "clamp(1.05rem, 2.5vw, 1.4rem)", color: "#bbb" }}>
+                O método passo a passo que já gerou renda extra para mais de 3.847 brasileiros comuns, trabalhando apenas 2h por dia de casa
               </h2>
 
-              <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0" style={{ color: G.mutedLight }}>
-                Um método simples que pessoas comuns estão usando para criar uma
-                <strong className="text-white"> renda extra real de casa</strong>, trabalhando nas horas vagas,
-                sem gravar vídeos e sem criar conteúdo.
-              </p>
+              {/* Mini prova social inline */}
+              <div className="flex flex-wrap gap-2 mb-6 justify-center lg:justify-start">
+                {[
+                  { emoji: "💰", val: "R$ 4.100/mês", name: "Carlos S." },
+                  { emoji: "💰", val: "R$ 2.800/mês", name: "Ana Paula" },
+                  { emoji: "💰", val: "R$ 3.500/mês", name: "Mariana C." },
+                ].map((p, i) => (
+                  <div key={i} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border font-bold"
+                    style={{ background: "rgba(0,200,83,0.06)", borderColor: "rgba(0,200,83,0.2)", color: "#aaa" }}>
+                    {p.emoji} <span style={{ color: G.primary }}>{p.val}</span> — {p.name}
+                  </div>
+                ))}
+              </div>
 
               {/* Trust badges */}
               <div className="flex flex-wrap gap-3 mb-8 justify-center lg:justify-start">
@@ -306,6 +339,7 @@ export default function Home() {
                   { icon: CheckCircle, text: "Acesso Vitalício", c: G.primary },
                   { icon: Shield, text: "Garantia 7 Dias", c: G.primary },
                   { icon: Zap, text: "1ª venda em 30 dias", c: G.amber },
+                  { icon: Target, text: "Método 100% anônimo", c: "#00BFA5" },
                 ].map((t, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm font-bold" style={{ color: "#aaa" }}>
                     <t.icon className="w-4 h-4 flex-shrink-0" style={{ color: t.c }} />
@@ -314,16 +348,31 @@ export default function Home() {
                 ))}
               </div>
 
+              {/* Preço visível no hero */}
+              <div className="mb-4 p-4 rounded-2xl border-2 text-center lg:text-left"
+                style={{ background: "rgba(0,200,83,0.05)", borderColor: "rgba(0,200,83,0.3)" }}>
+                <p className="text-sm line-through mb-0.5" style={{ color: "#555" }}>De R$ 297,00</p>
+                <div className="flex items-baseline gap-2 justify-center lg:justify-start">
+                  <span className="text-2xl font-black" style={{ color: G.primary }}>Hoje por apenas</span>
+                  <span className="font-black" style={{ fontSize: "3rem", color: G.primary, lineHeight: 1 }}>R$ 47</span>
+                </div>
+                <p className="text-xs mt-1" style={{ color: "#666" }}>ou 12x de R$ 4,70 · PIX com desconto extra</p>
+              </div>
+
               {/* CTA Hero */}
               <div className="space-y-3">
                 <CTAButton onClick={handleCheckout} size="lg">
-                  <DollarSign className="w-6 h-6" />
-                  QUERO MINHA RENDA EXTRA AGORA
+                  <Lock className="w-6 h-6" />
+                  ACESSAR AGORA POR R$ 47
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </CTAButton>
-                <p className="text-xs text-center lg:text-left" style={{ color: G.muted }}>
-                  🔒 Kiwify · Cartão, PIX ou Boleto · 100% Seguro
-                </p>
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs" style={{ color: G.muted }}>
+                  <span>🔒 Pagamento 100% seguro via Kiwify</span>
+                  <span>·</span>
+                  <span>💳 Cartão, PIX ou Boleto</span>
+                  <span>·</span>
+                  <span>⚡ Acesso em 2 minutos</span>
+                </div>
               </div>
             </div>
 
@@ -427,9 +476,60 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════
+          SEÇÃO VSL / VÍDEO
+      ═══════════════════════════════════════ */}
+      <section className="py-12 px-4" style={{ background: G.bgDark }}>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 text-xs font-black px-3 py-1.5 rounded-full mb-3 animate-pulse"
+              style={{ background: "rgba(255,68,68,0.12)", color: "#ff6666", border: "1px solid rgba(255,68,68,0.3)" }}>
+              <div className="w-2 h-2 rounded-full bg-red-500" />
+              ASSISTA ANTES DE SAIR — APENAS 3 MINUTOS
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              Veja Como Funciona na Prática
+            </h2>
+          </div>
+
+          {/* Player de vídeo — substitua o src pelo seu link do YouTube/Vimeo */}
+          <div className="relative rounded-2xl overflow-hidden border-2 cursor-pointer group"
+            style={{ borderColor: "rgba(0,200,83,0.4)", boxShadow: "0 0 40px rgba(0,200,83,0.15)" }}
+            onClick={handleCheckout}>
+            <div className="aspect-video w-full flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg, #060d06, #0a1a0a)" }}>
+              {/* Thumbnail de fundo */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 opacity-20"
+                  style={{ background: "radial-gradient(circle at center, #00C853 0%, transparent 60%)" }} />
+                <div className="text-center z-10">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                    style={{ background: "rgba(0,200,83,0.2)", border: "3px solid rgba(0,200,83,0.6)", boxShadow: "0 0 40px rgba(0,200,83,0.4)" }}>
+                    <Play className="w-10 h-10 sm:w-12 sm:h-12 ml-1" style={{ color: G.primary }} />
+                  </div>
+                  <p className="font-black text-white text-lg sm:text-xl mb-1">Como ganhar R$ 1.000 a R$ 5.000/mês com IA</p>
+                  <p className="text-sm" style={{ color: "#666" }}>Clique para assistir · 3 minutos que podem mudar sua vida</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 text-center">
+            <p className="text-sm mb-4" style={{ color: "#888" }}>
+              Mais de <strong className="text-white">38.000 pessoas</strong> já assistiram a essa apresentação
+            </p>
+            <CTAButton onClick={handleCheckout} size="md">
+              <Rocket className="w-5 h-5" />
+              QUERO COMEÇAR AGORA POR R$ 47
+              <ArrowRight className="w-5 h-5" />
+            </CTAButton>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════
           PARA QUEM É / NÃO É
       ═══════════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bgDark }}>
+      <section className="py-16 px-4" style={{ background: G.bg }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>TRANSPARÊNCIA TOTAL</p>
@@ -641,35 +741,83 @@ export default function Home() {
       <section className="py-16 px-4" style={{ background: G.bgDark }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>RESULTADOS REAIS</p>
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>RESULTADOS REAIS DE ALUNOS</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-              Quem Aplicou, <span style={{ color: G.primary }}>Transformou</span>
+              Eles Duvidaram. Tentaram. <span style={{ color: G.primary }}>Transformaram.</span>
             </h2>
+            <p className="mt-3 text-sm" style={{ color: "#666" }}>Depoimentos reais de quem aplicou o método</p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-4 mb-12">
+          {/* Depoimentos estilo print de mensagem */}
+          <div className="grid sm:grid-cols-3 gap-4 mb-8">
             {[
-              { text: "Em 3 semanas fiz minha primeira venda de R$ 247. O método é simples demais! Nunca imaginei trabalhar de casa ganhando assim.", name: "Ana Paula S.", role: "Ex-atendente de loja", img: "photo-1494790108377-be9c29b29330", earn: "R$ 2.800/mês" },
-              { text: "Comecei sem saber nada de tecnologia. Hoje estou faturando mais do que no meu emprego. Melhor R$ 47 que já investi na vida.", name: "Carlos S.", role: "Antes motorista de app", img: "photo-1507003211169-0a1dd7228f2d", earn: "R$ 4.100/mês" },
-              { text: "Achei que era golpe e resolvi tentar pela garantia de 7 dias. Erro meu foi ter esperado tanto tempo. A Júlia explica tudo!", name: "Mariana C.", role: "Designer freelancer", img: "photo-1487412720507-e7ab37603c6f", earn: "R$ 3.500/mês" },
+              {
+                msg: "Gente, fiz minha PRIMEIRA VENDA! R$ 247 de uma vez! Comecei há 3 semanas 😱🔥",
+                result: "Hoje: R$ 2.800/mês",
+                name: "Ana Paula S.",
+                role: "Ex-atendente de loja",
+                time: "há 2 dias",
+                initials: "AP",
+                color: "#FF6B9D"
+              },
+              {
+                msg: "Não acredito que fiquei tanto tempo sem fazer isso. Já superei meu salário de motorista. Melhor R$ 47 da minha vida!",
+                result: "Hoje: R$ 4.100/mês",
+                name: "Carlos S.",
+                role: "Antes motorista de app",
+                time: "há 5 dias",
+                initials: "CS",
+                color: "#4ECDC4"
+              },
+              {
+                msg: "Achei que era mais um golpe... mas a garantia de 7 dias me deu coragem. Erro meu foi ter esperado 2 meses para comprar 😅",
+                result: "Hoje: R$ 3.500/mês",
+                name: "Mariana C.",
+                role: "Designer freelancer",
+                time: "há 1 semana",
+                initials: "MC",
+                color: "#A78BFA"
+              },
             ].map((t, i) => (
-              <div key={i} className="rounded-xl p-6 border flex flex-col" style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
-                <div className="flex gap-1 mb-4">
-                  {Array(5).fill(0).map((_, j) => <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
-                </div>
-                <p className="text-sm leading-relaxed flex-1 italic mb-5" style={{ color: "#bbb" }}>&quot;{t.text}&quot;</p>
-                <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: G.bgCardBorder }}>
-                  <img src={`https://images.unsplash.com/${t.img}?w=80&h=80&fit=crop`} className="w-10 h-10 rounded-full object-cover border-2" style={{ borderColor: G.primary }} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white font-bold text-sm">{t.name}</p>
-                    <p className="text-xs truncate" style={{ color: G.muted }}>{t.role}</p>
+              <div key={i} className="rounded-2xl overflow-hidden border" style={{ background: "#0d1a0d", borderColor: "#1a2a1a" }}>
+                {/* Cabeçalho tipo app de mensagem */}
+                <div className="flex items-center gap-3 p-3 border-b" style={{ background: "#0a140a", borderColor: "#1a2a1a" }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 text-white"
+                    style={{ background: t.color }}>
+                    {t.initials}
                   </div>
-                  <div className="px-2.5 py-1.5 rounded-lg border flex-shrink-0" style={{ background: "rgba(0,200,83,0.08)", borderColor: "rgba(0,200,83,0.25)" }}>
-                    <p className="font-black text-xs" style={{ color: G.primary }}>{t.earn}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-black text-white text-sm">{t.name}</p>
+                    <p className="text-[11px]" style={{ color: "#555" }}>{t.role}</p>
+                  </div>
+                  <div className="flex gap-0.5">
+                    {Array(5).fill(0).map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                  </div>
+                </div>
+                {/* Bolha de mensagem */}
+                <div className="p-4">
+                  <div className="p-3 rounded-2xl rounded-tl-sm mb-3" style={{ background: "#1a2a1a" }}>
+                    <p className="text-sm leading-relaxed" style={{ color: "#ddd" }}>&quot;{t.msg}&quot;</p>
+                    <p className="text-[10px] mt-1.5 text-right" style={{ color: "#444" }}>{t.time} ✓✓</p>
+                  </div>
+                  {/* Tag de resultado */}
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "rgba(0,200,83,0.1)", border: "1px solid rgba(0,200,83,0.25)" }}>
+                    <TrendingUp className="w-4 h-4 flex-shrink-0" style={{ color: G.primary }} />
+                    <p className="text-sm font-black" style={{ color: G.primary }}>{t.result}</p>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* CTA dentro da seção de depoimentos */}
+          <div className="text-center mb-10">
+            <p className="text-sm mb-4" style={{ color: "#666" }}>Você pode ser o próximo. Comece hoje por R$ 47.</p>
+            <CTAButton onClick={handleCheckout} size="md">
+              <DollarSign className="w-5 h-5" />
+              QUERO MEU RESULTADO TAMBÉM
+              <ArrowRight className="w-5 h-5" />
+            </CTAButton>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -876,42 +1024,67 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at center, rgba(0,200,83,0.09) 0%, transparent 70%)" }} />
 
-        <div className="relative z-10 max-w-3xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 text-sm font-black px-5 py-2.5 rounded-full animate-pulse"
-            style={{ background: "rgba(255,68,68,0.1)", color: "#ff6666", border: "1px solid rgba(255,68,68,0.3)" }}>
-            <AlertCircle className="w-4 h-4" />
-            ÚLTIMAS VAGAS NESTE PREÇO
+        <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
+          <div className="flex items-center justify-center gap-2 text-xs font-bold" style={{ color: "#666" }}>
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span><strong style={{ color: G.primary }}>{onlineCount} pessoas</strong> estão nesta página agora · Apenas 47 vagas neste preço</span>
           </div>
 
           <h2 className="font-black leading-tight" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
-            A Decisão de Hoje<br />
-            <span style={{ background: `linear-gradient(90deg, ${G.primary}, ${G.primaryLight})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Muda o Seu Amanhã
-            </span>
+            Enquanto Você Hesita,<br />
+            <span style={{ color: G.primary }}>Outros Estão Faturando</span>
           </h2>
 
-          <p className="text-base sm:text-lg" style={{ color: G.muted }}>
-            Enquanto você hesita, outras pessoas estão aplicando o método e fazendo suas primeiras vendas.
-            Não deixe o medo de tentar te impedir de transformar sua vida.
+          <p className="text-base sm:text-lg" style={{ color: "#888" }}>
+            Cada dia que passa sem o método é mais um mês perdido. Por <strong className="text-white">R$ 47</strong> — menos que uma pizza — você tem acesso a um sistema que pode gerar <strong className="text-white">R$ 1.000 a R$ 5.000/mês</strong>. Com garantia de 7 dias. Risco zero.
           </p>
 
+          {/* Box de valor */}
+          <div className="p-6 rounded-2xl border-2 text-left" style={{ background: "rgba(0,200,83,0.05)", borderColor: "rgba(0,200,83,0.3)" }}>
+            <p className="font-black text-center text-white mb-4 text-lg">Você leva tudo isso por R$ 47:</p>
+            <div className="grid sm:grid-cols-2 gap-2">
+              {[
+                "4 módulos + 9 aulas práticas",
+                "Acesso vitalício + atualizações",
+                "5 bônus exclusivos (valor R$ 197)",
+                "Grupo VIP no Telegram",
+                "Suporte via WhatsApp",
+                "Certificado de conclusão",
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#bbb" }}>
+                  <Check className="w-4 h-4 flex-shrink-0" style={{ color: G.primary }} />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <CTAButton onClick={handleCheckout} size="lg">
-            <Rocket className="w-7 h-7" />
-            GARANTIR ACESSO AGORA — R$ 47
-            <ArrowRight className="w-7 h-7 group-hover:translate-x-1 transition-transform" />
+            <Lock className="w-6 h-6" />
+            SIM! QUERO ACESSO AGORA POR R$ 47
+            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </CTAButton>
 
-          <div className="flex flex-wrap items-center justify-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             {[
               { icon: Lock, text: "Pagamento 100% seguro", c: G.primaryLight },
               { icon: Zap, text: "Acesso em 2 minutos", c: G.amber },
               { icon: Shield, text: "Garantia de 7 dias", c: G.primary },
             ].map((x, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#444" }}>
+              <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#555" }}>
                 <x.icon className="w-4 h-4 flex-shrink-0" style={{ color: x.c }} />
                 {x.text}
               </div>
             ))}
+          </div>
+
+          {/* Timer final */}
+          <div className="p-4 rounded-xl border text-center" style={{ background: "rgba(255,68,68,0.06)", borderColor: "rgba(255,68,68,0.25)" }}>
+            <p className="text-xs font-bold mb-1" style={{ color: "#ff6666" }}>⚠️ Esta oferta expira em:</p>
+            <p className="font-black text-2xl tabular-nums" style={{ color: "#ff6666" }}>
+              {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
+            </p>
+            <p className="text-xs mt-1" style={{ color: "#444" }}>Após isso: R$ 297,00</p>
           </div>
         </div>
       </section>
