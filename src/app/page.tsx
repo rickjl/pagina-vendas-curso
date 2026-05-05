@@ -368,46 +368,40 @@ export default function Home() {
               Como a IA Pode Te Ajudar a Começar uma Renda Extra do Zero
             </h2>
             <p className="text-sm sm:text-base leading-relaxed max-w-2xl mx-auto" style={{ color: G.mutedLight }}>
-              Em poucos minutos você vai entender como funciona o método e por que ele foi criado para pessoas comuns que querem começar do zero usando inteligência artificial.
+              Veja na prática como o método funciona e por que ele foi criado para pessoas comuns que querem começar do zero usando inteligência artificial.
             </p>
           </div>
 
-          {/* Player VSL premium */}
-          <div
-            className="relative rounded-2xl overflow-hidden border-2 cursor-pointer group"
-            style={{ borderColor: "rgba(124,58,237,0.4)", boxShadow: "0 0 60px rgba(124,58,237,0.15), 0 20px 60px rgba(0,0,0,0.5)" }}
-            onClick={handleCheckout}
-          >
-            <div className="aspect-video w-full flex items-center justify-center relative"
-              style={{ background: "linear-gradient(135deg, #0a0a18, #0d0d22)" }}>
-              {/* Glow de fundo */}
-              <div className="absolute inset-0"
-                style={{ background: "radial-gradient(circle at center, rgba(124,58,237,0.12) 0%, transparent 70%)" }} />
-              {/* Grid sutil */}
-              <div className="absolute inset-0 opacity-5"
-                style={{ backgroundImage: "linear-gradient(rgba(124,58,237,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.5) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+          {/* Player VSL — YouTube Shorts (formato vertical 9:16) */}
+          <div className="flex justify-center">
+            <div
+              className="relative rounded-2xl overflow-hidden border-2 w-full max-w-sm"
+              style={{
+                borderColor: "rgba(124,58,237,0.5)",
+                boxShadow: "0 0 60px rgba(124,58,237,0.2), 0 20px 60px rgba(0,0,0,0.6)",
+              }}
+            >
+              {/* Glow externo */}
+              <div className="absolute -inset-1 rounded-3xl pointer-events-none"
+                style={{ background: "radial-gradient(ellipse at center, rgba(124,58,237,0.15) 0%, transparent 70%)", zIndex: -1 }} />
 
-              <div className="text-center z-10 px-4">
-                {/* Botão play */}
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-all duration-300"
+              {/* iframe YouTube Shorts — aspect ratio 9:16 */}
+              <div style={{ position: "relative", paddingTop: "177.78%" }}>
+                <iframe
+                  src="https://www.youtube.com/embed/lreeTAJSmn0?autoplay=0&rel=0&modestbranding=1&playsinline=1"
+                  title="IA que Dá Dinheiro — Apresentação"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
                   style={{
-                    background: "rgba(124,58,237,0.2)",
-                    border: "3px solid rgba(124,58,237,0.7)",
-                    boxShadow: "0 0 50px rgba(124,58,237,0.4)"
-                  }}>
-                  <Play className="w-10 h-10 sm:w-12 sm:h-12 ml-1" style={{ color: G.accentLight }} />
-                </div>
-                <p className="font-black text-white text-lg sm:text-xl mb-2">
-                  IA que Dá Dinheiro — Apresentação Completa
-                </p>
-                <p className="text-sm" style={{ color: G.mutedLight }}>
-                  Clique para assistir · Aprenda como funciona em poucos minutos
-                </p>
-                <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold"
-                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#888" }}>
-                  <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  Disponível por tempo limitado
-                </div>
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    background: "#000",
+                  }}
+                />
               </div>
             </div>
           </div>
