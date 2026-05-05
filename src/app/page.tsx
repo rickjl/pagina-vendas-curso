@@ -64,20 +64,30 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 export default function Home() {
   const [chatType, setChatType] = useState<"whatsapp" | "telegram" | null>(null);
-  const [timeLeft, setTimeLeft] = useState({ hours: 1, minutes: 52, seconds: 17 });
+  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 0, seconds: 0 });
   const [chatMessages, setChatMessages] = useState<Array<{ type: "bot" | "user"; text: string }>>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const t = setInterval(() => {
-      setTimeLeft((p) => {
-        if (p.seconds > 0) return { ...p, seconds: p.seconds - 1 };
-        if (p.minutes > 0) return { ...p, minutes: p.minutes - 1, seconds: 59 };
-        if (p.hours > 0) return { hours: p.hours - 1, minutes: 59, seconds: 59 };
-        return p;
-      });
-    }, 1000);
+    const STORAGE_KEY = "offer_deadline_v2";
+    const stored = localStorage.getItem(STORAGE_KEY);
+    let deadline: number;
+    if (stored) {
+      deadline = parseInt(stored, 10);
+    } else {
+      deadline = Date.now() + 2 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, String(deadline));
+    }
+    const tick = () => {
+      const diff = Math.max(0, deadline - Date.now());
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeLeft({ hours: h, minutes: m, seconds: s });
+    };
+    tick();
+    const t = setInterval(tick, 1000);
     return () => clearInterval(t);
   }, []);
 
