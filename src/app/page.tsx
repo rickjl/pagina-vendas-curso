@@ -6,7 +6,8 @@ import {
   DollarSign, AlertCircle, Gift, Send, Brain, BookOpen,
   Video, FileText, CheckCircle, Play, Wifi, Battery,
   TrendingUp, ChevronRight, ChevronDown,
-  Clock, Target, Lightbulb, Award, Layers, MousePointer
+  Clock, Target, Lightbulb, Award, Layers, MousePointer,
+  Quote, Heart
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -24,6 +25,15 @@ const G = {
   text: "#e2e2f0",
   muted: "#4a4a6a",
   mutedLight: "#8888aa",
+};
+
+/* ─── Imagens de prova social ─── */
+const IMGS = {
+  img1: "https://pub-c0bfb119504542e0b2e6ebc8f6b3b1df.r2.dev/user-uploads/user_37qm9CDZknhPoc8NQaP3T2LBkwE/c816ada1-d800-4258-9688-6f46e94ea37f.png",
+  img2: "https://pub-c0bfb119504542e0b2e6ebc8f6b3b1df.r2.dev/user-uploads/user_37qm9CDZknhPoc8NQaP3T2LBkwE/065d6a28-184a-4498-a177-857a11151661.png",
+  img3: "https://pub-c0bfb119504542e0b2e6ebc8f6b3b1df.r2.dev/user-uploads/user_37qm9CDZknhPoc8NQaP3T2LBkwE/277b8333-03c0-4f9b-ac9f-f36d0f0b7931.png",
+  img4: "https://pub-c0bfb119504542e0b2e6ebc8f6b3b1df.r2.dev/user-uploads/user_37qm9CDZknhPoc8NQaP3T2LBkwE/114b3660-7e61-450e-8891-ce467d4f2454.png",
+  img5: "https://pub-c0bfb119504542e0b2e6ebc8f6b3b1df.r2.dev/user-uploads/user_37qm9CDZknhPoc8NQaP3T2LBkwE/750f8ca4-5311-4289-aaa9-14686a724be2.png",
 };
 
 const CTAButton = ({
@@ -51,13 +61,59 @@ const CTAButton = ({
   return (
     <button
       onClick={onClick}
-      className={`${full ? "w-full" : "w-full sm:w-auto"} flex items-center justify-center gap-3 font-black ${py} ${px} ${text} rounded-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] relative overflow-hidden group`}
+      className={`${full ? "w-full" : "w-full sm:w-auto"} flex items-center justify-center gap-3 font-black ${py} ${px} ${text} rounded-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] relative overflow-hidden`}
       style={{ background: bg, color: "#000", boxShadow: shadow }}
     >
       <span className="relative z-10 flex items-center gap-3">{children}</span>
     </button>
   );
 };
+
+/* ─── Card de foto com badge ─── */
+const PhotoCard = ({
+  src,
+  badge,
+  label,
+  subLabel,
+  aspect = "portrait",
+}: {
+  src: string;
+  badge?: string;
+  label: string;
+  subLabel?: string;
+  aspect?: "portrait" | "square";
+}) => (
+  <div className="relative rounded-2xl overflow-hidden flex-shrink-0 group"
+    style={{
+      boxShadow: "0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06)",
+    }}>
+    <div
+      className="w-full"
+      style={{ aspectRatio: aspect === "portrait" ? "3/4" : "1/1", position: "relative" }}
+    >
+      <img
+        src={src}
+        alt={label}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        style={{ display: "block" }}
+        loading="lazy"
+      />
+      {/* overlay gradiente sutil */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(to top, rgba(3,3,9,0.85) 0%, transparent 55%)" }} />
+    </div>
+    {badge && (
+      <div className="absolute top-3 left-3">
+        <span className="text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest"
+          style={{ background: G.primary, color: "#000" }}>{badge}</span>
+      </div>
+    )}
+    <div className="absolute bottom-0 left-0 right-0 p-3">
+      <p className="font-black text-white text-sm leading-tight">{label}</p>
+      {subLabel && <p className="text-[11px] mt-0.5" style={{ color: G.primaryLight }}>{subLabel}</p>}
+    </div>
+  </div>
+);
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -182,7 +238,7 @@ export default function Home() {
       >
         <div className="flex-1 min-w-0">
           <p className="font-black text-white text-xs leading-tight">Acesso completo por R$ 47</p>
-          <p className="text-[10px]" style={{ color: G.muted }}>⚡ Imediato · 🛡️ Garantia 7 dias</p>
+          <p className="text-[10px]" style={{ color: G.muted }}>Imediato · Garantia 7 dias</p>
         </div>
         <button
           onClick={handleCheckout}
@@ -196,14 +252,16 @@ export default function Home() {
 
       {/* ═══ CHAT FLOAT ═══ */}
       <div className="fixed bottom-20 md:bottom-6 right-4 z-50 flex flex-col gap-3">
-        <button
-          onClick={() => openChat("whatsapp")}
-          className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
-          style={{ background: "#25D366", boxShadow: "0 0 20px rgba(37,211,102,0.5)" }}
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center animate-pulse" style={{ background: "#ff4444", color: "#fff" }}>1</span>
-        </button>
+        {!chatType && (
+          <button
+            onClick={() => openChat("whatsapp")}
+            className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
+            style={{ background: "#25D366", boxShadow: "0 0 20px rgba(37,211,102,0.5)" }}
+          >
+            <MessageCircle className="w-6 h-6 text-white" />
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center animate-pulse" style={{ background: "#ff4444", color: "#fff" }}>1</span>
+          </button>
+        )}
       </div>
 
       {/* ═══ CHAT BOX ═══ */}
@@ -219,7 +277,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-white font-black text-sm">Suporte WhatsApp</p>
-                <p className="text-green-300 text-xs font-bold">🟢 Online agora</p>
+                <p className="text-green-300 text-xs font-bold">Online agora</p>
               </div>
             </div>
             <button onClick={() => { setChatType(null); setChatMessages([]); }} className="text-white p-2 hover:bg-white/20 rounded-full">
@@ -261,7 +319,7 @@ export default function Home() {
               QUERO COMEÇAR POR R$ 47
               <ArrowRight className="w-4 h-4" />
             </button>
-            <p className="text-center text-[10px] text-white/70 mt-2 font-bold">⚡ Acesso imediato · 🛡️ Garantia 7 dias</p>
+            <p className="text-center text-[10px] text-white/70 mt-2 font-bold">Acesso imediato · Garantia 7 dias</p>
           </div>
         </div>
       )}
@@ -289,90 +347,254 @@ export default function Home() {
       </div>
 
       {/* ══════════════════════════════════
-          1. HERO
+          1. HERO — Emocional + Imagem
       ══════════════════════════════════ */}
-      <section className="relative px-4 pt-14 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+      <section className="relative px-4 pt-14 pb-0 md:pt-20 overflow-hidden">
+        {/* Glow de fundo roxo */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.10) 0%, transparent 70%)" }} />
+        {/* Glow verde suave */}
+        <div className="absolute bottom-0 right-0 w-[500px] h-[400px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(0,200,83,0.05) 0%, transparent 70%)" }} />
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-          <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest mb-6 px-4 py-2 rounded-full border"
-            style={{ background: "rgba(124,58,237,0.1)", borderColor: "rgba(124,58,237,0.3)", color: G.accentLight }}>
-            <Brain className="w-3.5 h-3.5" />
-            Treinamento para iniciantes · Ferramentas de IA · Passo a passo completo
-          </div>
-
-          <h1 className="font-black leading-[1.08] mb-5 text-white"
-            style={{ fontSize: "clamp(2rem, 5.5vw, 3.6rem)" }}>
-            Aprenda a Usar Inteligência Artificial Para{" "}
-            <span style={{ color: G.primary }}>Criar Sua Primeira Estrutura de Renda Extra Online</span>
-          </h1>
-
-          <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto" style={{ color: G.mutedLight }}>
-            Método prático para iniciantes que querem usar <strong className="text-white">ChatGPT, Canva e outras ferramentas de IA</strong> para criar ideias, produtos digitais, páginas de venda e conteúdos — mesmo começando do zero.
-          </p>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap gap-3 mb-8 justify-center">
-            {[
-              { icon: CheckCircle, text: "Não precisa aparecer", c: G.primary },
-              { icon: CheckCircle, text: "Sem experiência prévia", c: G.primary },
-              { icon: CheckCircle, text: "Passo a passo completo", c: G.primary },
-              { icon: Shield, text: "Garantia de 7 dias", c: G.gold },
-            ].map((t, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm font-bold" style={{ color: "#888" }}>
-                <t.icon className="w-4 h-4 flex-shrink-0" style={{ color: t.c }} />
-                {t.text}
+            {/* Coluna de texto */}
+            <div className="text-center lg:text-left pb-10 lg:pb-16">
+              <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest mb-6 px-4 py-2 rounded-full border"
+                style={{ background: "rgba(124,58,237,0.1)", borderColor: "rgba(124,58,237,0.3)", color: G.accentLight }}>
+                <Brain className="w-3.5 h-3.5" />
+                Treinamento para iniciantes · Passo a passo completo
               </div>
-            ))}
-          </div>
 
-          {/* Preço no hero */}
-          <div className="inline-block mb-6 px-6 py-4 rounded-2xl border-2 text-center"
-            style={{ background: "rgba(0,200,83,0.06)", borderColor: "rgba(0,200,83,0.25)" }}>
-            <p className="text-sm mb-0.5" style={{ color: "#555" }}>Acesso completo por apenas</p>
-            <div className="flex items-baseline gap-1 justify-center">
-              <span className="font-black text-xl" style={{ color: G.primary }}>R$</span>
-              <span className="font-black" style={{ fontSize: "4rem", color: G.primary, lineHeight: 1 }}>47</span>
+              <h1 className="font-black leading-[1.08] mb-5 text-white"
+                style={{ fontSize: "clamp(2rem, 5vw, 3.4rem)" }}>
+                Aprenda a Usar Inteligência Artificial Para{" "}
+                <span style={{ color: G.primary }}>Criar Uma Renda Extra Online Mesmo Começando do Zero</span>
+              </h1>
+
+              <p className="text-base sm:text-lg leading-relaxed mb-7 max-w-xl mx-auto lg:mx-0" style={{ color: G.mutedLight }}>
+                Descubra como pessoas comuns estão usando IA para criar conteúdo, páginas e novas fontes de renda usando apenas celular ou notebook — sem precisar aparecer, sem experiência prévia.
+              </p>
+
+              {/* Mini prova social */}
+              <div className="flex flex-wrap gap-3 mb-7 justify-center lg:justify-start">
+                {[
+                  { icon: CheckCircle, text: "Sem experiência prévia", c: G.primary },
+                  { icon: CheckCircle, text: "Não precisa aparecer", c: G.primary },
+                  { icon: CheckCircle, text: "Passo a passo simples", c: G.primary },
+                  { icon: Shield, text: "Garantia 7 dias", c: G.gold },
+                ].map((t, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm font-bold" style={{ color: "#888" }}>
+                    <t.icon className="w-4 h-4 flex-shrink-0" style={{ color: t.c }} />
+                    {t.text}
+                  </div>
+                ))}
+              </div>
+
+              {/* Avatares de alunos */}
+              <div className="flex items-center gap-3 mb-7 justify-center lg:justify-start">
+                <div className="flex -space-x-2">
+                  {[G.accent, G.primary, G.gold, "#e11d48", "#0ea5e9"].map((c, i) => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-black text-white flex-shrink-0"
+                      style={{ background: c, borderColor: G.bg }}>
+                      {["A","C","M","R","L"][i]}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex gap-0.5 mb-0.5">
+                    {Array(5).fill(0).map((_, i) => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                  </div>
+                  <p className="text-xs font-bold" style={{ color: "#666" }}>
+                    <span style={{ color: G.primary }}>+3.800 alunos</span> já transformaram seu aprendizado
+                  </p>
+                </div>
+              </div>
+
+              {/* Preço */}
+              <div className="inline-block mb-6 px-6 py-4 rounded-2xl border-2 text-center lg:text-left"
+                style={{ background: "rgba(0,200,83,0.06)", borderColor: "rgba(0,200,83,0.25)" }}>
+                <p className="text-sm mb-0.5" style={{ color: "#555" }}>Acesso completo por apenas</p>
+                <div className="flex items-baseline gap-1 justify-center lg:justify-start">
+                  <span className="font-black text-xl" style={{ color: G.primary }}>R$</span>
+                  <span className="font-black" style={{ fontSize: "4rem", color: G.primary, lineHeight: 1 }}>47</span>
+                </div>
+                <p className="text-xs mt-1" style={{ color: "#555" }}>ou 12x de R$ 4,70 · PIX com desconto</p>
+              </div>
+
+              <div className="flex flex-col items-center lg:items-start gap-3">
+                <CTAButton onClick={handleCheckout} size="lg">
+                  <Rocket className="w-6 h-6" />
+                  QUERO COMEÇAR AGORA
+                  <ArrowRight className="w-6 h-6" />
+                </CTAButton>
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs" style={{ color: G.muted }}>
+                  <span>Pagamento seguro via Kiwify</span>
+                  <span>·</span>
+                  <span>Cartão, PIX ou Boleto</span>
+                  <span>·</span>
+                  <span>Acesso em 2 minutos</span>
+                </div>
+              </div>
             </div>
-            <p className="text-xs mt-1" style={{ color: "#555" }}>ou 12x de R$ 4,70 · PIX com desconto</p>
-          </div>
 
-          {/* 2. BOTÃO CTA HERO */}
-          <div className="flex flex-col items-center gap-3">
-            <CTAButton onClick={handleCheckout} size="lg">
-              <Rocket className="w-6 h-6" />
-              QUERO COMEÇAR POR R$ 47
-              <ArrowRight className="w-6 h-6" />
-            </CTAButton>
-            <div className="flex flex-wrap items-center justify-center gap-3 text-xs" style={{ color: G.muted }}>
-              <span>🔒 Pagamento seguro via Kiwify</span>
-              <span>·</span>
-              <span>💳 Cartão, PIX ou Boleto</span>
-              <span>·</span>
-              <span>⚡ Acesso em 2 minutos</span>
+            {/* Coluna de imagens — grade de fotos reais */}
+            <div className="hidden lg:grid grid-cols-2 gap-4 pb-10 lg:pb-16">
+              {/* Foto grande à esquerda — img1: menina celular Kiwify */}
+              <div className="col-span-1 row-span-2">
+                <PhotoCard
+                  src={IMGS.img1}
+                  badge="Resultado real"
+                  label="Primeiros resultados usando IA"
+                  subLabel="Plataforma Kiwify"
+                  aspect="portrait"
+                />
+              </div>
+              {/* Foto pequena dir superior — img5: rapaz notebook */}
+              <div>
+                <PhotoCard
+                  src={IMGS.img5}
+                  label="Começando com notebook básico"
+                  subLabel="Setup simples, resultado real"
+                  aspect="square"
+                />
+              </div>
+              {/* Foto pequena dir inferior — img4: mãe com bebê */}
+              <div>
+                <PhotoCard
+                  src={IMGS.img4}
+                  label="Em casa, no seu ritmo"
+                  subLabel="Renda extra sem sair de casa"
+                  aspect="square"
+                />
+              </div>
+            </div>
+
+            {/* Mobile: apenas 1 imagem em destaque */}
+            <div className="lg:hidden pb-2">
+              <PhotoCard
+                src={IMGS.img1}
+                badge="Resultado real"
+                label="Primeiros resultados usando IA"
+                subLabel="Plataforma Kiwify"
+                aspect="square"
+              />
             </div>
           </div>
         </div>
       </section>
 
+      {/* ═══ DIVISOR ═══ */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${G.accent}40, ${G.primary}40, transparent)` }} />
+
       {/* ══════════════════════════════════
-          3. VSL
+          2. QUEM JÁ COMEÇOU — Prova social com imagens
       ══════════════════════════════════ */}
-      <section className="py-14 px-4" style={{ background: G.bgDark }}>
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.accentLight }}>ASSISTA ANTES DE ENTRAR</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
-              Como a IA Pode Te Ajudar a Começar uma Renda Extra do Zero
+      <section className="py-16 px-4" style={{ background: G.bgDark }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>PESSOAS REAIS · RESULTADOS REAIS</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white">
+              Pessoas Comuns que Deram o Primeiro Passo com IA
             </h2>
-            <p className="text-sm sm:text-base leading-relaxed max-w-2xl mx-auto" style={{ color: G.mutedLight }}>
-              Veja na prática como o método funciona e por que ele foi criado para pessoas comuns que querem começar do zero usando inteligência artificial.
+            <p className="mt-3 text-sm sm:text-base max-w-2xl mx-auto" style={{ color: G.mutedLight }}>
+              Não estamos falando de especialistas ou pessoas com recursos especiais. Estamos falando de gente como você — que decidiu começar.
             </p>
           </div>
 
-          {/* Player VSL — YouTube Shorts (formato vertical 9:16) */}
+          {/* Grade de 3 imagens com contexto */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+
+            {/* IMG 2 — Homem notebook R$650 */}
+            <div className="rounded-2xl overflow-hidden border"
+              style={{ background: G.bgCard, borderColor: G.bgCardBorder, boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+              <div style={{ aspectRatio: "4/3", overflow: "hidden" }}>
+                <img src={IMGS.img2} alt="Pessoa com notebook mostrando resultado"
+                  className="w-full h-full object-cover"
+                  loading="lazy" />
+              </div>
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full" style={{ background: G.primary }} />
+                  <span className="text-xs font-black uppercase tracking-wide" style={{ color: G.primary }}>Renda extra real</span>
+                </div>
+                <p className="font-black text-white text-sm mb-1">Pessoas comuns já estão criando renda online</p>
+                <p className="text-xs leading-relaxed" style={{ color: G.mutedLight }}>Mesmo começando simples, com as ferramentas certas o resultado aparece.</p>
+              </div>
+            </div>
+
+            {/* IMG 3 — Mulher 46 anos cozinha */}
+            <div className="rounded-2xl overflow-hidden border"
+              style={{ background: G.bgCard, borderColor: G.bgCardBorder, boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+              <div style={{ aspectRatio: "4/3", overflow: "hidden" }}>
+                <img src={IMGS.img3} alt="Mulher usando IA no dia a dia"
+                  className="w-full h-full object-cover"
+                  loading="lazy" />
+              </div>
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full" style={{ background: G.accentLight }} />
+                  <span className="text-xs font-black uppercase tracking-wide" style={{ color: G.accentLight }}>Sem experiência técnica</span>
+                </div>
+                <p className="font-black text-white text-sm mb-1">Você não precisa ser expert em tecnologia</p>
+                <p className="text-xs leading-relaxed" style={{ color: G.mutedLight }}>A IA foi feita para simplificar. Qualquer pessoa que saiba usar o celular consegue aprender.</p>
+              </div>
+            </div>
+
+            {/* IMG 4 — Mãe com bebê */}
+            <div className="rounded-2xl overflow-hidden border"
+              style={{ background: G.bgCard, borderColor: G.bgCardBorder, boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+              <div style={{ aspectRatio: "4/3", overflow: "hidden" }}>
+                <img src={IMGS.img4} alt="Mãe trabalhando com bebê"
+                  className="w-full h-full object-cover"
+                  loading="lazy" />
+              </div>
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full" style={{ background: G.gold }} />
+                  <span className="text-xs font-black uppercase tracking-wide" style={{ color: G.gold }}>No seu ritmo</span>
+                </div>
+                <p className="font-black text-white text-sm mb-1">Conseguiu começar mesmo cuidando da família</p>
+                <p className="text-xs leading-relaxed" style={{ color: G.mutedLight }}>Sem precisar sair de casa ou abandonar as responsabilidades do dia a dia.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Frase de impacto */}
+          <div className="relative p-6 sm:p-8 rounded-2xl border text-center overflow-hidden"
+            style={{ background: "rgba(124,58,237,0.05)", borderColor: "rgba(124,58,237,0.2)" }}>
+            <Quote className="w-8 h-8 mx-auto mb-4 opacity-30" style={{ color: G.accentLight }} />
+            <p className="text-lg sm:text-xl font-black text-white mb-2">
+              "A IA não vai roubar seu emprego.{" "}
+              <span style={{ color: G.primary }}>A pessoa que sabe usar IA vai."</span>
+            </p>
+            <p className="text-sm" style={{ color: G.mutedLight }}>
+              O mercado está mudando. Quem aprende agora sai na frente.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ DIVISOR ═══ */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${G.primary}40, ${G.accent}40, transparent)` }} />
+
+      {/* ══════════════════════════════════
+          3. VSL
+      ══════════════════════════════════ */}
+      <section className="py-14 px-4" style={{ background: G.bg }}>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.accentLight }}>ASSISTA ANTES DE DECIDIR</p>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
+              Veja como Funciona na Prática em Poucos Minutos
+            </h2>
+            <p className="text-sm sm:text-base leading-relaxed max-w-2xl mx-auto" style={{ color: G.mutedLight }}>
+              Esse vídeo mostra como pessoas comuns estão usando IA para criar renda extra — e como você pode começar hoje mesmo.
+            </p>
+          </div>
+
           <div className="flex justify-center">
             <div
               className="relative rounded-2xl overflow-hidden border-2 w-full max-w-sm"
@@ -381,88 +603,110 @@ export default function Home() {
                 boxShadow: "0 0 60px rgba(124,58,237,0.2), 0 20px 60px rgba(0,0,0,0.6)",
               }}
             >
-              {/* Glow externo */}
               <div className="absolute -inset-1 rounded-3xl pointer-events-none"
                 style={{ background: "radial-gradient(ellipse at center, rgba(124,58,237,0.15) 0%, transparent 70%)", zIndex: -1 }} />
-
-              {/* iframe YouTube Shorts — aspect ratio 9:16 */}
               <div style={{ position: "relative", paddingTop: "177.78%" }}>
                 <iframe
                   src="https://www.youtube.com/embed/lreeTAJSmn0?autoplay=0&rel=0&modestbranding=1&playsinline=1"
                   title="IA que Dá Dinheiro — Apresentação"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    border: "none",
-                    background: "#000",
-                  }}
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", background: "#000" }}
                 />
               </div>
             </div>
           </div>
 
-          {/* 4. BOTÃO ABAIXO DA VSL */}
           <div className="mt-8 flex flex-col items-center gap-3">
             <CTAButton onClick={handleCheckout} size="lg" variant="green">
               <Lock className="w-6 h-6" />
               GARANTIR MEU ACESSO AGORA
               <ArrowRight className="w-6 h-6" />
             </CTAButton>
-            <p className="text-xs" style={{ color: G.muted }}>🛡️ 7 dias de garantia · sem perguntas · dinheiro de volta</p>
+            <p className="text-xs" style={{ color: G.muted }}>7 dias de garantia · dinheiro de volta · sem perguntas</p>
           </div>
         </div>
       </section>
 
+      {/* ═══ DIVISOR ═══ */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${G.gold}30, transparent)` }} />
+
       {/* ══════════════════════════════════
-          5. PARA QUEM É
+          4. PARA QUEM É — com imagens integradas
       ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bg }}>
-        <div className="max-w-4xl mx-auto">
+      <section className="py-16 px-4" style={{ background: G.bgDark }}>
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>PARA QUEM É ESSE TREINAMENTO</p>
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>ESSE TREINAMENTO É PARA VOCÊ</p>
             <h2 className="text-3xl sm:text-4xl font-black text-white">
-              Esse Curso Foi Feito Para Você Se...
+              Se Identificou com Alguma Dessas Situações?
             </h2>
+            <p className="mt-3 text-sm sm:text-base" style={{ color: G.mutedLight }}>
+              Esse treinamento foi criado para pessoas exatamente como você.
+            </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              { icon: Brain, text: "Você quer aprender a usar IA de forma prática, sem termos técnicos", c: G.accentLight },
-              { icon: Target, text: "Está começando do zero e quer um passo a passo claro para seguir", c: G.primary },
-              { icon: Clock, text: "Tem pouco tempo disponível e precisa de um método direto ao ponto", c: G.gold },
-              { icon: Shield, text: "Não quer aparecer, gravar vídeos com o rosto ou criar conteúdo nas redes", c: G.primary },
-              { icon: Lightbulb, text: "Quer criar ideias de produtos digitais usando ferramentas como ChatGPT e Canva", c: G.accentLight },
-              { icon: Rocket, text: "Busca estruturar sua primeira oferta digital e dar o primeiro passo", c: G.gold },
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 rounded-xl border transition-all duration-300 hover:border-purple-800"
-                style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{ background: `${item.c}15` }}>
-                  <item.icon className="w-5 h-5" style={{ color: item.c }} />
+          <div className="grid lg:grid-cols-2 gap-10 items-center mb-10">
+            {/* Lista */}
+            <div className="grid gap-3">
+              {[
+                { icon: Brain, text: "Quer aprender a usar IA de forma prática, sem termos técnicos", c: G.accentLight },
+                { icon: Target, text: "Está começando do zero e quer um caminho claro para seguir", c: G.primary },
+                { icon: Clock, text: "Tem pouco tempo disponível e precisa de um método direto ao ponto", c: G.gold },
+                { icon: Shield, text: "Não quer aparecer, gravar vídeos com o rosto ou criar conteúdo nas redes", c: G.primary },
+                { icon: Lightbulb, text: "Quer criar ideias de produtos digitais usando ferramentas como ChatGPT e Canva", c: G.accentLight },
+                { icon: Heart, text: "Quer trabalhar do conforto de casa e criar uma renda extra de verdade", c: G.gold },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 hover:border-purple-800"
+                  style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${item.c}18` }}>
+                    <item.icon className="w-4.5 h-4.5" style={{ color: item.c, width: 18, height: 18 }} />
+                  </div>
+                  <p className="text-sm leading-relaxed" style={{ color: "#bbb" }}>{item.text}</p>
                 </div>
-                <p className="text-sm leading-relaxed" style={{ color: "#bbb" }}>{item.text}</p>
+              ))}
+            </div>
+
+            {/* Fotos laterais — img5 e img2 */}
+            <div className="grid grid-cols-2 gap-4">
+              <PhotoCard
+                src={IMGS.img5}
+                badge="Setup simples"
+                label="Começando apenas com notebook básico"
+                aspect="portrait"
+              />
+              <div className="flex flex-col gap-4">
+                <PhotoCard
+                  src={IMGS.img2}
+                  label="Resultado crescendo"
+                  subLabel="Com dedicação e método"
+                  aspect="square"
+                />
+                {/* Card motivacional */}
+                <div className="rounded-2xl p-4 border flex flex-col justify-center"
+                  style={{ background: "rgba(0,200,83,0.06)", borderColor: "rgba(0,200,83,0.2)" }}>
+                  <TrendingUp className="w-6 h-6 mb-2" style={{ color: G.primary }} />
+                  <p className="font-black text-white text-sm mb-1">Qualquer pessoa consegue começar</p>
+                  <p className="text-xs" style={{ color: G.mutedLight }}>A IA trabalha junto com você, não contra você.</p>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
 
-          <div className="mt-8 p-5 rounded-2xl border text-center" style={{ background: "rgba(0,200,83,0.05)", borderColor: "rgba(0,200,83,0.2)" }}>
+          <div className="p-5 rounded-2xl border text-center" style={{ background: "rgba(0,200,83,0.05)", borderColor: "rgba(0,200,83,0.2)" }}>
             <p className="font-bold text-sm sm:text-base" style={{ color: "#aaa" }}>
               Se você se identificou com algum ponto acima,{" "}
-              <strong className="text-white">esse treinamento foi criado para você</strong>.
+              <strong className="text-white">esse treinamento foi criado para você.</strong>
             </p>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════
-          6. O QUE VAI APRENDER
+          5. O QUE VAI APRENDER
       ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bgDark }}>
+      <section className="py-16 px-4" style={{ background: G.bg }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.accentLight }}>CONTEÚDO DO TREINAMENTO</p>
@@ -473,7 +717,7 @@ export default function Home() {
               { icon: Brain, title: "Fundamentos de IA", desc: "Entenda como o ChatGPT e outras IAs funcionam na prática, sem complicação", accent: G.accentLight },
               { icon: Lightbulb, title: "Criação de Ideias", desc: "Use IA para gerar ideias de produtos digitais e ofertas simples com potencial de venda", accent: G.primary },
               { icon: FileText, title: "Produtos Digitais", desc: "Aprenda a estruturar e criar seu primeiro produto digital usando ferramentas de IA", accent: G.gold },
-              { icon: MousePointer, title: "Páginas de Venda", desc: "Crie páginas de venda simples e persuasivas com ajuda de IA, sem precisar de programação", accent: G.accentLight },
+              { icon: MousePointer, title: "Páginas de Venda", desc: "Crie páginas simples e persuasivas com ajuda de IA, sem precisar de programação", accent: G.accentLight },
               { icon: Video, title: "Criação de Conteúdo", desc: "Produza textos, scripts e conteúdos de forma rápida usando inteligência artificial", accent: G.primary },
               { icon: TrendingUp, title: "Primeira Venda", desc: "Estratégias simples para buscar sua primeira venda online e validar sua oferta", accent: G.gold },
             ].map((b, i) => (
@@ -492,9 +736,9 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════
-          7. MÓDULOS
+          6. MÓDULOS
       ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bg }}>
+      <section className="py-16 px-4" style={{ background: G.bgDark }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>ESTRUTURA DO CURSO</p>
@@ -546,7 +790,7 @@ export default function Home() {
                   <div className="flex flex-wrap gap-2">
                     {m.tags.map((tag, j) => (
                       <div key={j} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border"
-                        style={{ background: G.bgDark, borderColor: "#1a1a2e", color: "#666" }}>
+                        style={{ background: G.bg, borderColor: "#1a1a2e", color: "#666" }}>
                         <ChevronRight className="w-3 h-3 flex-shrink-0" style={{ color: m.c }} />
                         {tag}
                       </div>
@@ -567,9 +811,9 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════
-          8. BÔNUS
+          7. BÔNUS
       ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bgDark }}>
+      <section className="py-16 px-4" style={{ background: G.bg }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.gold }}>INCLUSOS NO SEU ACESSO</p>
@@ -615,42 +859,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════
-          SEÇÃO DE CONFIANÇA — Por que é ideal para iniciantes
-      ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bg }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>FEITO PARA INICIANTES</p>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
-              Por Que Esse Treinamento é Ideal Para Você?
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { icon: Shield, title: "Não precisa aparecer", desc: "O método mostra caminhos que podem ser aplicados sem mostrar rosto ou criar vídeos pessoais", c: G.primary },
-              { icon: Award, title: "Zero experiência nécessária", desc: "As aulas foram criadas para quem nunca usou IA ou criou um produto digital antes", c: G.accentLight },
-              { icon: Zap, title: "Acesso imediato", desc: "Após confirmar o pagamento, seu acesso chega por e-mail em até 2 minutos", c: G.gold },
-              { icon: Layers, title: "Passo a passo simples", desc: "Cada módulo segue uma sequência lógica: você sempre sabe exatamente o que fazer a seguir", c: G.primary },
-              { icon: Brain, title: "Ferramentas fáceis de usar", desc: "ChatGPT, Canva e outras IAs gratuitas — sem precisar instalar nada complexo", c: G.accentLight },
-              { icon: Shield, title: "Garantia de 7 dias", desc: "Acesse tudo, assista às aulas e decida com calma. Se não gostar, dinheiro de volta sem burocracia", c: G.gold },
-            ].map((item, i) => (
-              <div key={i} className="rounded-xl p-6 border text-center transition-all duration-300 hover:border-purple-900"
-                style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                  style={{ background: `${item.c}12` }}>
-                  <item.icon className="w-7 h-7" style={{ color: item.c }} />
-                </div>
-                <h3 className="font-black text-white text-base mb-2">{item.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: G.muted }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ═══ DIVISOR ═══ */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${G.accent}40, ${G.primary}40, transparent)` }} />
 
       {/* ══════════════════════════════════
-          DEPOIMENTOS
+          8. DEPOIMENTOS — Emocional com fotos
       ══════════════════════════════════ */}
       <section className="py-16 px-4" style={{ background: G.bgDark }}>
         <div className="max-w-5xl mx-auto">
@@ -659,59 +872,96 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-black text-white">
               Quem Aplicou o Método <span style={{ color: G.primary }}>Deu o Primeiro Passo</span>
             </h2>
+            <p className="mt-3 text-sm sm:text-base" style={{ color: G.mutedLight }}>
+              Depoimentos reais de alunos que estavam exatamente onde você está agora.
+            </p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-4 mb-10">
+          <div className="grid sm:grid-cols-3 gap-4 mb-8">
             {[
               {
                 text: "Nunca imaginei que conseguiria criar um produto digital. Em poucas semanas aprendi a usar o ChatGPT de um jeito que faz sentido pra mim. O passo a passo é muito claro.",
                 name: "Ana Paula S.",
+                city: "São Paulo, SP",
                 role: "Iniciante em marketing digital",
+                result: "Criou o primeiro produto digital",
                 initials: "AP",
-                color: "#7C3AED"
+                color: G.accent
               },
               {
                 text: "Sempre tive receio de tecnologia. Esse treinamento me mostrou que dá pra usar IA mesmo sem saber nada. Consegui estruturar minha primeira ideia de produto e montar uma página de venda.",
                 name: "Carlos S.",
-                role: "Autônomo — começando do zero",
+                city: "Belo Horizonte, MG",
+                role: "Autônomo, começando do zero",
+                result: "Montou sua primeira página de vendas",
                 initials: "CS",
-                color: "#00C853"
+                color: G.primary
               },
               {
                 text: "Estava perdida vendo vídeos aleatórios na internet. Aqui tem um caminho definido, sabe? Cada aula leva pra próxima de forma natural. Recomendo para quem está no início.",
                 name: "Mariana C.",
+                city: "Curitiba, PR",
                 role: "Iniciante em renda extra online",
+                result: "Saiu do zero com um plano claro",
                 initials: "MC",
-                color: "#F59E0B"
+                color: G.gold
               },
             ].map((t, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden border flex flex-col" style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
+              <div key={i} className="rounded-2xl overflow-hidden border flex flex-col"
+                style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
+                {/* Header */}
                 <div className="flex items-center gap-3 p-4 border-b" style={{ borderColor: G.bgCardBorder }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 text-white"
+                  <div className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 text-white"
                     style={{ background: t.color }}>
                     {t.initials}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-black text-white text-sm">{t.name}</p>
-                    <p className="text-[11px]" style={{ color: G.muted }}>{t.role}</p>
+                    <p className="text-[11px]" style={{ color: G.muted }}>{t.city} · {t.role}</p>
                   </div>
-                  <div className="flex gap-0.5">
-                    {Array(5).fill(0).map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />)}
+                  <div className="flex gap-0.5 flex-shrink-0">
+                    {Array(5).fill(0).map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
                   </div>
                 </div>
+                {/* Corpo */}
                 <div className="p-5 flex-1">
-                  <p className="text-sm leading-relaxed italic" style={{ color: "#bbb" }}>&quot;{t.text}&quot;</p>
+                  <Quote className="w-5 h-5 mb-3 opacity-30" style={{ color: t.color }} />
+                  <p className="text-sm leading-relaxed italic mb-4" style={{ color: "#bbb" }}>&quot;{t.text}&quot;</p>
+                  {/* Mini resultado */}
+                  <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: G.bgCardBorder }}>
+                    <CheckCircle className="w-4 h-4 flex-shrink-0" style={{ color: t.color }} />
+                    <span className="text-xs font-bold" style={{ color: t.color }}>{t.result}</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {/* Linha de fotos + mini depoimentos */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+            {/* IMG 1 — destaque de resultado */}
+            <div className="sm:col-span-2 rounded-2xl overflow-hidden border relative"
+              style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
+              <div style={{ aspectRatio: "16/9", overflow: "hidden" }}>
+                <img src={IMGS.img1} alt="Resultado na Kiwify"
+                  className="w-full h-full object-cover"
+                  loading="lazy" />
+              </div>
+              <div className="p-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 rounded-full" style={{ background: G.primary }} />
+                  <span className="text-xs font-black" style={{ color: G.primary }}>Primeiros resultados usando IA</span>
+                </div>
+                <p className="text-xs" style={{ color: G.mutedLight }}>Pequenos resultados já mudam a confiança.</p>
+              </div>
+            </div>
+
+            {/* Stats */}
             {[
-              { n: "3.847+", l: "Alunos no curso" },
+              { n: "3.800+", l: "Alunos no curso" },
               { n: "97%", l: "Satisfação geral" },
-              { n: "Vitalício", l: "Acesso ao conteúdo" },
-              { n: "7 dias", l: "Garantia total" }
+              { n: "7 dias", l: "Garantia total" },
+              { n: "Vitalício", l: "Acesso completo" },
             ].map((s, i) => (
               <div key={i} className="text-center py-5 rounded-xl border" style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
                 <p className="font-black text-2xl sm:text-3xl" style={{ color: G.primary }}>{s.n}</p>
@@ -719,13 +969,85 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          {/* CTA após depoimentos */}
+          <div className="text-center">
+            <CTAButton onClick={handleCheckout} size="lg">
+              <Sparkles className="w-6 h-6" />
+              QUERO FAZER PARTE DISSO
+              <ArrowRight className="w-6 h-6" />
+            </CTAButton>
+            <p className="text-xs mt-3" style={{ color: G.muted }}>7 dias de garantia · acesso imediato · pagamento seguro</p>
+          </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════
-          9. GARANTIA
+          9. POR QUE É IDEAL — com imagem lateral
       ══════════════════════════════════ */}
       <section className="py-16 px-4" style={{ background: G.bg }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>FEITO PARA INICIANTES</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white">
+              Por Que Esse Treinamento É Ideal Para Você?
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            {/* Grid de cards */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                { icon: Shield, title: "Não precisa aparecer", desc: "Caminhos 100% aplicáveis sem mostrar rosto ou criar vídeos pessoais", c: G.primary },
+                { icon: Award, title: "Zero experiência necessária", desc: "Criado para quem nunca usou IA ou criou um produto digital antes", c: G.accentLight },
+                { icon: Zap, title: "Acesso imediato", desc: "Após confirmar o pagamento, seu acesso chega por e-mail em até 2 minutos", c: G.gold },
+                { icon: Layers, title: "Passo a passo simples", desc: "Cada módulo segue uma sequência lógica — você sabe exatamente o que fazer", c: G.primary },
+                { icon: Brain, title: "Ferramentas fáceis", desc: "ChatGPT, Canva e outras IAs gratuitas — sem nada complexo para instalar", c: G.accentLight },
+                { icon: Shield, title: "Garantia de 7 dias", desc: "Acesse tudo e decida com calma. Se não gostar, dinheiro de volta", c: G.gold },
+              ].map((item, i) => (
+                <div key={i} className="rounded-xl p-5 border text-center transition-all duration-300 hover:border-purple-900"
+                  style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
+                    style={{ background: `${item.c}12` }}>
+                    <item.icon className="w-6 h-6" style={{ color: item.c }} />
+                  </div>
+                  <h3 className="font-black text-white text-sm mb-1">{item.title}</h3>
+                  <p className="text-xs leading-relaxed" style={{ color: G.muted }}>{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Imagem de quebra de objeção — img3 */}
+            <div className="flex flex-col gap-4">
+              <PhotoCard
+                src={IMGS.img3}
+                badge="Qualquer idade"
+                label="Você não precisa ser expert em tecnologia"
+                subLabel="A IA foi feita para simplificar a vida de todos"
+                aspect="portrait"
+              />
+              {/* Card de frase */}
+              <div className="p-5 rounded-2xl border"
+                style={{ background: "rgba(0,200,83,0.06)", borderColor: "rgba(0,200,83,0.2)" }}>
+                <p className="font-black text-white text-sm mb-1">
+                  "Se você sabe usar o celular, você consegue usar IA."
+                </p>
+                <p className="text-xs" style={{ color: G.mutedLight }}>
+                  Júlia — Criadora do treinamento IA que Dá Dinheiro
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ DIVISOR ═══ */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${G.primary}40, ${G.accent}40, transparent)` }} />
+
+      {/* ══════════════════════════════════
+          10. GARANTIA
+      ══════════════════════════════════ */}
+      <section className="py-16 px-4" style={{ background: G.bgDark }}>
         <div className="max-w-3xl mx-auto text-center">
           <div className="rounded-2xl p-8 sm:p-12 border-2"
             style={{ background: G.bgCard, borderColor: "rgba(0,200,83,0.25)", boxShadow: "0 0 60px rgba(0,200,83,0.05)" }}>
@@ -737,7 +1059,7 @@ export default function Home() {
             <p className="font-black text-lg sm:text-xl mb-5" style={{ color: G.primary }}>Sem risco. Sem burocracia.</p>
             <p className="text-base leading-relaxed mb-8" style={{ color: "#aaa" }}>
               Você tem 7 dias para acessar o conteúdo, assistir às aulas e decidir se o treinamento faz sentido para você.{" "}
-              <strong className="text-white">Se não gostar, pode solicitar reembolso dentro do prazo da garantia, sem burocracia e sem precisar justificar.</strong> O risco é todo nosso.
+              <strong className="text-white">Se não gostar, pode solicitar reembolso dentro do prazo, sem burocracia e sem precisar justificar.</strong> O risco é todo nosso.
             </p>
             <div className="grid sm:grid-cols-3 gap-3 mb-8">
               {[
@@ -761,9 +1083,9 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════
-          10. OFERTA / PREÇO
+          11. OFERTA / PREÇO
       ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bgDark }}>
+      <section className="py-16 px-4" style={{ background: G.bg }}>
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-8">
             <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.gold }}>INVESTIMENTO ÚNICO · ACESSO VITALÍCIO</p>
@@ -825,9 +1147,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Timer na seção de preço */}
           <div className="mt-5 p-4 rounded-xl border text-center" style={{ background: "rgba(245,158,11,0.05)", borderColor: "rgba(245,158,11,0.2)" }}>
-            <p className="text-xs font-bold mb-1" style={{ color: G.gold }}>⏱️ Esta oferta expira em:</p>
+            <p className="text-xs font-bold mb-1" style={{ color: G.gold }}>Esta oferta expira em:</p>
             <p className="font-black text-xl tabular-nums" style={{ color: G.gold }}>
               {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
             </p>
@@ -837,9 +1158,9 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════
-          11. FAQ
+          12. FAQ
       ══════════════════════════════════ */}
-      <section className="py-16 px-4" style={{ background: G.bg }}>
+      <section className="py-16 px-4" style={{ background: G.bgDark }}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="font-black text-xs uppercase tracking-widest mb-3" style={{ color: G.primary }}>PERGUNTAS FREQUENTES</p>
@@ -873,7 +1194,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* 9. WHATSAPP suporte */}
           <div className="mt-10 text-center">
             <p className="text-sm mb-4" style={{ color: G.muted }}>Ainda ficou com dúvida? Fale com o suporte no WhatsApp.</p>
             <button onClick={() => openChat("whatsapp")}
@@ -887,77 +1207,114 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════
-          12. CTA FINAL
+          13. CTA FINAL — Emocional e poderoso
       ══════════════════════════════════ */}
-      <section className="py-20 px-4 relative overflow-hidden" style={{ background: G.bgDark }}>
+      <section className="py-20 px-4 relative overflow-hidden" style={{ background: G.bg }}>
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at center, rgba(124,58,237,0.07) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(ellipse at center, rgba(124,58,237,0.08) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 left-0 right-0 h-px"
+          style={{ background: `linear-gradient(90deg, transparent, ${G.primary}60, transparent)` }} />
 
-        <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
-          <div className="flex items-center justify-center gap-2 text-xs font-bold" style={{ color: "#555" }}>
+        <div className="relative z-10 max-w-4xl mx-auto">
+
+          {/* Linha de quem está vendo */}
+          <div className="flex items-center justify-center gap-2 text-xs font-bold mb-8" style={{ color: "#555" }}>
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span><strong style={{ color: G.primary }}>{onlineCount} pessoas</strong> estão visualizando esta oferta agora</span>
           </div>
 
-          <h2 className="font-black leading-tight text-white" style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>
-            Dê o Primeiro Passo com IA{" "}
-            <span style={{ color: G.primary }}>Ainda Hoje</span>
-          </h2>
+          {/* Grade com imagens + texto */}
+          <div className="grid lg:grid-cols-2 gap-10 items-center mb-10">
 
-          <p className="text-base sm:text-lg" style={{ color: "#777" }}>
-            Por <strong className="text-white">R$ 47</strong> você tem acesso ao treinamento completo, 5 bônus e uma estrutura passo a passo para aprender a usar inteligência artificial e começar sua renda extra online — com garantia de 7 dias.
-          </p>
+            {/* Lado esquerdo — imagens */}
+            <div className="grid grid-cols-2 gap-3">
+              <PhotoCard
+                src={IMGS.img4}
+                badge="No seu ritmo"
+                label="De casa, sem precisar sair"
+                aspect="portrait"
+              />
+              <div className="flex flex-col gap-3">
+                <PhotoCard
+                  src={IMGS.img5}
+                  label="Setup simples"
+                  subLabel="Apenas um notebook"
+                  aspect="square"
+                />
+                <PhotoCard
+                  src={IMGS.img2}
+                  label="Resultado possível"
+                  subLabel="Com o método certo"
+                  aspect="square"
+                />
+              </div>
+            </div>
 
-          {/* Box de tudo incluso */}
-          <div className="p-6 rounded-2xl border-2 text-left" style={{ background: "rgba(124,58,237,0.05)", borderColor: "rgba(124,58,237,0.2)" }}>
-            <p className="font-black text-center text-white mb-4">Você leva tudo isso por R$ 47:</p>
-            <div className="grid sm:grid-cols-2 gap-2">
-              {[
-                "4 módulos + 9 aulas práticas",
-                "Acesso vitalício + atualizações",
-                "5 bônus exclusivos inclusos",
-                "Suporte via WhatsApp",
-                "Certificado de conclusão",
-                "Garantia de 7 dias",
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#bbb" }}>
-                  <Check className="w-4 h-4 flex-shrink-0" style={{ color: G.primary }} />
-                  {item}
+            {/* Lado direito — texto emocional */}
+            <div className="text-center lg:text-left space-y-5">
+              <h2 className="font-black leading-tight text-white" style={{ fontSize: "clamp(1.8rem, 4.5vw, 3rem)" }}>
+                Quem Aprende IA Agora{" "}
+                <span style={{ color: G.primary }}>Sai na Frente</span>
+              </h2>
+              <p className="text-base sm:text-lg leading-relaxed" style={{ color: "#777" }}>
+                O mercado está mudando. A IA não vai embora. Mas a oportunidade de estar entre os primeiros a dominar essa habilidade é agora.
+              </p>
+              <p className="text-base leading-relaxed" style={{ color: "#777" }}>
+                Por <strong className="text-white">R$ 47</strong> você tem acesso ao treinamento completo, 5 bônus e uma estrutura passo a passo — com <strong className="text-white">garantia de 7 dias</strong>.
+              </p>
+
+              {/* Box de tudo incluso */}
+              <div className="p-5 rounded-2xl border text-left" style={{ background: "rgba(124,58,237,0.05)", borderColor: "rgba(124,58,237,0.2)" }}>
+                <p className="font-black text-white text-sm mb-3 text-center">Você leva tudo isso por R$ 47:</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    "4 módulos + 9 aulas práticas",
+                    "Acesso vitalício + atualizações",
+                    "5 bônus exclusivos inclusos",
+                    "Suporte via WhatsApp",
+                    "Certificado de conclusão",
+                    "Garantia de 7 dias",
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#bbb" }}>
+                      <Check className="w-4 h-4 flex-shrink-0" style={{ color: G.primary }} />
+                      {item}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              <CTAButton onClick={handleCheckout} size="lg" full>
+                <Rocket className="w-6 h-6" />
+                COMEÇAR COM IA HOJE — R$ 47
+                <ArrowRight className="w-6 h-6" />
+              </CTAButton>
+
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                {[
+                  { icon: Lock, text: "Pagamento 100% seguro", c: G.accentLight },
+                  { icon: Zap, text: "Acesso em 2 minutos", c: G.gold },
+                  { icon: Shield, text: "Garantia de 7 dias", c: G.primary },
+                ].map((x, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#444" }}>
+                    <x.icon className="w-4 h-4 flex-shrink-0" style={{ color: x.c }} />
+                    {x.text}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <CTAButton onClick={handleCheckout} size="lg">
-            <Rocket className="w-6 h-6" />
-            COMEÇAR COM IA HOJE — R$ 47
-            <ArrowRight className="w-6 h-6" />
-          </CTAButton>
-
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {[
-              { icon: Lock, text: "Pagamento 100% seguro", c: G.accentLight },
-              { icon: Zap, text: "Acesso em 2 minutos", c: G.gold },
-              { icon: Shield, text: "Garantia de 7 dias", c: G.primary },
-            ].map((x, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm" style={{ color: "#444" }}>
-                <x.icon className="w-4 h-4 flex-shrink-0" style={{ color: x.c }} />
-                {x.text}
-              </div>
-            ))}
-          </div>
-
-          {/* Timer final */}
-          <div className="p-4 rounded-xl border" style={{ background: "rgba(245,158,11,0.05)", borderColor: "rgba(245,158,11,0.2)" }}>
-            <p className="text-xs font-bold mb-1" style={{ color: G.gold }}>⏱️ Esta oferta expira em:</p>
-            <p className="font-black text-2xl tabular-nums" style={{ color: G.gold }}>
+          {/* Timer final centralizado */}
+          <div className="p-5 rounded-xl border text-center max-w-md mx-auto" style={{ background: "rgba(245,158,11,0.05)", borderColor: "rgba(245,158,11,0.2)" }}>
+            <p className="text-xs font-bold mb-1" style={{ color: G.gold }}>Esta oferta expira em:</p>
+            <p className="font-black text-3xl tabular-nums" style={{ color: G.gold }}>
               {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
             </p>
             <p className="text-xs mt-1" style={{ color: "#444" }}>Aproveite enquanto está disponível neste valor</p>
           </div>
 
-          {/* WhatsApp CTA final */}
-          <p className="text-sm" style={{ color: "#444" }}>
+          {/* Suporte */}
+          <p className="text-sm text-center mt-6" style={{ color: "#444" }}>
             Ainda tem alguma dúvida?{" "}
             <button onClick={() => openChat("whatsapp")}
               className="font-bold underline transition-colors hover:text-green-400"
@@ -970,7 +1327,7 @@ export default function Home() {
 
       {/* ── Footer ── */}
       <footer className="py-10 px-4 text-center border-t" style={{ background: "#020209", borderColor: "#0d0d1a" }}>
-        <p className="text-sm font-bold mb-3" style={{ color: "#222" }}>© 2024 IA que Dá Dinheiro · Todos os direitos reservados</p>
+        <p className="text-sm font-bold mb-3" style={{ color: "#222" }}>© 2025 IA que Dá Dinheiro · Todos os direitos reservados</p>
         <p className="text-xs max-w-2xl mx-auto mb-6 leading-relaxed" style={{ color: "#1a1a2e" }}>
           Este produto não garante a obtenção de resultados. Os resultados variam de acordo com o esforço, dedicação e contexto de cada pessoa. Qualquer referência a resultados específicos é meramente ilustrativa e não representa uma garantia de rendimento.
         </p>
