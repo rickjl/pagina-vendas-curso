@@ -7,7 +7,7 @@ import {
   Video, FileText, CheckCircle,
   TrendingUp, ChevronRight, ChevronDown,
   Clock, Target, Lightbulb, Award, Layers, MousePointer,
-  Quote, Heart, Play
+  Quote, Heart, Play, ChevronLeft
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -100,6 +100,181 @@ const Divider = ({ a = G.accent, b = G.primary }: { a?: string; b?: string }) =>
 );
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/* ─── Dados dos 7 depoimentos ─── */
+const TESTIMONIALS = [
+  {
+    name: "Ana Paula Ferreira",
+    city: "São Paulo, SP",
+    role: "Auxiliar administrativa",
+    text: "Nunca tinha mexido com IA antes. Em duas semanas aprendi a usar o ChatGPT pra criar meu primeiro e-book, montar a página de venda e já divulgar. Fiquei impressionada com o quanto é simples quando alguém explica do jeito certo. O passo a passo da Júlia é muito claro, não me perdi em nenhum momento.",
+    before: "Nunca tinha usado IA na vida",
+    after: "Publicou o primeiro produto digital em 15 dias",
+    initials: "AP",
+    color: G.accent,
+  },
+  {
+    name: "Carlos Eduardo Mendes",
+    city: "Belo Horizonte, MG",
+    role: "Autônomo",
+    text: "Sempre tive medo de tecnologia, achava que IA era coisa de programador. Esse curso me mostrou o contrário: qualquer pessoa consegue usar. Montei minha estrutura de venda em menos de uma semana. Ainda tô no começo, mas já vejo que o caminho existe — e agora eu sei qual é.",
+    before: "Medo de tecnologia",
+    after: "Estrutura de vendas pronta em 7 dias",
+    initials: "CE",
+    color: G.primary,
+  },
+  {
+    name: "Mariana Cristina Souza",
+    city: "Curitiba, PR",
+    role: "Estudante universitária",
+    text: "Estava perdida assistindo vídeo atrás de vídeo no YouTube sem sair do lugar. O curso da Júlia é diferente porque tem uma sequência. Cada aula leva pra próxima e você vai montando sua estrutura no processo. Recomendo demais pra quem tá no início e não sabe por onde começar.",
+    before: "Perdida sem direção",
+    after: "Saiu do zero com um plano claro e aplicável",
+    initials: "MC",
+    color: G.gold,
+  },
+  {
+    name: "Renata Lima Oliveira",
+    city: "Fortaleza, CE",
+    role: "Mãe e dona de casa",
+    text: "Fiz o curso com bebê de 8 meses no colo. Assisti as aulas aos pedaços, nos intervalos da rotina. Mesmo assim consegui terminar e aplicar. O que me surpreendeu foi como a IA ajuda a fazer tudo mais rápido — coisas que eu levaria dias pra escrever, a IA me ajudou em minutos.",
+    before: "Sem tempo e sem ideia por onde começar",
+    after: "Concluiu o curso com bebê em casa e aplicou tudo",
+    initials: "RL",
+    color: "#e11d48",
+  },
+  {
+    name: "João Vitor Almeida",
+    city: "Recife, PE",
+    role: "Técnico em informática",
+    text: "Achei que por trabalhar com tecnologia já saberia usar IA pra vender. Mas não sabia nada sobre produtos digitais e sobre montar uma oferta. O curso abriu minha cabeça pra um mercado que eu tava ignorando. Hoje uso IA todo dia pra criar conteúdo e textos de venda.",
+    before: "Sabia tecnologia mas não sabia vender",
+    after: "Usa IA diariamente para criar ofertas e conteúdo",
+    initials: "JV",
+    color: "#0ea5e9",
+  },
+  {
+    name: "Fernanda Gomes Ribeiro",
+    city: "Goiânia, GO",
+    role: "Professora particular",
+    text: "Sempre quis ter uma renda extra além das aulas, mas nunca soube como. Quando vi que dava pra criar um produto digital sobre o que já sei — e usar IA pra montar tudo — fiz o curso sem hesitar. O investimento de R$ 47 foi o melhor que fiz nos últimos meses.",
+    before: "Queria renda extra mas não sabia como",
+    after: "Criou produto digital na área em que já atua",
+    initials: "FG",
+    color: G.accentLight,
+  },
+  {
+    name: "Diego Rafael Santos",
+    city: "Porto Alegre, RS",
+    role: "Desempregado em transição de carreira",
+    text: "Tava em um momento difícil, precisando de renda e sem perspectiva. Decidi investir no curso e me surpreendi: o conteúdo é muito objetivo, sem enrolação. Em três semanas já tinha minha primeira oferta estruturada e uma página de venda no ar. A garantia me deu coragem pra tentar.",
+    before: "Em transição de carreira, sem renda fixa",
+    after: "Primeira oferta estruturada e publicada em 21 dias",
+    initials: "DR",
+    color: G.gold,
+  },
+];
+
+/* ─── Componente carrossel de depoimentos ─── */
+function TestimonialsCarousel() {
+  const [idx, setIdx] = useState(0);
+  const total = TESTIMONIALS.length;
+  // Quantos cards mostrar por vez dependendo da tela
+  const [perView, setPerView] = useState(1);
+
+  useEffect(() => {
+    const update = () => setPerView(window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  // Auto-slide
+  useEffect(() => {
+    const t = setInterval(() => setIdx(p => (p + 1) % total), 5000);
+    return () => clearInterval(t);
+  }, [total]);
+
+  const prev = () => setIdx(p => (p - 1 + total) % total);
+  const next = () => setIdx(p => (p + 1) % total);
+
+  // Pega os cards visíveis (circular)
+  const visible = Array.from({ length: perView }, (_, i) => TESTIMONIALS[(idx + i) % total]);
+
+  return (
+    <div className="mb-10">
+      {/* Cards */}
+      <div className={`grid gap-4 mb-6 ${perView === 3 ? "grid-cols-3" : perView === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+        {visible.map((t, i) => (
+          <div key={`${idx}-${i}`} className="rounded-2xl overflow-hidden border flex flex-col animate-fade"
+            style={{ background: G.bgCard, borderColor: G.bgCardBorder, minHeight: 320 }}>
+            {/* Header */}
+            <div className="flex items-center gap-3 p-4 border-b" style={{ borderColor: G.bgCardBorder }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center font-black text-base flex-shrink-0 text-white"
+                style={{ background: t.color, boxShadow: `0 0 16px ${t.color}60` }}>
+                {t.initials}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-black text-white text-sm leading-tight">{t.name}</p>
+                <p className="text-[11px]" style={{ color: G.muted }}>{t.role} · {t.city}</p>
+                <div className="flex gap-0.5 mt-1">
+                  {Array(5).fill(0).map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                </div>
+              </div>
+            </div>
+            {/* Corpo */}
+            <div className="p-5 flex-1 flex flex-col">
+              <Quote className="w-5 h-5 mb-3 opacity-25 flex-shrink-0" style={{ color: t.color }} />
+              <p className="text-sm leading-relaxed italic flex-1 mb-4" style={{ color: "#c0c0d0" }}>
+                &quot;{t.text}&quot;
+              </p>
+              {/* ANTES / DEPOIS */}
+              <div className="pt-3 border-t space-y-1.5" style={{ borderColor: G.bgCardBorder }}>
+                <div className="flex items-start gap-2">
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5"
+                    style={{ background: "rgba(248,113,113,0.12)", color: "#f87171" }}>ANTES</span>
+                  <span className="text-xs leading-snug" style={{ color: "#666" }}>{t.before}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5"
+                    style={{ background: `${t.color}22`, color: t.color }}>DEPOIS</span>
+                  <span className="text-xs font-bold leading-snug" style={{ color: t.color }}>{t.after}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Controles */}
+      <div className="flex items-center justify-center gap-4">
+        <button onClick={prev}
+          className="w-10 h-10 rounded-full flex items-center justify-center border transition-all hover:scale-110"
+          style={{ background: G.bgCard, borderColor: G.bgCardBorder, color: G.mutedLight }}>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        {/* Dots */}
+        <div className="flex gap-2">
+          {TESTIMONIALS.map((_, i) => (
+            <button key={i} onClick={() => setIdx(i)}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: i === idx ? 24 : 8, height: 8,
+                background: i === idx ? G.primary : G.bgCardBorder,
+              }} />
+          ))}
+        </div>
+
+        <button onClick={next}
+          className="w-10 h-10 rounded-full flex items-center justify-center border transition-all hover:scale-110"
+          style={{ background: G.bgCard, borderColor: G.bgCardBorder, color: G.mutedLight }}>
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [chatType, setChatType] = useState<"whatsapp" | null>(null);
@@ -392,8 +567,8 @@ export default function Home() {
             O MOMENTO É AGORA
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-5 leading-tight">
-            A IA Não é o Futuro.<br />
-            <span style={{ color: G.primary }}>É o Presente. E Está Acontecendo Sem Você.</span>
+            Enquanto Você Ainda Hesita,<br />
+            <span style={{ color: G.primary }}>Outra Pessoa Já Está Vendendo com IA.</span>
           </h2>
           <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: G.mutedLight }}>
             Pessoas sem formação específica, sem grande capital, sem seguidores — estão usando ferramentas simples de IA para criar produtos digitais, oferecer serviços e gerar renda extra de casa. Quem aprender isso agora vai estar anos à frente de quem esperar.
@@ -807,7 +982,7 @@ export default function Home() {
       <Divider a={G.primary} b={G.gold} />
 
       {/* ════════════════════════════════════════
-          SEÇÃO 9 · DEPOIMENTOS
+          SEÇÃO 9 · DEPOIMENTOS — CARROSSEL 7 cards
           Imagem: img4 (mãe com bebê)
           Objetivo: PROVA SOCIAL EMOCIONAL
       ════════════════════════════════════════ */}
@@ -819,62 +994,12 @@ export default function Home() {
               Eles Estavam Exatamente Onde Você Está Agora
             </h2>
             <p className="mt-3 text-sm sm:text-base max-w-2xl mx-auto" style={{ color: G.mutedLight }}>
-              Sem experiência anterior. Sem grande tempo disponível. Com dúvidas. E decidiram começar.
+              Sem experiência anterior. Sem tempo sobrando. Cheios de dúvidas. E decidiram começar mesmo assim.
             </p>
           </div>
 
-          {/* Depoimentos em cards */}
-          <div className="grid sm:grid-cols-3 gap-4 mb-10">
-            {[
-              {
-                text: "Nunca imaginei que conseguiria criar um produto digital. Em poucas semanas aprendi a usar o ChatGPT de um jeito que faz sentido. O passo a passo é muito claro e não me senti perdida em nenhum momento.",
-                name: "Ana Paula S.", city: "São Paulo, SP",
-                before: "Não sabia nada de IA", after: "Criou o primeiro produto digital",
-                initials: "AP", color: G.accent
-              },
-              {
-                text: "Sempre tive receio de tecnologia. Esse treinamento me mostrou que dá pra usar IA mesmo sem saber nada. Consegui estruturar minha primeira oferta e montar uma página de venda em menos de uma semana.",
-                name: "Carlos S.", city: "Belo Horizonte, MG",
-                before: "Medo de tecnologia", after: "Página de vendas no ar em 7 dias",
-                initials: "CS", color: G.primary
-              },
-              {
-                text: "Estava perdida vendo vídeos aleatórios no YouTube. Aqui tem um caminho definido. Cada aula leva à próxima de forma natural. Recomendo para todo mundo que está começando e não sabe por onde ir.",
-                name: "Mariana C.", city: "Curitiba, PR",
-                before: "Perdida sem direção", after: "Saiu do zero com um plano claro",
-                initials: "MC", color: G.gold
-              },
-            ].map((t, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden border flex flex-col"
-                style={{ background: G.bgCard, borderColor: G.bgCardBorder }}>
-                <div className="flex items-center gap-3 p-4 border-b" style={{ borderColor: G.bgCardBorder }}>
-                  <div className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 text-white"
-                    style={{ background: t.color }}>{t.initials}</div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-black text-white text-sm">{t.name}</p>
-                    <p className="text-[11px]" style={{ color: G.muted }}>{t.city}</p>
-                  </div>
-                  <div className="flex gap-0.5 flex-shrink-0">
-                    {Array(5).fill(0).map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
-                  </div>
-                </div>
-                <div className="p-5 flex-1">
-                  <Quote className="w-5 h-5 mb-3 opacity-25" style={{ color: t.color }} />
-                  <p className="text-sm leading-relaxed italic mb-4" style={{ color: "#bbb" }}>&quot;{t.text}&quot;</p>
-                  <div className="pt-3 border-t space-y-1.5" style={{ borderColor: G.bgCardBorder }}>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full" style={{ background: "rgba(255,100,100,0.1)", color: "#f87171" }}>ANTES</span>
-                      <span className="text-xs" style={{ color: "#777" }}>{t.before}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full" style={{ background: `${t.color}20`, color: t.color }}>DEPOIS</span>
-                      <span className="text-xs font-bold" style={{ color: t.color }}>{t.after}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* ── CARROSSEL DE DEPOIMENTOS ── */}
+          <TestimonialsCarousel />
 
           {/* IMAGEM — img4 + stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10 items-center">
