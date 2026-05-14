@@ -18,11 +18,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IA que Dá Dinheiro - Ganhe R$ 1.000 Online em 30 Dias",
-  description: "Método comprovado para você sair do zero e começar a faturar pela internet. Mais de 3.847 alunos já estão faturando. Garantia de 7 dias.",
+  title: "IA que Dá Dinheiro - Aprenda a Criar Renda Extra com Inteligência Artificial",
+  description: "Aprenda a usar IA para criar produtos digitais e gerar renda extra online. Mais de 3.847 alunos já estão aprendendo. Garantia de 7 dias.",
   keywords: "ganhar dinheiro online, renda extra, trabalhar de casa, curso online, marketing digital",
   openGraph: {
-    title: "IA que Dá Dinheiro - Ganhe R$ 1.000 Online em 30 Dias",
+    title: "IA que Dá Dinheiro - Aprenda a Criar Renda Extra com Inteligência Artificial",
     description: "Método comprovado para você sair do zero e começar a faturar pela internet",
     type: "website",
   },
